@@ -48,8 +48,8 @@ const Login = () => {
         </button>
 
         <div className="login-form w-1/2 p-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">Đăng nhập</h2>
-          <p className="text-gray-600 mb-6">Cùng khám phá dịch vụ và thông tin dành cho thú cưng yêu quý</p>
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">Login</h2>
+          <p className="text-gray-600 mb-6">Let's explore services and information for your beloved pets</p>
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4 relative">
@@ -67,21 +67,21 @@ const Login = () => {
               <input
                 type="password"
                 name="password"
-                placeholder="Mật khẩu"
+                placeholder="Password"
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
                 onChange={handleChange}
               />
             </div>
             {error && <p className="text-red-500 text-center">{error}</p>}
             <button type="submit" className="w-full bg-teal-600 text-white py-2 rounded-lg font-semibold hover:bg-teal-700 transition duration-300 mb-4">
-              Đăng nhập
+              Login
             </button>
           </form>
 
           <p className="text-center text-gray-500 mt-4">
-            Bạn đã có tài khoản?{' '}
+            Already have an account?{' '}
             <button onClick={handleRegister} className="text-teal-600 font-semibold underline">
-              Đăng ký
+              Register
             </button>
           </p>
         </div>

@@ -32,3 +32,17 @@ export const verifyEmail = async (token) => {
     return error.response.data;
   }
 };
+
+//Hàm lấy thông tin người dùng
+export const getUserProfile = async (token) => {
+  try {
+    const response = await axios.get(`${API_URL}/users`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

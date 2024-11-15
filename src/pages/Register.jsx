@@ -15,7 +15,7 @@ const Register = () => {
     firstName: '',
     lastName: '',
     password: '',
-    passwordConfirm: '',
+    passwordConfirm: '', 
     role: 'customer',
   });
   const [error, setError] = useState('');
@@ -53,8 +53,8 @@ const Register = () => {
         </button>
 
         <div className="register-form w-1/2 p-8">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">Đăng ký</h2>
-          <p className="text-gray-600 mb-6">Cùng khám phá dịch vụ và thông tin dành cho thú cưng yêu quý</p>
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">Register</h2>
+          <p className="text-gray-600 mb-6">Let's explore services and information for your beloved pets</p>
 
           <form onSubmit={handleSubmit}>
             <div className="mb-4 relative">
@@ -72,7 +72,7 @@ const Register = () => {
               <input
                 type="text"
                 name="firstName"
-                placeholder="Họ"
+                placeholder="First name"
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
                 onChange={handleChange}
               />
@@ -82,7 +82,7 @@ const Register = () => {
               <input
                 type="text"
                 name="lastName"
-                placeholder="Tên"
+                placeholder="Last name"
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
                 onChange={handleChange}
               />
@@ -94,8 +94,8 @@ const Register = () => {
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white text-gray-700"
                 onChange={handleChange}
               >
-                <option value="customer">Khách hàng</option>
-                <option value="manager">Quản lý</option>
+                <option value="customer">Customer</option>
+                <option value="manager">Admin</option>
               </select>
             </div>
             <div className="mb-4 relative">
@@ -103,7 +103,7 @@ const Register = () => {
               <input
                 type="password"
                 name="password"
-                placeholder="Mật khẩu"
+                placeholder="Password"
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
                 onChange={handleChange}
               />
@@ -113,21 +113,21 @@ const Register = () => {
               <input
                 type="password"
                 name="passwordConfirm"
-                placeholder="Nhập lại mật khẩu"
+                placeholder="Password Confirm"
                 className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500"
                 onChange={handleChange}
               />
             </div>
             {error && <p className="text-red-500 text-center">{error}</p>}
             <button type="submit" className="w-full bg-teal-600 text-white py-2 rounded-lg font-semibold hover:bg-teal-700 transition duration-300 mb-4">
-              Đăng ký
+              Register
             </button>
           </form>
 
           <p className="text-center text-gray-500 mt-4">
-            Bạn đã có tài khoản?{' '}
+            Do you have an account?{' '}
             <button onClick={() => navigate('/authentication')} className="text-teal-600 font-semibold underline">
-              Đăng nhập
+              Login
             </button>
           </p>
         </div>
