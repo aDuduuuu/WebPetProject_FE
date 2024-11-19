@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { FaSearch, FaUserCircle, FaHeart, FaBalanceScale } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
-import logo from '../pictures/heart-with-dog.png';
+import React, { useState, useEffect, useRef } from "react";
+import { FaSearch, FaUserCircle, FaHeart, FaBalanceScale } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import logo from "../pictures/heart-with-dog.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,7 +12,7 @@ const Header = () => {
   const breedMenuRef = useRef(null);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
     }
@@ -21,8 +21,10 @@ const Header = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
-        breedMenuRef.current && !breedMenuRef.current.contains(event.target) &&
-        menuRef.current && !menuRef.current.contains(event.target)
+        breedMenuRef.current &&
+        !breedMenuRef.current.contains(event.target) &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target)
       ) {
         setIsMenuOpen(false);
         setIsBreedMenuOpen(false);
@@ -33,47 +35,47 @@ const Header = () => {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
-    setIsBreedMenuOpen(false); // Close breed menu if user menu is opened
+    setIsBreedMenuOpen(false);
   };
 
   const toggleBreedMenu = () => {
     setIsBreedMenuOpen((prev) => !prev);
-    setIsMenuOpen(false); // Close user menu if breed menu is opened
+    setIsMenuOpen(false);
   };
 
   const handleLogin = () => {
-    navigate('/authentication');
+    navigate("/authentication");
     setIsMenuOpen(false);
   };
 
   const handleAccount = () => {
-    navigate('/account');
+    navigate("/account");
     setIsMenuOpen(false);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setIsLoggedIn(false);
     setIsMenuOpen(false);
-    navigate('/');
+    navigate("/");
   };
 
   const handleViewAllBreeds = () => {
-    navigate('/breed-list'); // Change '/breed-list' to your actual route
+    navigate("/breed-list");
     setIsBreedMenuOpen(false);
   };
 
   const handleLogoClick = () => {
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -87,32 +89,45 @@ const Header = () => {
         <button onClick={toggleBreedMenu} className="hover:text-teal-400 relative">
           Breeds
         </button>
-        <a href="#" className="hover:text-teal-400">Services</a>
-        <a href="#" className="hover:text-teal-400">Store</a>
-        <a href="#" className="hover:text-teal-400">Trainer</a>
+        <a href="#" className="hover:text-teal-400">
+          Services
+        </a>
+        <a href="#" className="hover:text-teal-400">
+          Store
+        </a>
+        <a href="#" className="hover:text-teal-400">
+          Trainer
+        </a>
 
-        {/* Breed Menu */}
         {isBreedMenuOpen && (
           <div
             ref={breedMenuRef}
             className="absolute top-14 left-0 w-[900px] h-[200px] bg-white text-gray-700 p-6 rounded-lg shadow-lg z-10 flex justify-around"
           >
             <div className="flex flex-col items-start">
-              <button onClick={handleViewAllBreeds} className="text-teal-600 font-bold mb-2">Explore dog breeds</button>
-              <input type="text" placeholder="Choose a dog breed" className="p-2 border border-gray-300 rounded-md" />
+              <button onClick={handleViewAllBreeds} className="text-teal-600 font-bold mb-2">
+                Explore dog breeds
+              </button>
               <button onClick={handleViewAllBreeds} className="mt-2 px-4 py-2 bg-teal-500 text-white rounded-lg">
                 See all
               </button>
             </div>
             <div className="flex flex-col items-start mx-6">
-              <button className="flex items-center text-teal-600 font-bold mb-2">
+              <button
+                onClick={() => navigate("/find-best-dog")} // Navigate to FindBestDog page
+                className="flex items-center text-teal-600 font-bold mb-2"
+              >
                 <FaHeart className="mr-2" /> Find your match
               </button>
-              <span className="text-sm text-gray-500">Answer a few simple questions and find the right dog for you</span>
+              <span className="text-sm text-gray-500">
+                Answer a few simple questions and find the right dog for you
+              </span>
               <button className="flex items-center mt-2 text-teal-600 font-bold">
                 <FaBalanceScale className="mr-2" /> Compare breeds
               </button>
-              <span className="text-sm text-gray-500">Compare up to 5 different breeds side by side</span>
+              <span className="text-sm text-gray-500">
+                Compare up to 5 different breeds side by side
+              </span>
             </div>
             <div className="flex flex-col items-start">
               <button className="text-teal-600 font-bold mb-2">Prospective owners</button>

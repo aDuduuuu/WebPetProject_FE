@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Custom colors */
+@layer utilities {
+  .text-16423C {
+    color: #16423C;
+  }
+  .bg-16423C {
+    background-color: #16423C;
+  }
+  .text-C4DACB {
+    color: #C4DACB;
+  }
+  .bg-C4DACB {
+    background-color: #C4DACB;
+  }
+}
