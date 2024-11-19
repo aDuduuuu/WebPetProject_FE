@@ -3,10 +3,10 @@ import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer và toast
 import 'react-toastify/dist/ReactToastify.css'; // Import CSS của react-toastify
-import { register } from '../client-api/rest-client-api';
 import dogBackground from '../pictures/Home.jpg';
 import dogImage2 from '../pictures/dog2.jpg';
 import exitIcon from '../pictures/exit.png';
+import clientApi from '../client-api/rest-client';
 
 const Register = () => {
   const navigate = useNavigate();
@@ -26,12 +26,19 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await register(formData);
-    if (response.EC === 0) {
-      toast.success(response.EM); 
-      setError('');
-    } else {
-      setError(response.EM); 
+    let authen = clientApi.service('register');
+    try {
+      const response = await authen.create(formData); 
+      if (response.EC === 0) {
+        navigate('/authentication');
+        toast.success(response.EM); 
+        setError('');
+      } else {
+        setError(response.EM);
+      }
+    } catch (err) {
+      console.error('Error during login:', err);
+      setError('Something went wrong. Please try again later.');
     }
   };
 

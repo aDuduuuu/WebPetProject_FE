@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { login } from '../client-api/rest-client-api';
+import clientApi from '../client-api/rest-client'; // Import RestClient
 import dogBackground from '../pictures/Home.jpg';
 import dogImage1 from '../pictures/dog1.jpg';
 import exitIcon from '../pictures/exit.png';
@@ -17,12 +17,17 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await login(formData);
-    if (response.EC === 0) {
-      localStorage.setItem('token', response.DT.token); // Lưu token vào localStorage
-      navigate('/'); // Điều hướng đến trang chủ
-    } else {
-      setError(response.EM); // Hiển thị thông báo lỗi nếu có
+    try {
+      const response = await clientApi.authenticate(formData); // Sử dụng RestClient's authenticate method
+      if (response.EC === 0) {
+        localStorage.setItem('token', response.DT.token); // Lưu token vào localStorage
+        navigate('/'); // Điều hướng đến trang chủ
+      } else {
+        setError(response.EM); // Hiển thị thông báo lỗi nếu có
+      }
+    } catch (err) {
+      console.error('Error during login:', err);
+      setError('Something went wrong. Please try again later.');
     }
   };
 

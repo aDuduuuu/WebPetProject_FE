@@ -3,7 +3,7 @@
 }
 
 .hero-section {
-  background-image: url('C:/Study/Learn_Code/CNPMM/Project/WebPetProject_FE/WebPetProject/src/pictures/Home.jpg');
+  background-image: url('../pictures/Home.jpg');
 }
 
 .additional-content {

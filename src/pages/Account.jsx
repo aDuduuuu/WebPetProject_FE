@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { FaEnvelope, FaUser } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { getUserProfile } from '../client-api/rest-client-api'; 
+import { getUserProfile } from '../client-api/rest-client-api';
 import dogBackground from '../pictures/Home.jpg';
 import dogImage2 from '../pictures/dog2.jpg';
 import exitIcon from '../pictures/exit.png';
+import clientApi from '../client-api/rest-client';
 
 const Account = () => {
   const navigate = useNavigate();
@@ -16,16 +17,22 @@ const Account = () => {
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      const response = await getUserProfile(localStorage.getItem('token'));
-      if (response.EC === 0) {
-        const { firstName, lastName, email, role } = response.DT;
-        setUserInfo({
-          email,
-          fullName: `${firstName} ${lastName}`, 
-          role,
-        });
-      } else {
-        console.error(response.EM);
+      let authen = clientApi.service('users');
+      try {
+        const response = await authen.find();
+        if (response.EC === 0) {
+          const { firstName, lastName, email, role } = response.DT;
+          setUserInfo({
+            email,
+            fullName: `${firstName} ${lastName}`,
+            role,
+          });
+        } else {
+          console.error(response.EM);
+        }
+      } catch (err) {
+        console.error('Error during login:', err);
+        setError('Something went wrong. Please try again later.');
       }
     };
 
@@ -75,7 +82,7 @@ const Account = () => {
             />
           </div>
         </div>
-        
+
         {/* Image Section */}
         <div className="account-image w-1/2 flex items-center justify-center p-4">
           <img src={dogImage2} alt="Dog" className="rounded-lg shadow-md w-8/10 h-5/6 object-cover" />

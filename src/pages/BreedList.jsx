@@ -1,130 +1,275 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import arrowRightIcon from '../pictures/icons8-arrow-right-50.png';
+import arrowDownIcon from '../pictures/icons8-arrow-down-50.png';
+import clientApi from '../client-api/rest-client';
 
 const FilterSection = () => {
+  const navigate = useNavigate();
+  const [filtersOpen, setFiltersOpen] = useState({
+    group: false,
+    activityLevel: false,
+    barkingLevel: false,
+    characteristics: false,
+    coatType: false,
+    sheddingLevel: false,
+    size: false,
+    trainability: false,
+  });
+
+  const [filters, setFilters] = useState({});
+  const [dogBreeds, setDogBreeds] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalBreeds, setTotalBreeds] = useState(0);
+  const itemsPerPage = 8;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchDogBreeds = async () => {
+    setLoading(true);
+    setError(null);
+  
+    let authen = clientApi.service('dogbreeds');
+  
+    // Tạo object từ filters và các tham số khác
+    const requestPayload = {
+      page: currentPage,
+      limit: itemsPerPage,
+      ...filters, // Kết hợp filters vào payload
+    };
+  
+    console.log("Payload Sent to API:", requestPayload);
+  
+    try {
+      const response = await authen.find(requestPayload); // Truyền object vào
+      if (response.EC === 0) {
+        setDogBreeds(response.DT);
+        setTotalBreeds(response.totalBreeds);
+      } else {
+        setError(response.EM);
+        setDogBreeds([]);
+        setTotalBreeds(0);
+      }
+    } catch (err) {
+      console.error("Fetch error:", err);
+      setError("No dog breeds match the filters.");
+      setDogBreeds([]);
+      setTotalBreeds(0);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchDogBreeds();
+  }, [currentPage, filters]);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const toggleFilter = (filterName) => {
+    setFiltersOpen((prev) => ({
+      ...prev,
+      [filterName]: !prev[filterName],
+    }));
+  };
+
+  // Handle changes in filter values  
+  const handleFilterChange = (filterKey, value) => {
+    setFilters((prevFilters) => {
+      const updatedFilters = { ...prevFilters };
+      if (value) {
+        updatedFilters[filterKey] = value; // Cập nhật bộ lọc
+      } else {
+        delete updatedFilters[filterKey]; // Xóa bộ lọc nếu không có giá trị
+      }
+      return updatedFilters;
+    });
+
+    setCurrentPage(1);
+  };
+
+  const renderFilterSection = (title, filterKey, options) => (
+    <div className="filter-group mb-6">
+      <div className="flex justify-between items-center">
+        <h4 className="text-sm font-semibold text-gray-600 mb-2">{title}</h4>
+        <img
+          src={filtersOpen[filterKey] ? arrowDownIcon : arrowRightIcon}
+          alt="Toggle Filter"
+          className="w-5 h-5 cursor-pointer"
+          onClick={() => toggleFilter(filterKey)}
+        />
+      </div>
+      {filtersOpen[filterKey] && (
+        <div className="grid grid-cols-2 gap-y-2 mt-2">
+          {options.map((label) => (
+            <label key={label} className="flex items-center text-sm text-gray-600">
+              <input
+                type="checkbox"
+                className="mr-2"
+                onChange={(e) =>
+                  handleFilterChange(filterKey, e.target.checked ? label : null)
+                }
+              />{" "}
+              {label}
+            </label>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  const handleViewDetails = (breedId) => {
+    navigate(`/dogbreeds/${breedId}`);
+  };
+
   return (
     <div className="home-container text-white flex flex-col min-h-screen">
       <Header />
-      <div className="filter-section p-6 bg-white rounded-lg shadow-lg w-80">
-        {/* Tìm kiếm bằng tên giống */}
-        <div className="mb-6">
-          <h4 className="text-sm font-semibold text-gray-600 mb-2">FIND BY BREED NAME</h4>
-          <select className="w-full p-2 border border-gray-300 rounded-md text-gray-700">
-            <option value="">Select a breed</option>
-            {/* Thêm các giống chó vào đây */}
-            <option value="affenpinscher">Affenpinscher</option>
-            <option value="akita">Akita</option>
-            <option value="beagle">Beagle</option>
-            <option value="bulldog">Bulldog</option>
-            {/* ... các giống chó khác */}
-          </select>
-        </div>
+      <div className="flex p-6 space-x-4">
+        {/* Filter Section */}
+        <div className="filter-section p-6 bg-white rounded-lg shadow-lg w-80">
 
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-700">FILTER BREEDS</h3>
-          <button className="text-sm text-teal-600 hover:underline">CLEAR ALL</button>
-        </div>
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-semibold text-gray-700">FILTER BREEDS</h3>
+          </div>
+          
+          {/* Filters */}
+          {renderFilterSection("GROUP", "group", [
+            "Sporting Group",
+            "Hound Group",
+            "Working Group",
+            "Terrier Group",
+            "Toy Group",
+            "Non-Sporting Group",
+            "Herding Group",
+            "Miscellaneous Class",
+            "Foundation Stock",
+          ])}
+          {renderFilterSection("ACTIVITY LEVEL", "activityLevel", [
+            "Needs Lots Of Activity",
+            "Regular Exercise",
+            "Energetic",
+            "Calm",
+          ])}
+          {renderFilterSection("BARKING LEVEL", "barkingLevel", [
+            "When Necessary",
+            "Infrequent",
+            "Medium",
+            "Frequent",
+            "Likes To Be Vocal",
+          ])}
+          {renderFilterSection("CHARACTERISTICS", "characteristics", [
+            "Smallest Dog Breeds",
+            "Medium Dog Breeds",
+            "Largest Dog Breeds",
+            "Smartest Breeds Of Dogs",
+            "Hypoallergenic Dogs",
+            "Best Dog Breeds For Kids",
+            "Hairless Dog Breeds",
+            "Best Dogs For Apartment Dwellers",
+            "Large Dog Breeds",
+          ])}
+          {renderFilterSection("COAT TYPE", "coatType", [
+            "Curly",
+            "Wavy",
+            "Rough",
+            "Corded",
+            "Hairless",
+            "Short",
+            "Medium",
+            "Long",
+            "Smooth",
+            "Wiry",
+            "Silky",
+            "Double",
+          ])}
+          {renderFilterSection("SHEDDING", "sheddingLevel", [
+            "Infrequent",
+            "Seasonal",
+            "Frequent",
+            "Occasional",
+            "Regularly",
+          ])}
+          {renderFilterSection("SIZE", "size", [
+            "XSmall",
+            "Small",
+            "Medium",
+            "Large",
+            "XLarge",
+          ])}
+          {renderFilterSection("TRAINABILITY", "trainability", [
+            "May be Stubborn",
+            "Agreeable",
+            "Eager To Please",
+            "Independent",
+            "Easy Training",
+          ])}
 
-        {/* GROUP */}
-        <div className="filter-group mb-6">
-          <h4 className="text-sm font-semibold text-gray-600 mb-2">GROUP</h4>
-          <div className="grid grid-cols-2 gap-y-2">
-            {["Sporting Group", "Hound Group", "Working Group", "Terrier Group", "Toy Group", "Non-Sporting Group", "Herding Group", "Miscellaneous Class", "Foundation Stock Service"].map((label) => (
-              <label key={label} className="flex items-center text-sm text-gray-600">
-                <input type="checkbox" className="mr-2" /> {label}
-              </label>
-            ))}
+          {/* Buttons */}
+          <div className="flex justify-between mt-4">
+            <button className="px-4 py-2 bg-teal-600 text-white rounded-lg" onClick={fetchDogBreeds}>
+              Filter
+            </button>
           </div>
         </div>
 
-        {/* Mức độ hoạt động */}
-        <div className="filter-group mb-6">
-          <h4 className="text-sm font-semibold text-gray-600 mb-2">MỨC ĐỘ HOẠT ĐỘNG</h4>
-          <div className="grid grid-cols-2 gap-y-2">
-            {["Cần nhiều hoạt động", "Năng động", "Tập thể dục đều đặn", "Điềm tĩnh"].map((label) => (
-              <label key={label} className="flex items-center text-sm text-gray-600">
-                <input type="checkbox" className="mr-2" /> {label}
-              </label>
-            ))}
-          </div>
-        </div>
+        {/* Breed List Section */}
+        <div className="breed-list-section flex-1 p-6 bg-white rounded-lg shadow-lg">
+          {loading ? (
+            <p className="text-center text-gray-600">Loading...</p>
+          ) : error ? (
+            <p className="text-center text-red-600">{error}</p>
+          ) : (
+            <div className="grid grid-cols-4 gap-4">
+              {dogBreeds.map((breed, index) => (
+                <div key={index} className="breed-card bg-gray-100 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200 ease-in-out">
+                  <img
+                    src={breed.image}
+                    alt={breed.name}
+                    className="w-full h-40 object-cover rounded-t-lg"
+                  />
+                  <h4 className="text-lg font-semibold text-gray-800 mt-2">{breed.name}</h4>
+                  <p className="text-sm text-gray-600 mt-2" style={{
+                    display: '-webkit-box',
+                    WebkitBoxOrient: 'vertical',
+                    WebkitLineClamp: '2',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                  }}>
+                    {breed.description}
+                  </p>
+                  <button
+                    onClick={() => handleViewDetails(breed._id)}
+                    className="mt-2 text-teal-600 hover:underline"
+                  >
+                    View Details
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
 
-        {/* Mức độ sủa */}
-        <div className="filter-group mb-6">
-          <h4 className="text-sm font-semibold text-gray-600 mb-2">MỨC ĐỘ SỦA</h4>
-          <div className="grid grid-cols-2 gap-y-2">
-            {["Khi cần thiết", "Trung bình", "Ít sủa", "Thường xuyên", "Thích sủa"].map((label) => (
-              <label key={label} className="flex items-center text-sm text-gray-600">
-                <input type="checkbox" className="mr-2" /> {label}
-              </label>
-            ))}
+          {/* Pagination */}
+          <div className="pagination flex justify-center mt-6">
+            <button
+              onClick={() => paginate(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="px-4 py-2 bg-teal-600 text-white rounded-lg disabled:opacity-50"
+            >
+              Prev
+            </button>
+            <span className="px-4 py-2 text-sm text-gray-600">
+              Page {currentPage} of {Math.ceil(totalBreeds / itemsPerPage)}
+            </span>
+            <button
+              onClick={() => paginate(currentPage + 1)}
+              disabled={currentPage === Math.ceil(totalBreeds / itemsPerPage)}
+              className="px-4 py-2 bg-teal-600 text-white rounded-lg disabled:opacity-50"
+            >
+              Next  
+            </button> 
           </div>
-        </div>
-
-        {/* Đặc điểm */}
-        <div className="filter-group mb-6">
-          <h4 className="text-sm font-semibold text-gray-600 mb-2">ĐẶC ĐIỂM</h4>
-          <div className="grid grid-cols-2 gap-y-2">
-            {["Nhỏ nhất", "Giống chó trung bình", "Lớn nhất", "Thông minh nhất", "Ít gây dị ứng", "Phù hợp với gia đình nhất", "Giữ nhà tốt nhất", "Tốt nhất cho trẻ em", "Không lông", "Phù hợp cho căn hộ", "Giống chó lớn"].map((label) => (
-              <label key={label} className="flex items-center text-sm text-gray-600">
-                <input type="checkbox" className="mr-2" /> {label}
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* Loại lông */}
-        <div className="filter-group mb-6">
-          <h4 className="text-sm font-semibold text-gray-600 mb-2">LOẠI LÔNG</h4>
-          <div className="grid grid-cols-2 gap-y-2">
-            {["Không lông", "Lông ngắn", "Lông trung bình", "Lông dài", "Lông mượt", "Lông thô", "Lông mềm mại", "Lông kép", "Lông xoăn", "Lông gợn sóng", "Lông cứng", "Lông dày"].map((label) => (
-              <label key={label} className="flex items-center text-sm text-gray-600">
-                <input type="checkbox" className="mr-2" /> {label}
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* Mức độ rụng lông */}
-        <div className="filter-group mb-6">
-          <h4 className="text-sm font-semibold text-gray-600 mb-2">MỨC ĐỘ RỤNG LÔNG</h4>
-          <div className="grid grid-cols-2 gap-y-2">
-            {["Thường xuyên", "Hiếm khi", "Theo mùa", "Rụng nhiều", "Thỉnh thoảng"].map((label) => (
-              <label key={label} className="flex items-center text-sm text-gray-600">
-                <input type="checkbox" className="mr-2" /> {label}
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* Kích thước */}
-        <div className="filter-group mb-6">
-          <h4 className="text-sm font-semibold text-gray-600 mb-2">KÍCH THƯỚC</h4>
-          <div className="grid grid-cols-2 gap-y-2">
-            {["Rất lớn", "Rất nhỏ", "Nhỏ", "Trung bình", "Lớn"].map((label) => (
-              <label key={label} className="flex items-center text-sm text-gray-600">
-                <input type="checkbox" className="mr-2" /> {label}
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* Khả năng huấn luyện */}
-        <div className="filter-group mb-6">
-          <h4 className="text-sm font-semibold text-gray-600 mb-2">KHẢ NĂNG HUẤN LUYỆN</h4>
-          <div className="grid grid-cols-2 gap-y-2">
-            {["Có thể cứng đầu", "Dễ chịu", "Ham muốn làm hài lòng", "Độc lập", "Dễ huấn luyện"].map((label) => (
-              <label key={label} className="flex items-center text-sm text-gray-600">
-                <input type="checkbox" className="mr-2" /> {label}
-              </label>
-            ))}
-          </div>
-        </div>
-
-        {/* Nút Lọc và Xóa tất cả */}
-        <div className="flex justify-between mt-4">
-          <button className="px-4 py-2 bg-teal-600 text-white rounded-lg">Lọc</button>
-          <button className="text-sm text-teal-600 hover:underline">Xóa tất cả</button>
         </div>
       </div>
     </div>

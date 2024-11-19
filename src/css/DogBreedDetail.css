@@ -1,0 +1,388 @@
+/* Đặt nền tổng thể và màu chữ cho trang */
+.dog-breed-detail-page {
+  background-color: #325f62;
+  color: #ffffff;
+  min-height: 100vh;
+  padding: 2rem 0;
+}
+
+/* Căn chỉnh phần tên và mô tả */
+.dog-breed-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+.dog-breed-detail h1 {
+  color: #b8d5c0;
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* Kiểu cho nút nhóm */
+.group-button {
+  padding: 0.5rem 1rem;
+  background-color: #90c2af;
+  color: black;
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+
+/* Kiểu cho carousel chính */
+.main-slider .slick-slide {
+  display: flex;
+  justify-content: center;
+}
+
+.main-slider img {
+  width: 600px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+/* Kiểu cho mũi tên carousel */
+.slick-prev:before, .slick-next:before {
+  font-size: 30px;
+  color: #ffffff;
+}
+
+.slick-prev, .slick-next {
+  width: 50px;
+  height: 50px;
+  z-index: 1;
+}
+
+/* Phần thông tin chi tiết */
+.dog-breed-info {
+  background-color: white;
+  color: black;
+  padding: 2rem;
+  margin-top: 1rem;
+  border-radius: 1.5rem 1.5rem 0 0;
+}
+
+.dog-breed-info h2, .dog-breed-info h3 {
+  color: #333;
+  font-weight: bold;
+  margin-top: 2rem;
+}
+
+.dog-breed-info p {
+  margin-bottom: 1rem;
+  color: #666;
+}
+
+/* Khung chứa các thuộc tính vật lý */
+.physical-attributes-container {
+  background-color: #b8d5c0;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 2rem auto;
+}
+
+/* Ảnh chó */
+.dog-image img {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 0.5rem;
+  object-fit: cover;
+}
+
+/* Kiểu cho từng mục thông tin */
+.dog-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #1a3d3f;
+  text-align: center;
+}
+
+.dog-info h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+}
+
+.dog-info p {
+  font-size: 1rem;
+  margin-top: 0.25rem;
+}
+
+/* Kiểu cho icon */
+.dog-info .icon {
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+/* Phần Temperament and Levels */
+.temperament-levels-section {
+  margin-top: 2rem;
+  width: 100%;
+  padding: 0 2rem;
+}
+
+/* Nút chọn thuộc tính */
+.filter-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.filter-buttons button {
+  padding: 0.5rem 1rem;
+  background-color: #b8d5c0;
+  color: #1a3d3f;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.filter-buttons .active {
+  background-color: #1a3d3f;
+  color: white;
+}
+
+/* Trait Section để các thanh trải đều */
+.trait-section {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto; /* Thêm cuộn ngang nếu các phần tử vượt quá chiều rộng */
+  padding-bottom: 1rem; /* Khoảng cách dưới để tạo không gian cho cuộn ngang */
+  justify-content: space-around;
+  flex-wrap: nowrap; /* Đảm bảo rằng các phần tử không xuống dòng */
+}
+
+.trait-section::-webkit-scrollbar {
+  height: 8px; /* Chiều cao của thanh cuộn ngang */
+}
+
+.trait-section::-webkit-scrollbar-thumb {
+  background-color: #b8d5c0;
+  border-radius: 4px;
+}
+
+.trait-row {
+  display: flex;
+  justify-content: center; /* Center the rows horizontally */
+  gap: 20rem; /* Reduce gap between columns */
+  margin-bottom: 2rem; /* Space between rows */
+  padding: 0 2rem; /* Add padding to ensure content doesn't touch edges */
+}
+
+.trait {
+  flex: 1; /* Ensure equal width for all traits */
+  max-width: 300px; /* Optional: Set a maximum width for each trait */
+  text-align: center;
+  color: #1a3d3f;
+}
+
+.trait h4 {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+/* Căn chỉnh cho thanh rating với nhãn 2 bên */
+.rating-bar-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.rating-bar-container p {
+  font-size: 0.6rem;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.rating-bar {
+  display: flex;
+  gap: 0.3rem;
+  flex: 1;
+  max-width: 200px;
+}
+
+.rating-bar span {
+  width: 3rem; /* Điều chỉnh kích thước thanh nếu cần */
+  height: 0.5rem;
+  background-color: #d4e4dd;
+  border-radius: 0.25rem;
+  transition: background-color 0.3s ease;
+}
+
+.rating-bar span.filled {
+  background-color: #1a3d3f;
+}
+
+.coat-details ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.coat-details li {
+  padding: 8px 12px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: #C4DACB; /* Button background */
+  color: #16423C; /* Text color */
+  font-weight: bold;
+  cursor: not-allowed; /* Indicate the button is not clickable */
+  transition: all 0.3s ease-in-out;
+}
+
+.coat-details li.disabled {
+  opacity: 0.5; /* Dim unselected buttons */
+}
+
+.coat-details li.selected {
+  background-color: #C4DACB;
+  color: #16423C;
+  border-color: #16423C; /* Highlight border for selected */
+}
+.dog-description-container {
+  margin: 20px;
+  padding: 20px;
+  background-color: #d4e4dd;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.dog-description-content {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem; /* Space between image and text */
+}
+
+.dog-description-image {
+  flex-shrink: 0; /* Đảm bảo kích thước khung ảnh không bị thu nhỏ */
+  width: 200px; /* Chiều rộng cố định */
+  height: 200px; /* Chiều cao cố định */
+  overflow: hidden; /* Ẩn phần thừa ra ngoài nếu ảnh quá lớn */
+  border-radius: 8px; /* Bo góc */
+}
+
+.dog-description-image img {
+  width: 100%; /* Ảnh chiếm toàn bộ chiều rộng khung */
+  height: 100%; /* Ảnh chiếm toàn bộ chiều cao khung */
+  object-fit: cover; /* Cắt và giữ tỉ lệ đúng của ảnh */
+  display: block; /* Loại bỏ khoảng trống mặc định của ảnh */
+}
+
+.dog-description-text {
+  color: #16423c; /* Text color */
+}
+
+.dog-description-text h2 {
+  font-size: 1.5rem; /* Header font size */
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.dog-description-text p {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.6;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+}
+
+.dog-description-text p.collapsed {
+  max-height: 100px; /* Giới hạn chiều cao khi thu gọn */
+}
+
+.toggle-button {
+  background-color: #16423c; /* Button background */
+  color: white; /* Button text color */
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.toggle-button:hover {
+  background-color: #0f302a; /* Darker shade on hover */
+}
+
+.dog-colors-list {
+  list-style-type: none; /* Xóa dấu chấm đầu dòng */
+  padding: 0;
+  margin: 0;
+}
+
+.dog-color-item {
+  background-color: #C4DACB; /* Màu nền nhạt */
+  color: #16423C; /* Màu chữ đậm */
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin: 4px 0;
+  display: inline-block;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dog-color-item:hover {
+  background-color: #16423C; /* Màu nền khi hover */
+  color: #C4DACB; /* Màu chữ khi hover */
+}
+
+.colors-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #16423C;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+  border-bottom: 3px solid #16423C;
+  padding-bottom: 5px;
+  cursor: pointer;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.colors-title:hover {
+  color: #C4DACB;
+  border-color: #C4DACB;
+}
+
+/* CSS cho phần danh sách màu sắc */
+.dog-colors-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dog-color-item {
+  background-color: #C4DACB;
+  color: #16423C;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 20px;
+  margin: 4px 0;
+  display: inline-block;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dog-color-item:hover {
+  background-color: #16423C;
+  color: #C4DACB;
+}
