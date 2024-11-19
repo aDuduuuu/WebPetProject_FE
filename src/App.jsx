@@ -18,6 +18,7 @@ import SpaRoutes from './routes/spaRoute.jsx'; // Import SpaRoutes
 import TrainerRoutes from './routes/trainerRoute.jsx';
 import PostRoutes from './routes/postRoute.jsx';
 import DogsellerRoutes from './routes/dogsellerRoute.jsx';
+import Cart from "./pages/Cart/Cart.jsx";
 
 const App = () => (
   <AnswerProvider>
@@ -25,6 +26,7 @@ const App = () => (
       <Routes>
         <Route path="/*" element={<AuthRoutes />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="/breed-list" element={<FilterSection />} />
         <Route path="/dogbreeds/:breedId" element={<DogBreedDetail />} />
         <Route path="/find-best-dog" element={<FindBestDog />} />
