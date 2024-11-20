@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const PostFilter = ({ categories, selectedCategory, sortBy, onCategoryChange, onSortByChange }) => {
+  const navigate = useNavigate();
   const handleCategoryClick = (category) => {
     if (onCategoryChange) {
       onCategoryChange(category === 'all' ? '' : category); // Nếu "all", gửi giá trị rỗng (không có bộ lọc category)
@@ -11,6 +13,10 @@ const PostFilter = ({ categories, selectedCategory, sortBy, onCategoryChange, on
     if (onSortByChange) {
       onSortByChange(e.target.value); // Gọi callback khi chọn cách sắp xếp
     }
+  };
+
+  const handleAddPost = () => {
+    navigate("/spas/add");
   };
 
   return (
@@ -35,16 +41,25 @@ const PostFilter = ({ categories, selectedCategory, sortBy, onCategoryChange, on
           </button>
         ))}
       </div>
+      <div className="flex mb-4 items-center gap-3">
+  <h4 className="text-sm font-semibold text-gray-600 mt-0 mb-0">Sort By</h4>
+  <select
+    value={sortBy}
+    onChange={handleSortByChange}
+    className="p-2 border border-gray-300 rounded-md text-gray-700 flex-grow"
+  >
+    <option value="time">Newest</option>
+    <option value="otime">Oldest</option>
+  </select>
+</div>
 
-      <h4 className="text-sm font-semibold text-gray-600 mt-6 mb-2">Sort By</h4>
-      <select
-        value={sortBy}
-        onChange={handleSortByChange}
-        className="w-full p-2 border border-gray-300 rounded-md text-gray-700"
-      >
-        <option value="time">Newest</option>
-        <option value="otime">Oldest</option>
-      </select>
+
+      <div className="flex mb-4">
+        <button className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
+            onClick={handleAddPost}>
+              Add Post
+            </button>
+      </div>
     </div>
   );
 };

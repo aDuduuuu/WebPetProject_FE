@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import clientApi from '../client-api/rest-client';
+import { useNavigate } from 'react-router-dom';
 
 const ProvinceFilter = ({ onFilter, type }) => {
+  const navigate = useNavigate();
+  
   const provinces = [
     'An Giang', 'Ba Ria - Vung Tau', 'Bac Lieu', 'Bac Giang', 'Bac Kan',
     'Bac Ninh', 'Ben Tre', 'Binh Duong', 'Binh Dinh', 'Binh Phuoc',
@@ -22,7 +25,6 @@ const ProvinceFilter = ({ onFilter, type }) => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    // Fetch services or breeds based on type
     const fetchItems = async () => {
       if (type === 'spa' || type === 'trainer') {
         const serviceApi = clientApi.service(`filters/${type}s`);
@@ -66,12 +68,16 @@ const ProvinceFilter = ({ onFilter, type }) => {
     setSelectedProvince(e.target.value);
   };
 
-  const handleItemChange = (itemId) => {
-    setSelectedItems((prev) =>
-      prev.includes(itemId)
-        ? prev.filter((id) => id !== itemId)
-        : [...prev, itemId]
-    );
+  const handleItemChange = (value) => {
+    setSelectedItems((prevItems) => {
+      if (prevItems.includes(value)) {
+        // Nếu đã có giá trị này trong selectedItems, thì bỏ chọn
+        return prevItems.filter(item => item !== value);
+      } else {
+        // Nếu chưa có giá trị này, thì thêm vào selectedItems
+        return [...prevItems, value];
+      }
+    });
   };
 
   const handleFilterClick = () => {
@@ -88,6 +94,18 @@ const ProvinceFilter = ({ onFilter, type }) => {
     setSelectedProvince('');
     setSelectedItems([]);
     onFilter({ province: '', ...(type === 'spa' || type === 'trainer' ? { services: [] } : { breeds: [] }) });
+  };
+
+  const handleAddSpa = () => {
+    navigate("/spas/add");
+  };
+
+  const handleAddTrainer = () => {
+    navigate("/trainers/add");
+  };
+
+  const handleAddSeller = () => {
+    navigate("/dogsellers/add");
   };
 
   return (
@@ -146,19 +164,47 @@ const ProvinceFilter = ({ onFilter, type }) => {
         </>
       )}
 
-      <div className="flex mt-4">
+      <div className="flex mb-4 gap-2">
         <button
-          className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 mr-2"
+          className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
           onClick={handleFilterClick}
         >
           Filter
         </button>
         <button
-          className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400"
+          className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400 w-full"
           onClick={handleResetClick}
         >
           <i className="fas fa-sync-alt mr-2"></i> Reset
         </button>
+      </div>
+
+      {/* Add button (new line) */}
+      <div className="flex mb-4">
+        {type === 'spa' && (
+          <button
+            className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
+            onClick={handleAddSpa}
+          >
+            Add Spa
+          </button>
+        )}
+        {type === 'trainer' && (
+          <button
+            className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
+            onClick={handleAddTrainer}
+          >
+            Add Trainer
+          </button>
+        )}
+        {type === 'dogsellers' && (
+          <button
+            className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
+            onClick={handleAddSeller}
+          >
+            Add Seller
+          </button>
+        )}
       </div>
     </div>
   );
