@@ -22,9 +22,11 @@ import Cart from "./pages/Cart/Cart.jsx";
 import Checkout from "./pages/Checkout/Checkout.jsx";
 import { AppProvider } from "./context/AppContext.jsx";
 import OrderDetail from "./pages/OrderDetail/OrderDetail.jsx";
+import OrderList from "./pages/OrderList/OrderList.jsx";
 
 const App = () => (
   <AnswerProvider>
+    <AppProvider>
     <Router>
       <Routes>
         <Route path="/*" element={<AuthRoutes />} />
@@ -46,6 +48,7 @@ const App = () => (
         <Route path="/dogsellers/*" element={<DogsellerRoutes />} />
       </Routes>
     </Router>
+    </AppProvider>
   </AnswerProvider>
 );
 

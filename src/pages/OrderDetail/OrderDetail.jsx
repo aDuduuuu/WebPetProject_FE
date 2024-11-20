@@ -31,6 +31,27 @@ const OrderDetail = () => {
             console.log(error);
         }
     }
+    let handleCancal = async () => {
+        if (orderDetail.status !== "ordered") {
+            message.error("Can not cancel order");
+            return;
+        }
+        let order = clientApi.service('order');
+        try {
+            let data = { ...orderDetail, status: "cancel" };
+            let response = await order.patch(id, data);
+            if (response.EC === 0) {
+                message.success("Cancel order successfully");
+                fetchOrderDetail();
+            } else {
+                message.error(response.EM);
+            }
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <>
             <Header />
@@ -98,6 +119,11 @@ const OrderDetail = () => {
                     <div className="mb-2">
                         <span><b>Payment method: </b></span>
                         <span className="ms-4">{orderDetail?.paymentMethod?.name}</span>
+                    </div>
+                </div>
+                <div className="cancel">
+                    <div className="d-flex justify-content-center mt-5">
+                        <button className="btn-cancel" onClick={() => handleCancal()}>Cancel order</button>
                     </div>
                 </div>
             </div>

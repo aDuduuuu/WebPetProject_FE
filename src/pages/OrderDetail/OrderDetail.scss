@@ -228,4 +228,26 @@
         }
 
     }
+
+    .cancel {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: white;
+        padding: 30px 0;
+
+        .btn-cancel {
+            background: #ba0000;
+            color: white;
+            border-radius: 30px;
+            padding: 10px 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+
+            &:hover {
+                background: #ff5b5b;
+            }
+        }
+    }
 }
