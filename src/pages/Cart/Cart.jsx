@@ -9,13 +9,15 @@ import { formatCurrency } from "../../utils/format";
 import DropdownShip from "./DropdownShip";
 import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useAppContext } from "../../context/AppContext";
 const Cart = () => {
+    let { updateCheckout } = useAppContext();
     const navigate = useNavigate();
     let [carts, setCarts] = useState([]);
     let [checkout, setCheckout] = useState(true);
     let [totalQuantity, setTotalQuantity] = useState(0);
     let [totalPrice, setTotalPrice] = useState(0);
-    let [shipping, setShipping] = useState({ name: "Express Shipping", price: 10 });
+    let [shipping, setShipping] = useState({ name: "Express Shipping", price: 8 });
     useEffect(() => {
         fetchCart();
     }, []);
@@ -65,18 +67,13 @@ const Cart = () => {
     }
     let handleCheckout = async () => {
         if (checkout) {
-            let order = clientApi.service('order');
-            try {
-                const response = await order.create({ shipping: shipping.name, shippingPrice: shipping.price, total: totalPrice + totalPrice * 0.05 + shipping.price });
-                if (response.EC === 0) {
-                    message.success("Đặt hàng thành công");
-                    fetchCart();
-                } else {
-                    message.error(response.EM);
-                }
-            } catch (err) {
-                console.error('Error during cart:', err);
-            }
+            updateCheckout({
+                allowCheckout: true,
+                totalPrice,
+                carts,
+                shipment: shipping
+            });
+            navigate("/checkout");
         } else {
             message.error("There are products out of stock")
         }
@@ -140,22 +137,22 @@ const Cart = () => {
                                     <span>{formatCurrency(totalPrice)}</span>
                                 </div>
                                 <div className="mt-1 px-4 d-flex justify-content-between w-100"><span>{shipping.name}
-                                    <DropdownShip click={(ship) => setShipping(ship)} />
+                                    <DropdownShip click={(ship) => setShipping(ship)} color={"#C4DACB"} />
                                 </span> <span>{formatCurrency(shipping.price)}</span></div>
                                 <div className="mt-1 px-4 d-flex justify-content-between w-100">Tax <span>{formatCurrency(totalPrice * 0.05)}</span></div>
                                 <hr />
                                 <div className="mt-2 px-4 d-flex justify-content-between w-100">Total price <span><b className="pe-2">{formatCurrency(totalPrice + totalPrice * 0.05 + shipping.price)}</b></span> </div>
                                 <div className="btn-checkout text-upcase" onClick={() => handleCheckout()}  >
-                                    Thanh toán
-                                    <FontAwesomeIcon icon={faCaretUp} rotation={90} color="#16423C" />
+                                    Checkout
+                                    <FontAwesomeIcon className="ms-2" icon={faCaretUp} rotation={90} color="#16423C" />
                                 </div>
                             </div>
                         </div>
                     </div>
                     :
                     <div className="no-product">
-                        <div className="title">Giỏ hàng trống</div>
-                        <div className="btn-buy" onClick={() => navigate("/")}><span className="px-4">Bắt đầu mua sắm  <FontAwesomeIcon className="ms-3" icon={faCartShopping} size="xs" color="#C4DACB" /></span></div>
+                        <div className="title">The shopping cart is empty</div>
+                        <div className="btn-buy" onClick={() => navigate("/")}><span className="px-4">Start shopping  <FontAwesomeIcon className="ms-3" icon={faCartShopping} size="xs" color="#C4DACB" /></span></div>
                     </div>}
             </div>
             <div className="continute-cart">

@@ -19,6 +19,8 @@ import TrainerRoutes from './routes/trainerRoute.jsx';
 import PostRoutes from './routes/postRoute.jsx';
 import DogsellerRoutes from './routes/dogsellerRoute.jsx';
 import Cart from "./pages/Cart/Cart.jsx";
+import Checkout from "./pages/Checkout/Checkout.jsx";
+import { AppProvider } from "./context/AppContext.jsx";
 
 const App = () => (
   <AnswerProvider>

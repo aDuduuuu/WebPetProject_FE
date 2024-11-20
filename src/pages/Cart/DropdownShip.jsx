@@ -46,7 +46,7 @@ const DropdownShip = (props) => {
             overlayClassName='dropdown-ship'
         >
             <Space>
-                <FontAwesomeIcon className="ms-2" icon={faCaretDown} color="#C4DACB" />
+                <FontAwesomeIcon className="ms-2" icon={faCaretDown} color={props.color} />
             </Space>
         </Dropdown>
     )
