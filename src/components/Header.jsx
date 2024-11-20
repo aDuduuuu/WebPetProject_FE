@@ -1,15 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaSearch, FaUserCircle, FaHeart, FaBalanceScale } from "react-icons/fa";
+import { IoSparklesOutline } from "react-icons/io5";
+import { GiWhistle } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 import logo from "../pictures/heart-with-dog.png";
+import { LuDog } from "react-icons/lu";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isBreedMenuOpen, setIsBreedMenuOpen] = useState(false);
+  const [isServiceMenuOpen, setIsServiceMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
   const menuRef = useRef(null);
   const breedMenuRef = useRef(null);
+  const serviceMenuRef = useRef(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -21,17 +26,19 @@ const Header = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
-        breedMenuRef.current &&
-        !breedMenuRef.current.contains(event.target) &&
-        menuRef.current &&
-        !menuRef.current.contains(event.target)
+        breedMenuRef.current && !breedMenuRef.current.contains(event.target) &&
+        menuRef.current && !menuRef.current.contains(event.target) &&
+        serviceMenuRef.current && !serviceMenuRef.current.contains(event.target)
       ) {
         setIsMenuOpen(false);
         setIsBreedMenuOpen(false);
+        setIsServiceMenuOpen(false);
       } else if (menuRef.current && !menuRef.current.contains(event.target)) {
         setIsMenuOpen(false);
       } else if (breedMenuRef.current && !breedMenuRef.current.contains(event.target)) {
         setIsBreedMenuOpen(false);
+      } else if (serviceMenuRef.current && !serviceMenuRef.current.contains(event.target)) {
+        setIsServiceMenuOpen(false);
       }
     };
 
@@ -44,11 +51,20 @@ const Header = () => {
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
     setIsBreedMenuOpen(false);
+    setIsServiceMenuOpen(false);
   };
 
   const toggleBreedMenu = () => {
     setIsBreedMenuOpen((prev) => !prev);
     setIsMenuOpen(false);
+    setIsServiceMenuOpen(false);
+
+  };
+
+  const toggleServiceMenu = () => {
+    setIsServiceMenuOpen((prev) => !prev);
+    setIsMenuOpen(false);
+    setIsBreedMenuOpen(false);
   };
 
   const handleLogin = () => {
@@ -78,6 +94,26 @@ const Header = () => {
     navigate("/");
   };
 
+  const handleSpa = () => {
+    navigate('/spas');
+    setIsServiceMenuOpen(false);
+  };
+
+  const handleTrainer = () => {
+    navigate('/trainers');
+    setIsServiceMenuOpen(false);
+  };
+
+  const handleDogseller = () => {
+    navigate('/dogsellers');
+    setIsServiceMenuOpen(false);
+  };
+
+  const handlePost = () => {
+    navigate('/posts');
+    setIsServiceMenuOpen(false);
+  };
+
   return (
     <header className="w-full bg-[#16423C] p-4 flex justify-between items-center text-white relative">
       <div className="text-2xl font-bold flex items-center cursor-pointer" onClick={handleLogoClick}>
@@ -89,15 +125,13 @@ const Header = () => {
         <button onClick={toggleBreedMenu} className="hover:text-teal-400 relative">
           Breeds
         </button>
-        <a href="#" className="hover:text-teal-400">
+        <button onClick={toggleServiceMenu} className="hover:text-teal-400 relative">
           Services
-        </a>
-        <a href="#" className="hover:text-teal-400">
-          Store
-        </a>
-        <a href="#" className="hover:text-teal-400">
-          Trainer
-        </a>
+        </button>
+        <a href="#" className="hover:text-teal-400">Store</a>
+        <button onClick={handlePost} className="hover:text-teal-400 relative">
+          Post
+        </button>
 
         {isBreedMenuOpen && (
           <div
@@ -137,6 +171,37 @@ const Header = () => {
             </div>
           </div>
         )}
+
+        {isServiceMenuOpen && (
+          <div
+            ref={serviceMenuRef}
+            className="absolute top-14 left-0 w-[300px] bg-white text-gray-700 p-4 rounded-lg shadow-lg z-10"
+          >
+            <p className="text-teal-600 font-bold mb-2">Looking for:</p>
+            <button
+              onClick={handleSpa}
+              className="flex items-center w-full text-left px-4 py-2 font-bold mb-2 hover:bg-gray-200"
+            >
+              <IoSparklesOutline className="text-teal-500 mr-2" />
+              <span className="text-gray-600">Spa</span>
+            </button>
+            <button
+              onClick={handleTrainer}
+              className="flex items-center w-full text-left px-4 py-2 font-bold mb-2 hover:bg-gray-200"
+            >
+              <GiWhistle className="text-teal-500 mr-2" />
+              <span className="text-gray-600">Trainer</span>
+            </button>
+            <button
+              onClick={handleDogseller}
+              className="flex items-center w-full text-left px-4 py-2 font-bold mb-2 hover:bg-gray-200"
+            >
+              <LuDog className="text-teal-500 mr-2" />
+              <span className="text-gray-600">Dog seller</span>
+            </button>
+          </div>
+        )}
+
       </nav>
 
       <div className="flex items-center gap-4 relative">

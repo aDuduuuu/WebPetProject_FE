@@ -14,6 +14,10 @@ import Question5 from "./pages/Question5";
 import Question6 from "./pages/Question6";
 import Question7 from "./pages/Question7";
 import { AnswerProvider } from "./context/AnswerContext"; // Import AnswerProvider
+import SpaRoutes from './routes/spaRoute.jsx'; // Import SpaRoutes
+import TrainerRoutes from './routes/trainerRoute.jsx';
+import PostRoutes from './routes/postRoute.jsx';
+import DogsellerRoutes from './routes/dogsellerRoute.jsx';
 
 const App = () => (
   <AnswerProvider>
@@ -31,6 +35,10 @@ const App = () => (
         <Route path="/question5" element={<Question5 />} />
         <Route path="/question6" element={<Question6 />} />
         <Route path="/question7" element={<Question7 />} />
+        <Route path="/spas/*" element={<SpaRoutes />} /> 
+        <Route path="/trainers/*" element={<TrainerRoutes />} /> 
+        <Route path="/posts/*" element={<PostRoutes />} />
+        <Route path="/dogsellers/*" element={<DogsellerRoutes />} />
       </Routes>
     </Router>
   </AnswerProvider>
