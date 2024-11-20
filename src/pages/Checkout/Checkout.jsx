@@ -79,7 +79,8 @@ const Checkout = () => {
         if (!updateInfo) {
             setUpdateInfo(true)
         } else {
-            form.validateFields().then(async (values) => {
+            form.validateFields().then((values) => {
+                console.log(values);
                 setUserOrder(values);
                 setUpdateInfo(false)
             }).catch((error) => {
@@ -106,8 +107,10 @@ const Checkout = () => {
             let response = await order.create({
                 paymentMethod: payment,
                 shipmentMethod: shipment,
+                expectDeliveryDate: { from: new Date(), to: expectDeliveryDate },
                 orderUser: userOrder,
-                totalPrice: totalPrice + totalPrice * 0.05 + shipment?.price,
+                totalPrice: totalPrice,
+                totalAmount: totalPrice + totalPrice * 0.05 + shipment?.price,
                 tax: totalPrice * 0.05,
             });
             if (response.EC === 0) {
@@ -334,7 +337,7 @@ const Checkout = () => {
                         <div className="title">Order successfully</div>
                         <div className="content">You will receive updates in your notification inbox.</div>
                         <div className="d-flex justify-content-center mt-5">
-                            <button className="btn-view" onClick={() => navigate(`/viewOrder/${orderId}`)}>View your order</button>
+                            <button className="btn-view" onClick={() => navigate(`/orderDetail/${orderId}`)}>View your order</button>
                         </div>
                     </div>
                 </div>

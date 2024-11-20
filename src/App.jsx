@@ -21,6 +21,7 @@ import DogsellerRoutes from './routes/dogsellerRoute.jsx';
 import Cart from "./pages/Cart/Cart.jsx";
 import Checkout from "./pages/Checkout/Checkout.jsx";
 import { AppProvider } from "./context/AppContext.jsx";
+import OrderDetail from "./pages/OrderDetail/OrderDetail.jsx";
 
 const App = () => (
   <AnswerProvider>
