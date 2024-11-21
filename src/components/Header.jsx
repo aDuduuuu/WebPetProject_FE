@@ -99,6 +99,11 @@ const Header = () => {
     setIsServiceMenuOpen(false);
   };
 
+  const handleStore = () => {
+    navigate('/products');
+    setIsServiceMenuOpen(false);
+  };
+
   const handleTrainer = () => {
     navigate('/trainers');
     setIsServiceMenuOpen(false);
@@ -128,7 +133,9 @@ const Header = () => {
         <button onClick={toggleServiceMenu} className="hover:text-teal-400 relative">
           Services
         </button>
-        <a href="#" className="hover:text-teal-400">Store</a>
+        <button onClick={handleStore} className="hover:text-teal-400 relative">
+          Store
+        </button>
         <button onClick={handlePost} className="hover:text-teal-400 relative">
           Post
         </button>

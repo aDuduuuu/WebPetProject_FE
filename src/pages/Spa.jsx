@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
 import Card from '../components/Card';
 import ProvinceFilter from '../components/ProvinceFilter';
 import clientApi from '../client-api/rest-client';
-import axios from 'axios';
 
 const Spa = () => {
   const [spaList, setSpaList] = useState([]);
@@ -11,51 +10,29 @@ const Spa = () => {
   const spaPerPage = 16;
   const [hasMore, setHasMore] = useState(true);
   const [filters, setFilters] = useState({ province: '', services: [] });
-  const [userRole, setUserRole] = useState(null);  // Trạng thái để lưu role người dùng
-  const isFirstLoad = useRef(true);
+  const [userRole, setUserRole] = useState(null); // State lưu role của user
 
+  // Lấy role từ localStorage khi component load
   useEffect(() => {
-    // Kiểm tra xem người dùng đã đăng nhập chưa và lấy role
-    const fetchUserRole = async () => {
-      const token = localStorage.getItem("token");
-
-      if (token) {
-        console.log("loggedin");
-        try {
-          const response = await axios.get('/api/users', {
-            headers: {
-              Authorization: `Bearer ${token}`
-            }
-          });
-          const role = response.data.role; // Giả sử backend trả về role
-          setUserRole(role);
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-          setUserRole(null);  // Nếu không lấy được dữ liệu người dùng, set role là null
-        }
-      }
-    };
-
-    fetchUserRole();
+    const role = localStorage.getItem('role'); // Lấy role từ localStorage
+    setUserRole(role); // Lưu role vào state
   }, []);
 
+  // Fetch spa data từ API
   useEffect(() => {
     const fetchSpas = async () => {
-      const params = { 
-        page, 
-        limit: spaPerPage, 
-        location: filters.province, 
-        services: filters.services.join(',') // Chuyển mảng thành chuỗi
+      const params = {
+        page,
+        limit: spaPerPage,
+        location: filters.province,
+        services: filters.services.join(','),
       };
-    
+
       try {
         let spa = clientApi.service('spas');
-        console.log("Sending request with params:", params); // Debug params
         const result = await spa.find(params);
         if (result && result.EC === 0) {
-          const newSpas = Array.isArray(result.DT) 
-            ? result.DT 
-            : result.DT.spas || [];
+          const newSpas = Array.isArray(result.DT) ? result.DT : result.DT.spas || [];
           if (newSpas.length < spaPerPage) {
             setHasMore(false);
           }
@@ -64,13 +41,15 @@ const Spa = () => {
           setHasMore(false);
         }
       } catch (error) {
-        console.error("Error fetching spas:", error);
+        console.error('Error fetching spas:', error);
         setHasMore(false);
       }
     };
+
     fetchSpas();
   }, [page, filters]);
 
+  // Xử lý thay đổi bộ lọc
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
     setPage(1);
@@ -82,9 +61,12 @@ const Spa = () => {
     <div className="spa-container flex flex-col min-h-screen bg-gray-100">
       <Header />
       <div className="flex">
+        {/* Bộ lọc */}
         <div className="w-1/4 bg-white p-6 shadow-lg">
           <ProvinceFilter onFilter={handleFilterChange} type="spa" />
         </div>
+
+        {/* Danh sách spa */}
         <div className="w-3/4 p-6">
           {spaList.length > 0 ? (
             <>
@@ -95,9 +77,12 @@ const Spa = () => {
                     id={spa._id}
                     image={spa.image || 'https://via.placeholder.com/150?text=Not+Available'}
                     name={spa.name}
-                    location={`${spa.location.province || ''}, ${spa.location.district || ''}`}
-                    nameClass="text-lg font-semibold text-teal-500"
+                    location={spa.location}
+                    services={spa.services}
+                    contactInfo={spa.contactInfo}
                     type="spas"
+                    action="update"
+                    role={userRole} // Truyền role từ localStorage xuống Card
                   />
                 ))}
               </div>
@@ -114,15 +99,6 @@ const Spa = () => {
             </>
           ) : (
             <p className="text-lg text-gray-600">No Spas found.</p>
-          )}
-
-          {/* Hiển thị nút "Thêm Spa" nếu người dùng là admin */}
-          {userRole === 'admin' && (
-            <div className="flex justify-center mt-6">
-              <button className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600">
-                Thêm Spa
-              </button>
-            </div>
           )}
         </div>
       </div>

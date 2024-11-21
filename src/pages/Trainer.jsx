@@ -5,46 +5,36 @@ import ProvinceFilter from '../components/ProvinceFilter';
 import clientApi from '../client-api/rest-client';
 
 const Trainer = () => {
-  const [trainerList, setTrainerList] = useState([]); // Danh sách trainer
-  const [page, setPage] = useState(1); // Trang hiện tại
-  const trainersPerPage = 16; // Số trainer mỗi lần tải
-  const [hasMore, setHasMore] = useState(true); // Trạng thái còn dữ liệu
-  const [filters, setFilters] = useState({ province: '', services: [] }); // Bộ lọc
-  const isFirstLoad = useRef(true); // Đánh dấu lần tải đầu tiên
+  const [trainerList, setTrainerList] = useState([]);
+  const [page, setPage] = useState(1);
+  const trainersPerPage = 16;
+  const [hasMore, setHasMore] = useState(true);
+  const [filters, setFilters] = useState({ province: '', services: [] });
 
   useEffect(() => {
     const fetchTrainers = async () => {
-      const params = { 
-        page, 
-        limit: trainersPerPage, 
-        location: filters.province, 
-        services: filters.services.join(',') // Chuyển mảng services thành chuỗi phân cách bằng dấu phẩy
+      const params = {
+        page,
+        limit: trainersPerPage,
+        location: filters.province,
+        services: filters.services.join(','),
       };
-      console.log('Fetching trainers with params:', params); // Debug params
       try {
         let trainer = clientApi.service('trainers');
         const result = await trainer.find(params);
-        console.log('API result:', result); // Debug kết quả API
 
         if (result && result.EC === 0) {
-          // Kiểm tra và lấy danh sách trainer từ `result.DT`
-          const newTrainers = Array.isArray(result.DT) 
-            ? result.DT 
-            : result.DT.trainers || []; // Nếu DT không chứa trainers, trả về mảng rỗng
-          
+          const newTrainers = Array.isArray(result.DT)
+            ? result.DT
+            : result.DT.trainers || [];
+
           if (newTrainers.length < trainersPerPage) {
-            setHasMore(false); // Không còn dữ liệu để tải thêm
+            setHasMore(false);
           }
 
-          // Map lại dữ liệu nếu cần
-          const mappedTrainers = newTrainers.map(trainer => ({
-            _id: trainer._id || trainer.id, // Đảm bảo có `_id`
-            name: trainer.name || "Unknown Trainer",
-            location: trainer.location || { province: "Unknown", district: "Unknown" },
-            image: trainer.image || "https://via.placeholder.com/150?text=Not+Available"
-          }));
-
-          setTrainerList((prevList) => (page === 1 ? mappedTrainers : [...prevList, ...mappedTrainers]));
+          setTrainerList((prevList) =>
+            page === 1 ? newTrainers : [...prevList, ...newTrainers]
+          );
         } else {
           setHasMore(false);
         }
@@ -59,9 +49,9 @@ const Trainer = () => {
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
-    setPage(1); // Reset về trang đầu tiên
-    setHasMore(true); // Reset trạng thái có thêm dữ liệu
-    setTrainerList([]); // Clear danh sách hiện tại
+    setPage(1);
+    setHasMore(true);
+    setTrainerList([]);
   };
 
   return (
@@ -81,9 +71,11 @@ const Trainer = () => {
                     id={trainer._id}
                     image={trainer.image}
                     name={trainer.name}
-                    location={`${trainer.location.province || ''}, ${trainer.location.district || ''}`}
-                    nameClass="text-lg font-semibold text-teal-500"
+                    location={trainer.location}
+                    services={trainer.services}
+                    contactInfo={trainer.contactInfo}
                     type="trainers"
+                    action="update"
                   />
                 ))}
               </div>

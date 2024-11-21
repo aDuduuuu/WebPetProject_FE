@@ -7,26 +7,28 @@ import clientApi from '../client-api/rest-client';
 const DogSeller = () => {
   const [dogSellerList, setDogSellerList] = useState([]);
   const [page, setPage] = useState(1);
-  const [filters, setFilters] = useState({ province: '', breeds: [] }); // Bộ lọc
+  const [filters, setFilters] = useState({ province: '', breeds: [] });
   const dogSellerPerPage = 16;
   const [hasMore, setHasMore] = useState(true);
 
   useEffect(() => {
     const fetchDogSellers = async () => {
-      const params = { page, limit: dogSellerPerPage, location: filters.province, breed: filters.breeds.join(',') };
-      console.log('Fetching sellers with params:', params);
+      const params = {
+        page,
+        limit: dogSellerPerPage,
+        location: filters.province,
+        breed: filters.breeds.join(','),
+      };
       try {
         let dogSeller = clientApi.service('dogsellers');
-        const result = await dogSeller.find(params); // Gọi API
-        console.log('API result:', result); // Debug dữ liệu API trả về
+        const result = await dogSeller.find(params);
         if (result && (result.EC === 0 || result.EC === 200)) {
-          const newDogSellers = Array.isArray(result.DT) ? result.DT : []; // Lấy danh sách từ API
+          const newDogSellers = Array.isArray(result.DT) ? result.DT : [];
           if (newDogSellers.length < dogSellerPerPage) {
             setHasMore(false);
           }
           setDogSellerList((prevList) => (page === 1 ? newDogSellers : [...prevList, ...newDogSellers]));
         } else {
-          console.error('Error fetching Dog Sellers:', result.EM || 'Unknown error');
           setHasMore(false);
         }
       } catch (error) {
@@ -34,15 +36,14 @@ const DogSeller = () => {
         setHasMore(false);
       }
     };
-
     fetchDogSellers();
   }, [page, filters]);
 
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
-    setPage(1); // Reset về trang đầu tiên
-    setHasMore(true); // Reset trạng thái có thêm dữ liệu
-    setDogSellerList([]); // Clear danh sách hiện tại
+    setPage(1);
+    setHasMore(true);
+    setDogSellerList([]);
   };
 
   return (
@@ -65,6 +66,8 @@ const DogSeller = () => {
                     location={dogSeller.location}
                     nameClass="text-lg font-semibold text-teal-500"
                     type="dogsellers"
+                    action="update" // Pass 'update' action for editing
+                    data={dogSeller} // Pass full dogSeller data to Card
                   />
                 ))}
               </div>

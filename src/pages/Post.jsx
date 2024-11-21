@@ -13,8 +13,8 @@ const Post = () => {
   const postsPerPage = 16; // Số bài đăng mỗi lần tải
   const [hasMore, setHasMore] = useState(true); // Trạng thái còn dữ liệu để tải
   const [isLoading, setIsLoading] = useState(false); // Trạng thái đang tải dữ liệu
+  const [userRole, setUserRole] = useState(''); // Vai trò người dùng
 
-  // Fetch posts từ API
   const fetchPosts = async (category = selectedCategory, sortOption = sortBy, isNewCategoryOrSort = false) => {
     setIsLoading(true); // Đặt trạng thái đang tải
     const params = {
@@ -23,20 +23,23 @@ const Post = () => {
       category,
       sortBy: sortOption,
     };
-
+  
     try {
       let post = clientApi.service('posts'); // Đặt đường dẫn API
       const result = await post.find(params); // Gọi API
       console.log('API result for posts:', result); // Debug kết quả API
-
+  
       if (result && result.EC === 200) {
         const newPosts = result.DT.map((post) => ({
           _id: post._id || post.id, // Đảm bảo có ID
-          title: post.title || 'Untitled',
-          image: post.image || 'https://via.placeholder.com/150?text=No+Image',
-          sdescription: post.sdescription || 'No description available.',
+          title: post.title || 'Untitled', // Tiêu đề bài viết
+          image: post.image || 'https://via.placeholder.com/150?text=No+Image', // URL ảnh
+          sdescription: post.sdescription || 'No description available.', // Mô tả ngắn
+          author: post.author || '', // Tác giả
+          content: post.content || '', // Nội dung
+          category: post.category || '', // Danh mục
         }));
-
+  
         if (isNewCategoryOrSort) {
           // Reset danh sách nếu thay đổi danh mục hoặc sắp xếp
           setPostList(newPosts);
@@ -55,6 +58,7 @@ const Post = () => {
       setIsLoading(false); // Reset trạng thái tải
     }
   };
+  
 
   // Fetch categories từ API
   const fetchCategories = async () => {
@@ -126,12 +130,16 @@ const Post = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                 {postList.map((post) => (
                   <PostCard
-                    key={post._id}
-                    id={post._id}
-                    image={post.image || 'https://via.placeholder.com/150?text=No+Image'}
-                    title={post.title}
-                    sdescription={post.sdescription}
-                  />
+                  key={post._id}
+                  id={post._id}
+                  image={post.image || 'https://via.placeholder.com/150?text=No+Image'}
+                  title={post.title}
+                  sdescription={post.sdescription}
+                  author={post.author} // Tác giả bài viết
+                  content={post.content} // Nội dung bài viết
+                  category={post.category} // Danh mục bài viết
+                />
+                
                 ))}
               </div>
               {hasMore && !isLoading && (

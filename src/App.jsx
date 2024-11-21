@@ -18,6 +18,7 @@ import SpaRoutes from './routes/spaRoute.jsx'; // Import SpaRoutes
 import TrainerRoutes from './routes/trainerRoute.jsx';
 import PostRoutes from './routes/postRoute.jsx';
 import DogsellerRoutes from './routes/dogsellerRoute.jsx';
+import ProductRoutes from "./routes/productRoute.jsx";
 
 const App = () => (
   <AnswerProvider>
@@ -39,6 +40,7 @@ const App = () => (
         <Route path="/trainers/*" element={<TrainerRoutes />} /> 
         <Route path="/posts/*" element={<PostRoutes />} />
         <Route path="/dogsellers/*" element={<DogsellerRoutes />} />
+        <Route path="/products/*" element={<ProductRoutes />} /> 
       </Routes>
     </Router>
   </AnswerProvider>

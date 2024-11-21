@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import clientApi from '../client-api/rest-client'; // Import clientApi
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from 'react-router-dom';
+import clientApi from '../client-api/rest-client';
 import Header from '../components/Header';
 
 const AddDogSeller = () => {
   const [dogSellerInfo, setDogSellerInfo] = useState({
-    sellerId: '',    // Thêm sellerId
+    sellerId: '',
     name: '',
     image: '',
-    location: '',    // Sử dụng dropdown cho location
-    breeds: [''],    // Mảng giống chó ban đầu, bắt đầu với một ô chọn giống chó
+    location: '',
+    breeds: [''],
     contactInfo: '',
   });
+
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState('');
   const [breedsList, setBreedsList] = useState([]);
-  const [locations, setLocations] = useState([
+  const [locations] = useState([
     'An Giang', 'Ba Ria - Vung Tau', 'Bac Lieu', 'Bac Giang', 'Bac Kan',
     'Bac Ninh', 'Ben Tre', 'Binh Duong', 'Binh Dinh', 'Binh Phuoc',
     'Binh Thuan', 'Ca Mau', 'Cao Bang', 'Can Tho', 'Da Nang', 'Dak Lak',
@@ -28,18 +28,28 @@ const AddDogSeller = () => {
     'Quang Ngai', 'Quang Ninh', 'Quang Tri', 'Soc Trang', 'Son La', 'Tay Ninh',
     'Thai Binh', 'Thai Nguyen', 'Thanh Hoa', 'Thua Thien Hue', 'Tien Giang',
     'TP Ho Chi Minh', 'Tra Vinh', 'Tuyen Quang', 'Vinh Long', 'Vinh Phuc',
-    'Yen Bai'
+    'Yen Bai',
   ]);
-  const navigate = useNavigate();
 
-  // Fetch dog breeds from API when the component mounts
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isUpdate = location.state?.action === 'update';
+
+  // Load initial data if updating
+  useEffect(() => {
+    if (isUpdate && location.state?.data) {
+      setDogSellerInfo(location.state.data);
+    }
+  }, [isUpdate, location.state]);
+
+  // Fetch breed list
   useEffect(() => {
     const fetchBreeds = async () => {
       try {
         const breedApi = clientApi.service('dogbreeds');
         const result = await breedApi.find();
-        if (result && result.EC === 0) {
-          setBreedsList(result.DT || []);
+        if (result.EC === 0) {
+          setBreedsList(result.DT);
         } else {
           setError('Failed to fetch dog breeds');
         }
@@ -50,7 +60,6 @@ const AddDogSeller = () => {
     fetchBreeds();
   }, []);
 
-  // Handle input changes
   const handleChange = (e, index) => {
     const { name, value } = e.target;
     if (name === 'breed') {
@@ -62,86 +71,47 @@ const AddDogSeller = () => {
     }
   };
 
-  // Add a new breed dropdown
   const handleAddBreed = () => {
     setDogSellerInfo((prevState) => ({
       ...prevState,
-      breeds: [...prevState.breeds, '']
+      breeds: [...prevState.breeds, ''],
     }));
   };
 
-  // Handle form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setSuccess('');
-  
-    // Kiểm tra tất cả các trường bắt buộc
-    if (
-      !dogSellerInfo.sellerId ||
-      !dogSellerInfo.name ||
-      !dogSellerInfo.location ||
-      !dogSellerInfo.contactInfo ||
-      dogSellerInfo.breeds.some(breed => !breed) // Kiểm tra xem có giống chó nào bị bỏ trống không
-    ) {
-      setError('Please fill in all required fields');
-      setLoading(false);
-      return;
-    }
-  
-    // Chuyển tên giống chó thành _id
-    const updatedBreeds = dogSellerInfo.breeds.map(breedName => {
-      const breed = breedsList.find(b => b.name === breedName); // Tìm giống chó theo tên
-      return breed ? breed._id : null; // Lấy _id nếu tìm thấy giống chó
-    });
-  
-    const updatedSellerInfo = {
-      ...dogSellerInfo,
-      breeds: updatedBreeds.filter(breedId => breedId !== null), // Lọc bỏ các giống chó không hợp lệ
-    };
-  
+
     try {
-      const response = await clientApi.service('dogsellers').create(updatedSellerInfo);
-  
-      if (response.EC === 0) {
-        setSuccess('Dog seller added successfully!');
-        setDogSellerInfo({
-          sellerId: '',
-          name: '',
-          image: '',
-          location: '',
-          breeds: [''], // Reset breeds to the default state
-          contactInfo: '',
-        });
+      const dogSellerService = clientApi.service('dogsellers');
+      if (isUpdate) {
+        await dogSellerService.patch(dogSellerInfo._id, dogSellerInfo);
+        alert('Dog seller updated successfully!');
       } else {
-        setError(response.EM);
+        await dogSellerService.create(dogSellerInfo);
+        alert('Dog seller added successfully!');
       }
+      navigate('/dogsellers');
     } catch (err) {
-      console.error('Error adding dog seller:', err);
-      setError('An error occurred while adding the dog seller.');
+      setError(err.response?.data?.EM || 'An unexpected error occurred');
     }
-  
     setLoading(false);
   };
-  
-  
 
   const handleCancel = () => {
-    navigate("/dogsellers");
+    navigate('/dogsellers');
   };
 
   return (
     <div className="dog-seller-container flex flex-col min-h-screen bg-gray-100">
-      <Header /> {/* Add Header */}
+      <Header />
       <div className="container mx-auto p-6">
-        <h1 className="text-2xl font-bold mb-4">Add New Dog Seller</h1>
+        <h1 className="text-2xl font-bold mb-4">{isUpdate ? 'Update Dog Seller' : 'Add New Dog Seller'}</h1>
 
         {error && <div className="text-red-500 mb-4">{error}</div>}
-        {success && <div className="text-green-500 mb-4">{success}</div>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Seller ID */}
           <div>
             <label htmlFor="sellerId" className="block font-bold">Seller ID</label>
             <input
@@ -149,13 +119,12 @@ const AddDogSeller = () => {
               id="sellerId"
               name="sellerId"
               value={dogSellerInfo.sellerId}
-              onChange={e => setDogSellerInfo({ ...dogSellerInfo, sellerId: e.target.value })}
+              onChange={(e) => setDogSellerInfo({ ...dogSellerInfo, sellerId: e.target.value })}
               className="w-full p-2 border rounded"
               required
+              disabled={isUpdate}
             />
           </div>
-
-          {/* Seller Name */}
           <div>
             <label htmlFor="name" className="block font-bold">Seller Name</label>
             <input
@@ -163,31 +132,29 @@ const AddDogSeller = () => {
               id="name"
               name="name"
               value={dogSellerInfo.name}
-              onChange={e => handleChange(e, 0)}
+              onChange={(e) => setDogSellerInfo({ ...dogSellerInfo, name: e.target.value })}
               className="w-full p-2 border rounded"
               required
             />
-        </div>
-
-        <div>
-          <label htmlFor="image" className="block font-bold" >Image URL</label>
-          <input
-            type="text"
-            id="image"
-            name="image"
-            value={dogSellerInfo.image}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-          />
-        </div>
-          {/* Location */}
+          </div>
+          <div>
+            <label htmlFor="image" className="block font-bold">Image URL</label>
+            <input
+              type="text"
+              id="image"
+              name="image"
+              value={dogSellerInfo.image}
+              onChange={(e) => setDogSellerInfo({ ...dogSellerInfo, image: e.target.value })}
+              className="w-full p-2 border rounded"
+            />
+          </div>
           <div>
             <label htmlFor="location" className="block font-bold">Location</label>
             <select
               id="location"
               name="location"
               value={dogSellerInfo.location}
-              onChange={e => setDogSellerInfo({ ...dogSellerInfo, location: e.target.value })}
+              onChange={(e) => setDogSellerInfo({ ...dogSellerInfo, location: e.target.value })}
               className="w-full p-2 border rounded"
               required
             >
@@ -199,8 +166,6 @@ const AddDogSeller = () => {
               ))}
             </select>
           </div>
-
-          {/* Breeds */}
           <div>
             <label className="block font-bold">Breeds</label>
             {dogSellerInfo.breeds.map((breed, index) => (
@@ -213,29 +178,17 @@ const AddDogSeller = () => {
                   required
                 >
                   <option value="">Select Breed</option>
-                  {breedsList.length > 0 ? (
-                    breedsList.map((breedItem) => (
-                      <option key={breedItem._id} value={breedItem._id}>
-                        {breedItem.name}
-                      </option>
-                    ))
-                  ) : (
-                    <option value="">No breeds available</option>
-                  )}
+                  {breedsList.map((breedItem) => (
+                    <option key={breedItem._id} value={breedItem._id}>
+                      {breedItem.name}
+                    </option>
+                  ))}
                 </select>
-
                 {index === dogSellerInfo.breeds.length - 1 && (
                   <button
                     type="button"
                     onClick={handleAddBreed}
                     className="p-2 bg-teal-500 text-white rounded hover:bg-teal-600"
-                    style={{
-                      width: '40px',
-                      height: '40px',
-                      padding: '0',
-                      textAlign: 'center',
-                      fontSize: '20px',
-                    }}
                   >
                     +
                   </button>
@@ -243,8 +196,6 @@ const AddDogSeller = () => {
               </div>
             ))}
           </div>
-
-          {/* Contact Info */}
           <div>
             <label htmlFor="contactInfo" className="block font-bold">Contact Information</label>
             <input
@@ -252,14 +203,12 @@ const AddDogSeller = () => {
               id="contactInfo"
               name="contactInfo"
               value={dogSellerInfo.contactInfo}
-              onChange={e => setDogSellerInfo({ ...dogSellerInfo, contactInfo: e.target.value })}
+              onChange={(e) => setDogSellerInfo({ ...dogSellerInfo, contactInfo: e.target.value })}
               className="w-full p-2 border rounded"
               required
             />
           </div>
-
-          {/* Buttons */}
-           <div className="flex justify-between mt-4">
+          <div className="flex justify-between mt-4">
             <button
               type="button"
               onClick={handleCancel}
@@ -272,7 +221,7 @@ const AddDogSeller = () => {
               className={`px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
               disabled={loading}
             >
-              {loading ? 'Adding...' : 'Add Dog Seller'}
+              {loading ? 'Saving...' : isUpdate ? 'Update Dog Seller' : 'Add Dog Seller'}
             </button>
           </div>
         </form>
