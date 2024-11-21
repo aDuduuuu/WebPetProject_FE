@@ -27,27 +27,30 @@ import OrderList from "./pages/OrderList/OrderList.jsx";
 const App = () => (
   <AnswerProvider>
     <AppProvider>
-    <Router>
-      <Routes>
-        <Route path="/*" element={<AuthRoutes />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/breed-list" element={<FilterSection />} />
-        <Route path="/dogbreeds/:breedId" element={<DogBreedDetail />} />
-        <Route path="/find-best-dog" element={<FindBestDog />} />
-        <Route path="/question1" element={<Question1 />} />
-        <Route path="/question2" element={<Question2 />} />
-        <Route path="/question3" element={<Question3 />} />
-        <Route path="/question4" element={<Question4 />} />
-        <Route path="/question5" element={<Question5 />} />
-        <Route path="/question6" element={<Question6 />} />
-        <Route path="/question7" element={<Question7 />} />
-        <Route path="/spas/*" element={<SpaRoutes />} /> 
-        <Route path="/trainers/*" element={<TrainerRoutes />} /> 
-        <Route path="/posts/*" element={<PostRoutes />} />
-        <Route path="/dogsellers/*" element={<DogsellerRoutes />} />
-      </Routes>
-    </Router>
+      <Router>
+        <Routes>
+          <Route path="/*" element={<AuthRoutes />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/orderList" element={<OrderList />} />
+          <Route path="/orderDetail/:id" element={<OrderDetail />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/breed-list" element={<FilterSection />} />
+          <Route path="/dogbreeds/:breedId" element={<DogBreedDetail />} />
+          <Route path="/find-best-dog" element={<FindBestDog />} />
+          <Route path="/question1" element={<Question1 />} />
+          <Route path="/question2" element={<Question2 />} />
+          <Route path="/question3" element={<Question3 />} />
+          <Route path="/question4" element={<Question4 />} />
+          <Route path="/question5" element={<Question5 />} />
+          <Route path="/question6" element={<Question6 />} />
+          <Route path="/question7" element={<Question7 />} />
+          <Route path="/spas/*" element={<SpaRoutes />} />
+          <Route path="/trainers/*" element={<TrainerRoutes />} />
+          <Route path="/posts/*" element={<PostRoutes />} />
+          <Route path="/dogsellers/*" element={<DogsellerRoutes />} />
+        </Routes>
+      </Router>
     </AppProvider>
   </AnswerProvider>
 );
