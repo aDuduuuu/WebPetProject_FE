@@ -31,7 +31,7 @@ const OrderDetail = () => {
             console.log(error);
         }
     }
-    let handleCancal = async () => {
+    let handleCancel = async () => {
         if (orderDetail.status !== "ordered") {
             message.error("Can not cancel order");
             return;
@@ -123,7 +123,7 @@ const OrderDetail = () => {
                 </div>
                 <div className="cancel">
                     <div className="d-flex justify-content-center mt-5">
-                        <button className="btn-cancel" onClick={() => handleCancal()}>Cancel order</button>
+                        <button className="btn-cancel" onClick={() => handleCancel()}>Cancel order</button>
                     </div>
                 </div>
             </div>

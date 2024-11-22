@@ -139,7 +139,9 @@ const Header = () => {
         <button onClick={handlePost} className="hover:text-teal-400 relative">
           Post
         </button>
-
+        <button onClick={() => navigate("/cart")} className="hover:text-teal-400 relative">
+          Cart
+        </button>
         {isBreedMenuOpen && (
           <div
             ref={breedMenuRef}
@@ -236,6 +238,12 @@ const Header = () => {
                     onClick={handleAccount}
                   >
                     Account
+                  </li>
+                  <li
+                    className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
+                    onClick={() => navigate("/orderList")}
+                  >
+                    Your order
                   </li>
                   <li
                     className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"

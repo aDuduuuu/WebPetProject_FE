@@ -152,11 +152,11 @@ const Cart = () => {
                     :
                     <div className="no-product">
                         <div className="title">The shopping cart is empty</div>
-                        <div className="btn-buy" onClick={() => navigate("/")}><span className="px-4">Start shopping  <FontAwesomeIcon className="ms-3" icon={faCartShopping} size="xs" color="#C4DACB" /></span></div>
+                        <div className="btn-buy" onClick={() => navigate("/products")}><span className="px-4">Start shopping  <FontAwesomeIcon className="ms-3" icon={faCartShopping} size="xs" color="#C4DACB" /></span></div>
                     </div>}
             </div>
             <div className="continute-cart">
-                <div className="continute" onClick={() => navigate("/")}>Continue shopping <FontAwesomeIcon className="ms-4" icon={faCaretUp} rotation={90} color="#16423C" /></div>
+                <div className="continute" onClick={() => navigate("/products")}>Continue shopping <FontAwesomeIcon className="ms-4" icon={faCaretUp} rotation={90} color="#16423C" /></div>
             </div>
         </>
     );

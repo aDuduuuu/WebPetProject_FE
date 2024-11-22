@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import clientApi from "../client-api/rest-client";
 import Header from "../components/Header";
+import { message } from "antd";
 
 const ProductDetail = () => {
   const { id } = useParams(); // Lấy ID từ URL
@@ -32,9 +33,18 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
-  const handleOrder = () => {
-    alert(`You ordered ${quantity} x ${product.name}`);
-    // Thêm logic đặt hàng tại đây
+  const handleAddToCart = async () => {
+    let cart = clientApi.service("cartItem")
+    try {
+      let response = await cart.create({ product: id, quantity: quantity });
+      if (response.EC === 0) {
+        message.success("Added to cart successfully.");
+      } else {
+        message.error("An error occurred while adding to cart.");
+      }
+    } catch (error) {
+      message.error("An error occurred while adding to cart.");
+    }
   };
 
   if (loading) {
@@ -114,7 +124,7 @@ const ProductDetail = () => {
             </div>
             <button
               className="px-6 py-3 bg-teal-500 text-white rounded hover:bg-teal-600 text-xl font-semibold w-full"
-              onClick={handleOrder}
+              onClick={handleAddToCart}
             >
               Add to cart
             </button>
