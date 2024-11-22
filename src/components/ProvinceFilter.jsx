@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ProvinceFilter = ({ onFilter, type }) => {
   const navigate = useNavigate();
-  
+
   const provinces = [
     'An Giang', 'Ba Ria - Vung Tau', 'Bac Lieu', 'Bac Giang', 'Bac Kan',
     'Bac Ninh', 'Ben Tre', 'Binh Duong', 'Binh Dinh', 'Binh Phuoc',
@@ -17,12 +17,19 @@ const ProvinceFilter = ({ onFilter, type }) => {
     'Quang Ngai', 'Quang Ninh', 'Quang Tri', 'Soc Trang', 'Son La', 'Tay Ninh',
     'Thai Binh', 'Thai Nguyen', 'Thanh Hoa', 'Thua Thien Hue', 'Tien Giang',
     'TP Ho Chi Minh', 'Tra Vinh', 'Tuyen Quang', 'Vinh Long', 'Vinh Phuc',
-    'Yen Bai'
+    'Yen Bai',
   ];
 
   const [selectedProvince, setSelectedProvince] = useState('');
   const [selectedItems, setSelectedItems] = useState([]);
   const [items, setItems] = useState([]);
+  const [userRole, setUserRole] = useState(null); // State để lưu role
+
+  // Lấy role từ localStorage
+  useEffect(() => {
+    const role = localStorage.getItem('role'); // Lấy role từ localStorage
+    setUserRole(role); // Lưu role vào state
+  }, []);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -41,23 +48,23 @@ const ProvinceFilter = ({ onFilter, type }) => {
           const breedIds = result.DT || [];
           const breedNames = await Promise.all(
             breedIds.map(async (id) => {
-              if (!id) return null; // Kiểm tra id hợp lệ
+              if (!id) return null;
               try {
                 const breedApi = clientApi.service(`dogbreeds`);
-                const breedResult = await breedApi.get(id); // Lấy thông tin giống chó dựa trên ID
+                const breedResult = await breedApi.get(id);
                 return { id, name: breedResult?.DT?.name || 'Unknown' };
               } catch (error) {
                 console.error(`Error fetching breed with id ${id}:`, error);
-                return null; // Xử lý lỗi cho từng ID
+                return null;
               }
             })
           );
-          setItems(breedNames.filter(Boolean)); // Lọc các giá trị null
+          setItems(breedNames.filter(Boolean));
         } else {
           console.error('Error fetching breeds:', result.EM);
         }
       } else {
-        setItems([]); // Clear items for unsupported types
+        setItems([]);
       }
     };
 
@@ -71,10 +78,8 @@ const ProvinceFilter = ({ onFilter, type }) => {
   const handleItemChange = (value) => {
     setSelectedItems((prevItems) => {
       if (prevItems.includes(value)) {
-        // Nếu đã có giá trị này trong selectedItems, thì bỏ chọn
-        return prevItems.filter(item => item !== value);
+        return prevItems.filter((item) => item !== value);
       } else {
-        // Nếu chưa có giá trị này, thì thêm vào selectedItems
         return [...prevItems, value];
       }
     });
@@ -86,7 +91,7 @@ const ProvinceFilter = ({ onFilter, type }) => {
     } else if (type === 'dogsellers') {
       onFilter({ province: selectedProvince, breeds: selectedItems });
     } else {
-      onFilter({ province: selectedProvince }); // Default case
+      onFilter({ province: selectedProvince });
     }
   };
 
@@ -97,15 +102,15 @@ const ProvinceFilter = ({ onFilter, type }) => {
   };
 
   const handleAddSpa = () => {
-    navigate("/spas/add");
+    navigate('/spas/add');
   };
 
   const handleAddTrainer = () => {
-    navigate("/trainers/add");
+    navigate('/trainers/add');
   };
 
   const handleAddSeller = () => {
-    navigate("/dogsellers/add");
+    navigate('/dogsellers/add');
   };
 
   return (
@@ -175,37 +180,39 @@ const ProvinceFilter = ({ onFilter, type }) => {
           className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400 w-full"
           onClick={handleResetClick}
         >
-          <i className="fas fa-sync-alt mr-2"></i> Reset
+          Reset
         </button>
       </div>
 
-      {/* Add button (new line) */}
-      <div className="flex mb-4">
-        {type === 'spa' && (
-          <button
-            className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
-            onClick={handleAddSpa}
-          >
-            Add Spa
-          </button>
-        )}
-        {type === 'trainer' && (
-          <button
-            className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
-            onClick={handleAddTrainer}
-          >
-            Add Trainer
-          </button>
-        )}
-        {type === 'dogsellers' && (
-          <button
-            className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
-            onClick={handleAddSeller}
-          >
-            Add Seller
-          </button>
-        )}
-      </div>
+      {/* Add button chỉ hiện khi role là 'manager' */}
+      {userRole === 'manager' && (
+        <div className="flex mb-4">
+          {type === 'spa' && (
+            <button
+              className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
+              onClick={handleAddSpa}
+            >
+              Add Spa
+            </button>
+          )}
+          {type === 'trainer' && (
+            <button
+              className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
+              onClick={handleAddTrainer}
+            >
+              Add Trainer
+            </button>
+          )}
+          {type === 'dogsellers' && (
+            <button
+              className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
+              onClick={handleAddSeller}
+            >
+              Add Seller
+            </button>
+          )}
+        </div>
+      )}
     </div>
   );
 };

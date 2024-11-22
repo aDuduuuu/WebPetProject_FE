@@ -19,6 +19,9 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await clientApi.authenticate(formData); // Sử dụng RestClient's authenticate method
+      console.log(response);
+      localStorage.setItem('token', response.DT.token);
+      localStorage.setItem('role', response.DT.role);
       if (response.EC === 0) {
         localStorage.setItem('token', response.DT.token); // Lưu token vào localStorage
         navigate('/'); // Điều hướng đến trang chủ

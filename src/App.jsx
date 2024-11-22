@@ -23,7 +23,7 @@ import Checkout from "./pages/Checkout/Checkout.jsx";
 import { AppProvider } from "./context/AppContext.jsx";
 import OrderDetail from "./pages/OrderDetail/OrderDetail.jsx";
 import OrderList from "./pages/OrderList/OrderList.jsx";
-
+import ProductRoutes from "./routes/productRoute.jsx";
 const App = () => (
   <AnswerProvider>
     <AppProvider>
@@ -49,6 +49,7 @@ const App = () => (
           <Route path="/trainers/*" element={<TrainerRoutes />} />
           <Route path="/posts/*" element={<PostRoutes />} />
           <Route path="/dogsellers/*" element={<DogsellerRoutes />} />
+          <Route path="/products/*" element={<ProductRoutes />} /> 
         </Routes>
       </Router>
     </AppProvider>
