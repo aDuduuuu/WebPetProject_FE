@@ -24,6 +24,7 @@ import { AppProvider } from "./context/AppContext.jsx";
 import OrderDetail from "./pages/OrderDetail/OrderDetail.jsx";
 import OrderList from "./pages/OrderList/OrderList.jsx";
 import ProductRoutes from "./routes/productRoute.jsx";
+import Upload from "./pages/Upload/upload.jsx";
 const App = () => (
   <AnswerProvider>
     <AppProvider>
@@ -31,6 +32,7 @@ const App = () => (
         <Routes>
           <Route path="/*" element={<AuthRoutes />} />
           <Route path="/account" element={<Account />} />
+          <Route path="/upload" element={<Upload />} />
           <Route path="/orderList" element={<OrderList />} />
           <Route path="/orderDetail/:id" element={<OrderDetail />} />
           <Route path="/checkout" element={<Checkout />} />
@@ -49,7 +51,7 @@ const App = () => (
           <Route path="/trainers/*" element={<TrainerRoutes />} />
           <Route path="/posts/*" element={<PostRoutes />} />
           <Route path="/dogsellers/*" element={<DogsellerRoutes />} />
-          <Route path="/products/*" element={<ProductRoutes />} /> 
+          <Route path="/products/*" element={<ProductRoutes />} />
         </Routes>
       </Router>
     </AppProvider>
