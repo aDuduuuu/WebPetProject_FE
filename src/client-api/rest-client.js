@@ -16,6 +16,7 @@ class RestClient {
         // Thiết lập interceptor để thêm token vào mỗi yêu cầu
         this.client.interceptors.request.use(
             config => {
+                this.token = localStorage.getItem('token');
                 if (this.token) {
                     config.headers['Authorization'] = `Bearer ${this.token}`;
                 }
