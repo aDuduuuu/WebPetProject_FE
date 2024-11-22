@@ -1,0 +1,352 @@
+.checkout-content {
+    background: #C4DACB;
+    padding: 20px 0;
+
+    .info-bg {
+        background: white;
+        padding: 50px 14rem;
+
+        .info {
+            border-radius: 20px;
+            background: #16423C;
+            padding: 20px 6em;
+            color: #C4DACB;
+            font-size: 1.3em;
+            font-weight: 600;
+
+            .title {
+                font-size: 1.8em;
+                font-weight: 500;
+            }
+
+            .btn-update-info {
+                background: #C4DACB;
+                margin: 0 auto;
+                color: #16423C;
+                border: none;
+                text-transform: uppercase;
+                padding: 5px 20px;
+                border-radius: 30px;
+                font-size: 1.2em;
+                font-weight: 700;
+                width: 70%;
+                cursor: pointer;
+
+                &:hover {
+                    background: white;
+                }
+            }
+
+            .view {}
+
+            .update {
+                input {
+                    background: white;
+                    border: 2px solid #025747;
+                    box-shadow: 0 0 10px #0c6756;
+                    color: #16423C;
+                    font-size: 1.2em;
+
+                    &:focus {
+                        border: 2px solid #C4DACB;
+                    }
+                }
+
+                label {
+                    font-size: 2em;
+                    font-weight: 900;
+                    color: white;
+                }
+            }
+
+
+        }
+    }
+
+    .list-product {
+        padding: 30px 0 30px 10rem;
+
+        .title {
+            font-size: 2em;
+            font-weight: 700;
+            color: #16423C;
+            margin: 20px 0;
+        }
+
+        .item {
+            display: flex;
+            justify-content: start;
+            align-items: start;
+            margin: 10px 0;
+            color: #16423C;
+
+            img {
+                border-radius: 5px;
+                width: 200px;
+                height: 200px;
+            }
+
+            .info {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: start;
+                margin-left: 20px;
+                font-size: 1.2em;
+                font-weight: 600;
+
+                .name {
+                    font-size: 1.3em;
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+
+    .bg {
+        background: white;
+        height: 80px;
+    }
+
+    .shipment {
+        padding: 30px 0 30px 10rem;
+        font-size: 1.2em;
+        font-weight: 500;
+        color: #16423C;
+
+        .title {
+            font-size: 2em;
+            font-weight: 700;
+            color: #16423C;
+            margin: 20px 0;
+        }
+
+    }
+
+    .brief-bg {
+        background: white;
+        padding: 70px 14rem;
+
+        .brief {
+            background: #16423C;
+            border-radius: 20px;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: start;
+            color: #C4DACB;
+            font-size: 1.2em;
+            font-weight: 600;
+            width: 100%;
+
+            .title {
+                font-size: 2em;
+                font-weight: 700;
+                margin: 20px 0;
+            }
+
+            hr {
+                width: 100%;
+                background: #C4DACB;
+                color: #C4DACB;
+                border-radius: 30px;
+                height: 3px;
+            }
+        }
+
+    }
+
+    .payment {
+        padding: 30px 0 30px 10rem;
+        font-size: 1.2em;
+        font-weight: 500;
+        color: #16423C;
+
+        .title {
+            font-size: 2em;
+            font-weight: 700;
+            margin: 20px 0;
+        }
+
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .payment-option {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 35%;
+
+            .icon {
+                font-size: 1.5rem;
+                color: #16423C;
+                margin-right: 30px;
+            }
+
+            .pay-details {
+                .pay-title {
+                    font-weight: 700;
+                    font-size: 1.2rem;
+                }
+
+                .description {
+                    font-size: 0.875rem;
+                    font-weight: 400;
+                    color: #888;
+                }
+            }
+
+        }
+
+        .ant-radio-wrapper {
+            display: flex;
+            align-items: center;
+
+            .ant-radio {
+                font-size: 1.5rem;
+
+                .ant-radio-inner {
+                    border-color: #16423C;
+                    background-color: #C4DACB;
+                }
+
+                &.ant-radio-checked {
+                    .ant-radio-inner {
+                        border-color: #16423C;
+                        background-color: #16423C;
+                    }
+                }
+            }
+
+            &:hover {
+                .ant-radio-inner {
+                    border-color: #16423C;
+                }
+            }
+        }
+    }
+
+    .agree {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: white;
+        padding: 30px 0;
+
+        span {
+            font-size: 1.2em;
+            font-weight: 600;
+            color: #16423C;
+        }
+
+        /* Màu viền của checkbox */
+        .ant-checkbox-wrapper {
+            border-color: #16423C;
+            /* Màu viền */
+        }
+
+        /* Màu của dấu kiểm khi checkbox được chọn */
+        .ant-checkbox-checked .ant-checkbox-inner {
+            border-color: #16423C;
+            /* Màu viền của dấu kiểm */
+            background-color: #16423C;
+
+            /* Màu nền của dấu kiểm */
+            &:hover {
+                border-color: #16423C;
+                background-color: #16423C;
+                /* Màu viền khi hover */
+            }
+        }
+
+        /* Màu của dấu kiểm khi hover */
+        .ant-checkbox-wrapper:hover .ant-checkbox-inner {
+            border-color: #16423C;
+            background-color: #C4DACB;
+            /* Màu viền khi hover */
+        }
+
+        /* Thay đổi màu khi checkbox được hover và được chọn */
+        .ant-checkbox-checked:hover .ant-checkbox-inner {
+            background-color: #14523C;
+            background-color: #16423C;
+            /* Màu nền khi hover */
+        }
+
+        .btn-checkout {
+            background: #16423C;
+            color: #C4DACB;
+            border-radius: 30px;
+            padding: 10px 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            text-transform: uppercase;
+
+            &:hover {
+                background: #033c34;
+            }
+        }
+    }
+
+}
+
+.view-order {
+    background: #C4DACB;
+    padding-top: 15px;
+
+    .order {
+        background: #16423c;
+        padding: 15px 5rem;
+        color: #C4DACB;
+        font-size: 1.3em;
+        font-weight: 500;
+    }
+
+    .bg {
+        background: white;
+        height: 70px;
+    }
+
+    .order-success {
+        margin: 60px 0;
+        background: #C4DACB;
+        padding: 20px 8rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .title {
+            font-size: 1.7em;
+            font-weight: 500;
+            color: #16423C;
+            text-transform: uppercase;
+        }
+
+        .content {
+            font-size: 1.2em;
+            font-weight: 500;
+        }
+
+        .btn-view {
+            margin-top: 40px;
+            margin-bottom: 100px;
+            background: #16423C;
+            color: #C4DACB;
+            font-size: 1.2em;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+
+            &:hover {
+                background: #033c34;
+            }
+        }
+    }
+}

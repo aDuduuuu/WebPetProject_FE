@@ -1,0 +1,253 @@
+.orderDetail {
+    background: #C4DACB;
+    padding-top: 15px;
+
+    .head-order {
+        background: #16423c;
+        padding: 15px 5rem;
+        color: #C4DACB;
+        font-size: 1.3em;
+        font-weight: 500;
+    }
+
+    .bg {
+        background: white;
+        height: 70px;
+    }
+
+    .yourOrder {
+        padding: 10px 0 10px 8rem;
+
+        .title {
+            font-size: 1.7em;
+            font-weight: 700;
+            color: #16423C;
+            text-transform: uppercase;
+        }
+
+        .expectDay {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #16423C;
+        }
+    }
+
+
+    .process-order {
+        margin-top: 40px;
+        background: white;
+        padding: 20px 6rem;
+
+        /* Tail cho các bước đã hoàn thành */
+        .ant-steps-item-finish .ant-steps-item-tail::after {
+            background-color: #004d40 !important;
+            /* Xanh lá đậm */
+        }
+
+        /* Tail từ bước hiện tại trở đi */
+        .ant-steps-item-process~.ant-steps-item .ant-steps-item-tail::after,
+        .ant-steps-item-wait .ant-steps-item-tail::after {
+            //  background-color: #d9d9d9 !important;
+            /* Xám */
+        }
+
+        /* Icon và Dot */
+        .ant-steps-item-finish .ant-steps-icon-dot,
+        .ant-steps-item-process .ant-steps-icon-dot {
+            background-color: #004d40 !important;
+            border-color: #004d40 !important;
+        }
+
+        .ant-steps-item-wait .ant-steps-icon-dot {
+            //  background-color: #d9d9d9 !important;
+            //  border-color: #d9d9d9 !important;
+        }
+
+        /* Text */
+        .ant-steps-item-process .ant-steps-item-title,
+        .ant-steps-item-process .ant-steps-item-description,
+        .ant-steps-item-finish .ant-steps-item-title,
+        .ant-steps-item-finish .ant-steps-item-description {
+            color: #004d40 !important;
+
+        }
+
+        .ant-steps-item-wait .ant-steps-item-title,
+        .ant-steps-item-wait .ant-steps-item-description {
+            color: #000000 !important;
+        }
+    }
+
+    .info-bg {
+        background: white;
+        padding: 50px 14rem;
+
+        .info {
+            border-radius: 20px;
+            background: #16423C;
+            padding: 20px 6em;
+            color: #C4DACB;
+            font-size: 1.3em;
+            font-weight: 600;
+
+            .title {
+                font-size: 1.8em;
+                font-weight: 500;
+            }
+
+            .btn-update-info {
+                background: #C4DACB;
+                margin: 0 auto;
+                color: #16423C;
+                border: none;
+                text-transform: uppercase;
+                padding: 5px 20px;
+                border-radius: 30px;
+                font-size: 1.2em;
+                font-weight: 700;
+                width: 70%;
+                cursor: pointer;
+
+                &:hover {
+                    background: white;
+                }
+            }
+
+            .view {}
+
+            .update {
+                input {
+                    background: white;
+                    border: 2px solid #025747;
+                    box-shadow: 0 0 10px #0c6756;
+                    color: #16423C;
+                    font-size: 1.2em;
+
+                    &:focus {
+                        border: 2px solid #C4DACB;
+                    }
+                }
+
+                label {
+                    font-size: 2em;
+                    font-weight: 900;
+                    color: white;
+                }
+            }
+
+
+        }
+    }
+
+    .list-product {
+        padding: 10px 0 10px 8rem;
+
+        .title {
+            font-size: 1.7em;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #16423C;
+            text-transform: uppercase;
+        }
+
+        .item {
+            display: flex;
+            justify-content: start;
+            align-items: start;
+            margin: 10px 0;
+            color: #16423C;
+
+            img {
+                border-radius: 5px;
+                width: 150px;
+                height: 150px;
+            }
+
+            .info {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: start;
+                padding-left: 20px;
+                font-size: 1em;
+                font-weight: 600;
+
+                .name {
+                    font-size: 1.3em;
+                    font-weight: 700;
+                }
+            }
+        }
+    }
+
+    .brief-bg {
+        background: white;
+        padding: 70px 14rem;
+
+        .brief {
+            background: #16423C;
+            border-radius: 20px;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: start;
+            color: #C4DACB;
+            font-size: 1.2em;
+            font-weight: 600;
+            width: 100%;
+
+            .title {
+                font-size: 2em;
+                font-weight: 700;
+                margin: 20px 0;
+            }
+
+            hr {
+                width: 100%;
+                background: #C4DACB;
+                color: #C4DACB;
+                border-radius: 30px;
+                height: 3px;
+            }
+        }
+
+    }
+
+    .detail {
+        padding: 30px 0 30px 10rem;
+        font-size: 1.2em;
+        font-weight: 500;
+        color: #16423C;
+
+        .title {
+            font-size: 2em;
+            font-weight: 700;
+            color: #16423C;
+            margin: 20px 0;
+        }
+
+    }
+
+    .cancel {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background: white;
+        padding: 30px 0;
+
+        .btn-cancel {
+            background: #ba0000;
+            color: white;
+            border-radius: 30px;
+            padding: 10px 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+
+            &:hover {
+                background: #ff5b5b;
+            }
+        }
+    }
+}

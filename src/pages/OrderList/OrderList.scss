@@ -1,0 +1,89 @@
+.orderList {
+    background: #C4DACB;
+    padding-top: 15px;
+
+    .head-order {
+        background: #16423c;
+        padding: 15px 5rem;
+        color: #C4DACB;
+        font-size: 1.3em;
+        font-weight: 500;
+    }
+
+    .bg {
+        padding-top: 20px;
+        background: white;
+
+        .list-product {
+            margin: 40px 0;
+            background: #C4DACB;
+            padding: 10px 0 10px 8rem;
+
+            .title {
+                padding-right: 9rem;
+                font-size: 1.5em;
+                font-weight: 700;
+                margin-bottom: 30px;
+                color: #16423C;
+                display: flex;
+                justify-content: space-between;
+
+                .status {
+                    color: #ea9916;
+                    text-transform: capitalize;
+                }
+            }
+
+            .item {
+                display: flex;
+                justify-content: start;
+                align-items: start;
+                margin: 10px 0;
+                color: #16423C;
+
+                img {
+                    border-radius: 5px;
+                    width: 150px;
+                    height: 150px;
+                }
+
+                .info {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    align-items: start;
+                    padding-left: 20px;
+                    font-size: 1em;
+                    font-weight: 600;
+
+                    .name {
+                        font-size: 1.3em;
+                        font-weight: 700;
+                    }
+                }
+            }
+
+            .footer {
+                padding: 20px 8rem;
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                font-size: 1.2em;
+                font-weight: 600;
+                color: #16423c;
+
+                .btn-view {
+                    background: #16423c;
+                    color: white;
+                    border-radius: 30px;
+                    padding: 7px 30px;
+                    font-size: 1em;
+
+                    &:hover {
+                        background: #14554c;
+                    }
+                }
+            }
+        }
+    }
+}

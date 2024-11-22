@@ -18,31 +18,41 @@ import SpaRoutes from './routes/spaRoute.jsx'; // Import SpaRoutes
 import TrainerRoutes from './routes/trainerRoute.jsx';
 import PostRoutes from './routes/postRoute.jsx';
 import DogsellerRoutes from './routes/dogsellerRoute.jsx';
+import Cart from "./pages/Cart/Cart.jsx";
+import Checkout from "./pages/Checkout/Checkout.jsx";
+import { AppProvider } from "./context/AppContext.jsx";
+import OrderDetail from "./pages/OrderDetail/OrderDetail.jsx";
+import OrderList from "./pages/OrderList/OrderList.jsx";
 import ProductRoutes from "./routes/productRoute.jsx";
-
 const App = () => (
   <AnswerProvider>
-    <Router>
-      <Routes>
-        <Route path="/*" element={<AuthRoutes />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/breed-list" element={<FilterSection />} />
-        <Route path="/dogbreeds/:breedId" element={<DogBreedDetail />} />
-        <Route path="/find-best-dog" element={<FindBestDog />} />
-        <Route path="/question1" element={<Question1 />} />
-        <Route path="/question2" element={<Question2 />} />
-        <Route path="/question3" element={<Question3 />} />
-        <Route path="/question4" element={<Question4 />} />
-        <Route path="/question5" element={<Question5 />} />
-        <Route path="/question6" element={<Question6 />} />
-        <Route path="/question7" element={<Question7 />} />
-        <Route path="/spas/*" element={<SpaRoutes />} /> 
-        <Route path="/trainers/*" element={<TrainerRoutes />} /> 
-        <Route path="/posts/*" element={<PostRoutes />} />
-        <Route path="/dogsellers/*" element={<DogsellerRoutes />} />
-        <Route path="/products/*" element={<ProductRoutes />} /> 
-      </Routes>
-    </Router>
+    <AppProvider>
+      <Router>
+        <Routes>
+          <Route path="/*" element={<AuthRoutes />} />
+          <Route path="/account" element={<Account />} />
+          <Route path="/orderList" element={<OrderList />} />
+          <Route path="/orderDetail/:id" element={<OrderDetail />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/breed-list" element={<FilterSection />} />
+          <Route path="/dogbreeds/:breedId" element={<DogBreedDetail />} />
+          <Route path="/find-best-dog" element={<FindBestDog />} />
+          <Route path="/question1" element={<Question1 />} />
+          <Route path="/question2" element={<Question2 />} />
+          <Route path="/question3" element={<Question3 />} />
+          <Route path="/question4" element={<Question4 />} />
+          <Route path="/question5" element={<Question5 />} />
+          <Route path="/question6" element={<Question6 />} />
+          <Route path="/question7" element={<Question7 />} />
+          <Route path="/spas/*" element={<SpaRoutes />} />
+          <Route path="/trainers/*" element={<TrainerRoutes />} />
+          <Route path="/posts/*" element={<PostRoutes />} />
+          <Route path="/dogsellers/*" element={<DogsellerRoutes />} />
+          <Route path="/products/*" element={<ProductRoutes />} /> 
+        </Routes>
+      </Router>
+    </AppProvider>
   </AnswerProvider>
 );
 
