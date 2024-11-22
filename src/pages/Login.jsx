@@ -49,7 +49,7 @@ const Login = () => {
     >
       <div
         className="login-box bg-white bg-opacity-60 backdrop-blur-md rounded-lg shadow-lg flex overflow-hidden relative"
-        style={{ width: '800px', height: '400px' }}
+        style={{ width: '800px', height: '500px' }}
       >
         <button onClick={handleExit} className="absolute top-4 right-4">
           <img src={exitIcon} alt="Exit" className="w-6 h-6" />

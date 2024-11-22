@@ -53,7 +53,7 @@ const Register = () => {
     >
       <div
         className="register-box bg-white bg-opacity-60 backdrop-blur-md rounded-lg shadow-lg flex overflow-hidden relative"
-        style={{ width: '900px', height: '650px' }}
+        style={{ width: '900px', height: '700px' }}
       >
         <button onClick={handleExit} className="absolute top-4 right-4">
           <img src={exitIcon} alt="Exit" className="w-6 h-6" />
