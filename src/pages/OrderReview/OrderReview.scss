@@ -1,0 +1,110 @@
+$background-color: #C4DACB; // Màu nền tối
+$text-color: #246b66; // Màu chữ sáng
+$primary-color: #2d857e; // Màu chính cho nút
+$primary-color-hover: #246b66; // Màu khi hover
+
+.order-review-content {
+    .detail {
+        padding: 30px 0 30px 10rem;
+        font-size: 1.2em;
+        font-weight: 500;
+        background: #C4DACB;
+        color: #16423C;
+
+        .title {
+            font-size: 2em;
+            font-weight: 700;
+            color: #16423C;
+            margin: 20px 0;
+        }
+
+    }
+
+    .pendant-item-container {
+        width: 80%;
+        border: #246b66 2px solid;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        padding: 20px;
+        margin: 40px auto;
+        background-color: $background-color;
+        color: $text-color;
+
+        .image-section {
+            img {
+                max-width: 300px;
+                height: 290px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+        }
+
+        .info-section {
+            margin-left: 20px;
+            width: 100%;
+            text-align: left;
+            font-size: 1em;
+            font-weight: 500;
+
+            h2 {
+                color: $text-color;
+                margin-bottom: 10px;
+                font-size: 1.5rem;
+                font-weight: bold;
+            }
+
+            .ant-rate {
+                margin-bottom: 10px;
+                color: #ffc107;
+
+                .ant-rate-star {
+                    color: #ffc107; // Màu vàng cho sao
+
+                    .ant-rate-star-zero {
+                        color: #973939; // Màu xám cho sao
+                    }
+                }
+
+
+            }
+
+            .ant-input {
+                margin-bottom: 10px;
+                border-radius: 8px;
+                padding: 8px 12px;
+                font-size: 1rem;
+                border: #246b66 2px solid;
+                // background-color: lighten($background-color, 5%);
+                color: $text-color;
+
+                &::placeholder {
+                    color: #246b66;
+                }
+
+                &:focus {
+                    border-color: $primary-color;
+                    box-shadow: 0 0 4px $primary-color;
+                }
+            }
+
+            .ant-btn-primary {
+                background-color: $primary-color;
+                border-color: $primary-color;
+                font-size: 1rem;
+                font-weight: 500;
+
+                &:hover {
+                    background-color: $primary-color-hover;
+                    border-color: $primary-color-hover;
+                }
+
+                &:focus {
+                    background-color: $primary-color-hover;
+                    border-color: $primary-color-hover;
+                }
+            }
+        }
+    }
+}

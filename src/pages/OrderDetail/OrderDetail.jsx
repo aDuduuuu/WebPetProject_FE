@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./OrderDetail.scss"
 import { useEffect, useState } from "react";
 import clientApi from "../../client-api/rest-client";
@@ -15,6 +15,7 @@ const statusOrder = {
 const OrderDetail = () => {
     const { id } = useParams();
     let [orderDetail, setOrderDetail] = useState({});
+    let navigate = useNavigate();
     useEffect(() => {
         fetchOrderDetail();
     }, []);
@@ -42,7 +43,7 @@ const OrderDetail = () => {
             let response = await order.patch(id, data);
             if (response.EC === 0) {
                 message.success("Cancel order successfully");
-                fetchOrderDetail();
+                navigate("/orderList");
             } else {
                 message.error(response.EM);
             }
@@ -123,7 +124,8 @@ const OrderDetail = () => {
                 </div>
                 <div className="cancel">
                     <div className="d-flex justify-content-center mt-5">
-                        <button className="btn-cancel" onClick={() => handleCancel()}>Cancel order</button>
+                        {orderDetail?.status === "ordered" && <button className="btn-cancel" onClick={() => handleCancel()}>Cancel order</button>}
+                        {orderDetail?.status === "delivered" && <button className="btn-review" onClick={() => navigate(`/orderReview/${id}`)}>Review</button>}
                     </div>
                 </div>
             </div>

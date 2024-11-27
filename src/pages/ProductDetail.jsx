@@ -4,6 +4,7 @@ import clientApi from "../client-api/rest-client";
 import Header from "../components/Header";
 import { message } from "antd";
 import { FaHeart } from "react-icons/fa"; // Thêm import cho biểu tượng trái tim
+import ProductReview from "./Review/ProductReview";
 
 const ProductDetail = () => {
   const { id } = useParams(); // Lấy ID từ URL
@@ -143,9 +144,9 @@ const ProductDetail = () => {
               <label className="font-bold">Quantity:</label>
               <input
                 type="number"
-                min="1"
+                min={1}
                 value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
+                onChange={(e) => e.target.value > 0 && setQuantity(e.target.value)}
                 className="w-16 p-2 border border-gray-300 rounded-md"
               />
             </div>
@@ -180,6 +181,9 @@ const ProductDetail = () => {
               {product.description || "No description available."}
             </p>
           </div>
+        </div>
+        <div className="flex-1 bg-white shadow-md rounded-lg p-6 mt-4">
+          {id && <ProductReview productId={id} />}
         </div>
       </div>
     </div>

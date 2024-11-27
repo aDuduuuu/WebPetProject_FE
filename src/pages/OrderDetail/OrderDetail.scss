@@ -249,5 +249,17 @@
                 background: #ff5b5b;
             }
         }
+        .btn-review{
+            background: #16423C;
+            color: white;
+            border-radius: 30px;
+            padding: 10px 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+
+            &:hover {
+                background: #48948a;
+            }
+        }
     }
 }
