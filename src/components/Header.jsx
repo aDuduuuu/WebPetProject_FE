@@ -89,7 +89,7 @@ const Header = () => {
   };
 
   const handleViewAllBreeds = () => {
-    navigate("/breed-list");
+    navigate("/breedList");
     setIsBreedMenuOpen(false);
   };
 
@@ -160,7 +160,7 @@ const Header = () => {
             </div>
             <div className="flex flex-col items-start mx-6">
               <button
-                onClick={() => navigate("/find-best-dog")} // Navigate to FindBestDog page
+                onClick={() => navigate("/bestDog")} // Navigate to FindBestDog page
                 className="flex items-center text-teal-600 font-bold mb-2"
               >
                 <FaHeart className="mr-2" /> Find your match
@@ -168,18 +168,15 @@ const Header = () => {
               <span className="text-sm text-gray-500">
                 Answer a few simple questions and find the right dog for you
               </span>
-              <button className="flex items-center mt-2 text-teal-600 font-bold">
+              <button 
+                onClick={() => navigate("/compareDogs")}
+                className="flex items-center mt-2 text-teal-600 font-bold"
+              >
                 <FaBalanceScale className="mr-2" /> Compare breeds
               </button>
               <span className="text-sm text-gray-500">
                 Compare up to 5 different breeds side by side
               </span>
-            </div>
-            <div className="flex flex-col items-start">
-              <button className="text-teal-600 font-bold mb-2">Prospective owners</button>
-              <span className="text-sm text-gray-500">Choose your breed</span>
-              <span className="text-sm text-gray-500">Why get a dog?</span>
-              <span className="text-sm text-gray-500">All about puppies</span>
             </div>
           </div>
         )}
@@ -250,7 +247,7 @@ const Header = () => {
                   </li>
                   <li
                     className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-                    onClick={handleLogout}
+                    onClick={handleLogout}  
                   >
                     Logout
                   </li>

@@ -25,6 +25,8 @@ import OrderDetail from "./pages/OrderDetail/OrderDetail.jsx";
 import OrderList from "./pages/OrderList/OrderList.jsx";
 import ProductRoutes from "./routes/productRoute.jsx";
 import Upload from "./pages/Upload/upload.jsx";
+import CompareBreeds from "./pages/CompareBreeds.jsx";
+
 const App = () => (
   <AnswerProvider>
     <AppProvider>
@@ -37,9 +39,9 @@ const App = () => (
           <Route path="/orderDetail/:id" element={<OrderDetail />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/breed-list" element={<FilterSection />} />
+          <Route path="/breedList" element={<FilterSection />} />
           <Route path="/dogbreeds/:breedId" element={<DogBreedDetail />} />
-          <Route path="/find-best-dog" element={<FindBestDog />} />
+          <Route path="/bestDog" element={<FindBestDog />} />
           <Route path="/question1" element={<Question1 />} />
           <Route path="/question2" element={<Question2 />} />
           <Route path="/question3" element={<Question3 />} />
@@ -52,6 +54,7 @@ const App = () => (
           <Route path="/posts/*" element={<PostRoutes />} />
           <Route path="/dogsellers/*" element={<DogsellerRoutes />} />
           <Route path="/products/*" element={<ProductRoutes />} />
+          <Route path="/compareDogs" element={<CompareBreeds />} />
         </Routes>
       </Router>
     </AppProvider>
