@@ -30,15 +30,24 @@ const Register = () => {
     try {
       const response = await authen.create(formData); 
       if (response.EC === 0) {
-        navigate('/authentication');
         toast.success(response.EM); 
+        setTimeout(() => {
+          navigate('/authentication');
+        }, 2000);
         setError('');
-      } else {
+      }else {
         setError(response.EM);
       }
-    } catch (err) {
-      console.error('Error during login:', err);
-      setError('Something went wrong. Please try again later.');
+    } catch (error) {
+      console.error('Error during register:', error);
+      if(error.response.data.EM.msg){
+        toast.error(error.response.data.EM.msg);
+      }
+      else if (error.response.data.EM){
+        toast.error(error.response.data.EM);
+      } else {
+        toast.error(err.message || 'An unexpected error occurred');
+      }
     }
   };
 
@@ -125,7 +134,6 @@ const Register = () => {
                 onChange={handleChange}
               />
             </div>
-            {error && <p className="text-red-500 text-center">{error}</p>}
             <button type="submit" className="w-full bg-teal-600 text-white py-2 rounded-lg font-semibold hover:bg-teal-700 transition duration-300 mb-4">
               Register
             </button>
