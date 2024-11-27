@@ -5,6 +5,8 @@ import { GiWhistle } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
 import logo from "../pictures/heart-with-dog.png";
 import { LuDog } from "react-icons/lu";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -82,6 +84,7 @@ const Header = () => {
     localStorage.removeItem("user");
     setIsLoggedIn(false);
     setIsMenuOpen(false);
+    toast.success('You are logged out!'); 
     navigate("/");
   };
 
@@ -263,6 +266,7 @@ const Header = () => {
             </ul>
           </div>
         )}
+        <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
       </div>
     </header>
   );

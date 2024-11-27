@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
 import clientApi from '../client-api/rest-client'; // Import RestClient
 import dogBackground from '../pictures/Home.jpg';
 import dogImage1 from '../pictures/dog1.jpg';
@@ -23,14 +25,24 @@ const Login = () => {
       localStorage.setItem('token', response.DT.token);
       localStorage.setItem('role', response.DT.role);
       if (response.EC === 0) {
+        toast.success(response.EM); 
         localStorage.setItem('token', response.DT.token); // Lưu token vào localStorage
-        navigate('/'); // Điều hướng đến trang chủ
+        setTimeout(() => {
+          navigate('/');
+        }, 2000);
       } else {
         setError(response.EM); // Hiển thị thông báo lỗi nếu có
       }
-    } catch (err) {
-      console.error('Error during login:', err);
-      setError('Something went wrong. Please try again later.');
+    } catch (error) {
+      console.error('Error during login:', error);
+      if(error.response.data.EM.msg){
+        toast.error(error.response.data.EM.msg);
+      }
+      else if (error.response.data.EM){
+        toast.error(error.response.data.EM);
+      } else {
+        toast.error(err.message || 'An unexpected error occurred');
+      }
     }
   };
 
@@ -98,6 +110,7 @@ const Login = () => {
           <img src={dogImage1} alt="Dog" className="rounded-lg shadow-md w-8/10 h-5/6 object-cover" />
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
     </div>
   );
 };
