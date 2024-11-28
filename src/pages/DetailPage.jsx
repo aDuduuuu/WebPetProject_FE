@@ -94,7 +94,7 @@ const DetailPage = ({ type }) => {
           <div className="mt-6">
             <h2 className="text-2xl font-bold text-gray-700 mb-4">Additional Information</h2>
             <p className="text-gray-700">
-              Here you can add more detailed information about the {type} such as opening hours, pricing, promotions, or user reviews.
+              {`${detail.description}`}
             </p>
           </div>
         </div>

@@ -2,22 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Header from '../components/Header';
 import clientApi from '../client-api/rest-client';
+import { message, Progress } from 'antd';  // Thêm các thành phần của antd để xử lý thông báo và thanh tiến trình
+import { uploadToCloudinary } from '../utils/uploadToCloudinary';  // Import hàm uploadToCloudinary
 
 const AddPost = () => {
   const navigate = useNavigate();
   const location = useLocation(); // Lấy thông tin từ navigate state
   const [postInfo, setPostInfo] = useState({
+    id: '',
     postID: '',
     title: '',
     category: '',
     sdescription: '',
     author: '',
     content: '',
-    image: ''
+    image: 'https://via.placeholder.com/150?text=Not+Available',  // Đặt ảnh mặc định
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
+  const [uploadProgress, setUploadProgress] = useState(0);  // Tiến trình tải ảnh
+  const [uploading, setUploading] = useState(false);  // Trạng thái tải ảnh
 
   const categories = [
     "Adoption",
@@ -34,7 +39,8 @@ const AddPost = () => {
   useEffect(() => {
     if (location.state?.type === 'update') {
       setPostInfo((prevState) => ({
-        postID: location.state.id || prevState.postID,
+        id: location.state.id || prevState.id,
+        postID: location.state.postID || prevState.postID,
         title: location.state.title || prevState.title,
         category: location.state.category || prevState.category,
         sdescription: location.state.sdescription || prevState.sdescription,
@@ -54,43 +60,95 @@ const AddPost = () => {
     }));
   };
 
-  // Xử lý gửi dữ liệu
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-    setSuccess('');
+  // Hàm tải ảnh lên và cập nhật state image
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
 
-    if (!postInfo.title || !postInfo.category || !postInfo.sdescription || !postInfo.author || !postInfo.content) {
-      setError('Please fill in all required fields');
-      setLoading(false);
+    // Nếu không chọn ảnh, sử dụng ảnh mặc định
+    if (!file) {
+      setPostInfo((prevState) => ({
+        ...prevState,
+        image: "https://via.placeholder.com/150?text=Not+Available"
+      }));
       return;
     }
 
-    try {
-      let response;
-      if (location.state?.type === 'update') {
-        // Cập nhật bài viết
-        const api = clientApi.service('posts');
-        response = await api.patch(postInfo.postID, postInfo); // Cập nhật bài viết dựa vào ID
-      } else {
-        // Tạo bài viết mới
-        response = await clientApi.service('posts').create(postInfo);
-      }
+    setUploading(true);
+    setUploadProgress(0);
 
-      if (response.EC === 0) {
-        setSuccess(location.state?.type === 'update' ? 'Post updated successfully!' : 'Post added successfully!');
-        navigate('/posts'); // Quay lại danh sách bài viết
-      } else {
-        setError(response.EM);
-      }
-    } catch (err) {
-      console.error('Error saving post:', err);
-      setError('An error occurred while saving the post.');
+    try {
+      // Gọi API tải ảnh lên Cloudinary
+      const url = await uploadToCloudinary(file, 'posts', (progress) => {
+        setUploadProgress(progress);
+      });
+
+      // Cập nhật URL ảnh trong state
+      setPostInfo((prevState) => ({
+        ...prevState,
+        image: url,
+      }));
+      message.success('Image uploaded successfully!');
+    } catch (error) {
+      // Nếu có lỗi trong quá trình tải lên, sử dụng ảnh mặc định
+      setPostInfo((prevState) => ({
+        ...prevState,
+        image: "https://via.placeholder.com/150?text=Not+Available",
+      }));
+      message.error('Error uploading image.');
+      console.error(error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  // Xử lý gửi dữ liệu
+  // Hàm xử lý gửi dữ liệu (sửa lại)
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError('');
+  setSuccess('');
+
+  // Kiểm tra các trường bắt buộc không được bỏ trống
+  if (!postInfo.title || !postInfo.category || !postInfo.sdescription || !postInfo.author || !postInfo.content) {
+    setError('Please fill in all required fields');
+    setLoading(false);
+    return;
+  }
+
+  // Kiểm tra nếu trường image trống
+  if (postInfo.image === 'https://via.placeholder.com/150?text=Not+Available') {
+    message.error('Please upload an image!');
+    setLoading(false);
+    return;
+  }
+
+  try {
+    let response;
+    const api = clientApi.service('posts');
+
+    if (location.state?.type === 'update') {
+      // Nếu đang cập nhật bài viết
+      response = await api.patch(postInfo.id, postInfo); // Cập nhật bài viết
+    } else {
+      // Nếu thêm mới bài viết
+      response = await api.create(postInfo); // Tạo bài viết mới
     }
 
-    setLoading(false);
-  };
+    if (response.EC === 0) {
+      setSuccess(location.state?.type === 'update' ? 'Post updated successfully!' : 'Post added successfully!');
+      navigate('/posts'); // Quay lại danh sách bài viết
+    } else {
+      setError(response.EM);
+    }
+  } catch (err) {
+    console.error('Error saving post:', err);
+    setError('An error occurred while saving the post.');
+  }
+
+  setLoading(false);
+};
+
 
   return (
     <div className="post-container flex flex-col min-h-screen bg-gray-100">
@@ -104,6 +162,21 @@ const AddPost = () => {
         {success && <div className="text-green-500 mb-4">{success}</div>}
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Post ID */}
+          <div>
+            <label htmlFor="postID" className="block font-bold">Post ID</label>
+            <input
+              type="text"
+              id="postID"
+              name="postID"
+              value={postInfo.postID}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+              required
+              disabled={location.state?.type === 'update'}  // Disable field when it's an update
+            />
+          </div>
+
           {/* Title */}
           <div>
             <label htmlFor="title" className="block font-bold">Title</label>
@@ -180,17 +253,29 @@ const AddPost = () => {
             />
           </div>
 
-          {/* Image */}
+          {/* Image Upload */}
           <div>
-            <label htmlFor="image" className="block font-bold">Image URL</label>
+            <label htmlFor="image" className="block font-bold">Image</label>
             <input
-              type="text"
+              type="file"
               id="image"
               name="image"
-              value={postInfo.image}
-              onChange={handleChange}
+              onChange={handleImageUpload}
               className="w-full p-2 border rounded"
+              accept="image/*"
             />
+                       {uploading && (
+              <div style={{ marginTop: '20px', width: '100%' }}>
+                <Progress percent={uploadProgress} status="active" />
+              </div>
+            )}
+            <div className="mt-2">
+              <img
+                src={postInfo.image || "https://via.placeholder.com/150?text=Not+Available"}
+                alt="Preview"
+                className="w-40 h-40 object-cover rounded"
+              />
+            </div>
           </div>
 
           {/* Buttons */}
@@ -217,3 +302,4 @@ const AddPost = () => {
 };
 
 export default AddPost;
+

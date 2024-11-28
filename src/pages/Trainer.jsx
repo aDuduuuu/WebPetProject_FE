@@ -74,6 +74,7 @@ const Trainer = () => {
                     location={trainer.location}
                     services={trainer.services}
                     contactInfo={trainer.contactInfo}
+                    description={trainer.description}
                     type="trainers"
                     action="update"
                   />
