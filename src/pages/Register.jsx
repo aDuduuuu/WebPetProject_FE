@@ -104,17 +104,6 @@ const Register = () => {
               />
             </div>
             <div className="mb-4 relative">
-              <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-              <select
-                name="role"
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white text-gray-700"
-                onChange={handleChange}
-              >
-                <option value="customer">Customer</option>
-                <option value="manager">Admin</option>
-              </select>
-            </div>
-            <div className="mb-4 relative">
               <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
               <input
                 type="password"
