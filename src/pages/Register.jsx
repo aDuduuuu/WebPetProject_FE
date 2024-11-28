@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { FaEnvelope, FaLock, FaUser } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer và toast
-import 'react-toastify/dist/ReactToastify.css'; // Import CSS của react-toastify
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; 
 import dogBackground from '../pictures/Home.jpg';
 import dogImage2 from '../pictures/dog2.jpg';
 import exitIcon from '../pictures/exit.png';
