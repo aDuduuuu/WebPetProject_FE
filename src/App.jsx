@@ -29,6 +29,7 @@ import FavorRoutes from "./routes/favoriteRoute.jsx";
 import NameRoutes from "./routes/nameRoute.jsx";
 import NamePage from "./pages/Naming.jsx";
 import CompareBreeds from "./pages/CompareBreeds.jsx";
+import OrderReview from "./pages/OrderReview/OrderReview.jsx";
 
 const App = () => (
   <AnswerProvider>
@@ -40,6 +41,7 @@ const App = () => (
           <Route path="/upload" element={<Upload />} />
           <Route path="/orderList" element={<OrderList />} />
           <Route path="/orderDetail/:id" element={<OrderDetail />} />
+          <Route path="/orderReview/:id" element={<OrderReview />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/breedList" element={<FilterSection />} />

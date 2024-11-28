@@ -18,7 +18,7 @@ const OrderList = () => {
         try {
             let response = await order.find({});
             if (response.EC === 0) {
-                setListOrder(response.DT);
+                setListOrder(response.DT.reverse());
             } else {
                 message.error(response.EM);
             }

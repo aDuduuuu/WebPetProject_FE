@@ -1,0 +1,77 @@
+.product-review {
+    background-color: white; // Tùy chỉnh màu nền
+    color: #16423c;
+    padding: 20px;
+    border-radius: 8px;
+
+    h2 {
+        text-align: left;
+        font-size: 1.5em;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .rating-summary {
+        .overall-rating {
+            text-align: left;
+
+            h3 {
+                font-size: 16px;
+                font-weight: bold;
+                color: #cda000;
+            }
+        }
+
+        .rating-filter {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+
+            button {
+                border-radius: 20px;
+            }
+        }
+    }
+
+    .ant-divider {
+        font-size: 20px !important;
+        font-weight: 600 !important;
+        color: #3e3e3e !important;
+    }
+
+    .reviews-list {
+        .review-item {
+            display: flex;
+            // align-items: center;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid #3e3e3e;
+
+            &:last-child {
+                border-bottom: none;
+            }
+
+            .review-content {
+                flex-grow: 1;
+
+                h4 {
+                    font-size: 1.2em;
+                    font-weight: 600;
+                    margin: 0;
+                }
+
+                p {
+                    margin: 8px 0;
+                }
+
+                .review-actions {
+                    margin-top: 8px;
+
+                    span {
+                        font-size: 14px;
+                    }
+                }
+            }
+        }
+    }
+}
