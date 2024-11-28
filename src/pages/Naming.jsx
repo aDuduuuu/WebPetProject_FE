@@ -106,16 +106,21 @@ const NamePage = () => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <div className="grid grid-cols-4 gap-4">
+            <div>
               {dogNames.length > 0 ? (
-                dogNames.map((dogName) => (
-                  <div
-                    key={dogName._id}
-                    className="flex justify-center items-center p-3 border text-xs text-gray-600" // Chữ nhỏ hơn và màu xám
-                  >
-                    {dogName.name}
+                <>
+                  <h3 className="text-2xl font-semibold mb-4">Name:</h3> {/* Dòng "Name:" */}
+                  <div className="grid grid-cols-4 gap-4">
+                    {dogNames.map((dogName) => (
+                      <div
+                        key={dogName._id}
+                        className="flex justify-center items-center p-3 border text-xs text-gray-600" // Chữ nhỏ hơn và màu xám
+                      >
+                        {dogName.name}
+                      </div>
+                    ))}
                   </div>
-                ))
+                </>
               ) : (
                 <p className="text-center text-lg text-gray-600">No dog names found.</p>
               )}
