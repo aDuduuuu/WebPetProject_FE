@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaSearch, FaUserCircle, FaHeart, FaBalanceScale } from "react-icons/fa";
+import { FaPaw, FaSearch, FaUserCircle, FaHeart, FaBalanceScale,FaUser,  FaSignOutAlt, FaClipboardList } from "react-icons/fa";
 import { IoSparklesOutline } from "react-icons/io5";
 import { GiWhistle } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
@@ -76,6 +76,12 @@ const Header = () => {
 
   const handleAccount = () => {
     navigate("/account");
+    setIsMenuOpen(false);
+  };
+
+  const handleFavor = () => {
+    const id = localStorage.getItem("id");
+    navigate(`/favorites/${id}`);
     setIsMenuOpen(false);
   };
 
@@ -177,6 +183,15 @@ const Header = () => {
               <span className="text-sm text-gray-500">
                 Compare up to 5 different breeds side by side
               </span>
+              <button
+                onClick={() => navigate("/dog-name-finder")} // Navigate to Dog Name Finder page
+                className="flex items-center mt-2 text-teal-600 font-bold"
+              >
+                <FaPaw className="mr-2" /> Dog name finder
+              </button>
+              <span className="text-sm text-gray-500">
+                Find the perfect name for your dog
+              </span>
             </div>
           </div>
         )}
@@ -226,43 +241,50 @@ const Header = () => {
         <FaUserCircle className="text-3xl cursor-pointer" onClick={toggleMenu} />
 
         {isMenuOpen && (
-          <div
-            ref={menuRef}
-            className="absolute right-0 mt-16 w-40 bg-white rounded-md shadow-lg z-10 transform translate-y-5"
+  <div
+    ref={menuRef}
+    className="absolute right-0 mt-16 w-40 bg-white rounded-md shadow-lg z-10 transform translate-y-5"
+  >
+    <ul className="py-2">
+      {isLoggedIn ? (
+        <>
+          <li
+            className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
+            onClick={handleAccount}
           >
-            <ul className="py-2">
-              {isLoggedIn ? (
-                <>
-                  <li
-                    className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-                    onClick={handleAccount}
-                  >
-                    Account
-                  </li>
-                  <li
-                    className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-                    onClick={() => navigate("/orderList")}
-                  >
-                    Your order
-                  </li>
-                  <li
-                    className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-                    onClick={handleLogout}  
-                  >
-                    Logout
-                  </li>
-                </>
-              ) : (
-                <li
-                  className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-                  onClick={handleLogin}
-                >
-                  Login
-                </li>
-              )}
-            </ul>
-          </div>
-        )}
+            <FaUser className="inline-block mr-2 text-gray-600" /> Account
+          </li>
+          <li
+            className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
+            onClick={() => navigate("/orderList")}
+          >
+            <FaClipboardList className="inline-block mr-2 text-gray-600" /> Your order
+          </li>
+          <li
+            className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
+            onClick={handleFavor}
+          >
+            <FaHeart className="inline-block mr-2 text-red-500" /> Favorite
+          </li>
+          <li
+            className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
+            onClick={handleLogout}
+          >
+            <FaSignOutAlt className="inline-block mr-2 text-gray-600" /> Logout
+          </li>
+          
+        </>
+      ) : (
+        <li
+          className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
+          onClick={handleLogin}
+        >
+          <FaUser className="inline-block mr-2 text-gray-600" /> Login
+        </li>
+      )}
+    </ul>
+  </div>
+)}
         <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
       </div>
     </header>
