@@ -1,0 +1,22 @@
+.image-upload {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px dashed #0A8FDC;
+
+    .container {
+        background: #f4f7fe;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+        span {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0A8FDC;
+            cursor: pointer;
+        }
+    }
+}

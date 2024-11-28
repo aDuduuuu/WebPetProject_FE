@@ -82,6 +82,7 @@ const Spa = () => {
                     contactInfo={spa.contactInfo}
                     type="spas"
                     action="update"
+                    description={spa.description}
                     role={userRole} // Truyền role từ localStorage xuống Card
                   />
                 ))}

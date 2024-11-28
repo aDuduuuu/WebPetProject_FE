@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaTrashAlt, FaWrench } from 'react-icons/fa';
 import clientApi from '../client-api/rest-client';
+import { message,Modal } from 'antd';
 
-const PostCard = ({ id, image, title, sdescription, author, content, category }) => {
+const PostCard = ({ id, image, title, sdescription, author, content, category, postID }) => {
   const navigate = useNavigate();
   const [isManager, setIsManager] = useState(false);
 
@@ -18,18 +19,28 @@ const PostCard = ({ id, image, title, sdescription, author, content, category })
 
   const handleDelete = async (e) => {
     e.stopPropagation();
-
-    const isConfirmed = window.confirm('Are you sure you want to delete this item?');
-    if (!isConfirmed) return;
-
-    try {
-      const api = clientApi.service('posts');
-      await api.delete(id);
-      window.location.reload();
-    } catch (error) {
-      console.error('Failed to delete item:', error);
-      alert('Error deleting item');
-    }
+  
+    // Sử dụng Modal.confirm để yêu cầu xác nhận
+    Modal.confirm({
+      title: 'Are you sure you want to delete this item?',
+      content: 'This action cannot be undone.',
+      okText: 'Yes',
+      cancelText: 'No',
+      onOk: async () => {
+        try {
+          const api = clientApi.service('posts');  // Gọi API service với loại đối tượng cần xóa
+          await api.delete(id);  // Thực hiện xóa
+          message.success('Item deleted successfully!');  // Hiển thị thông báo thành công
+          window.location.reload();  // Làm mới trang sau khi xóa
+        } catch (error) {
+          console.error('Failed to delete item:', error);
+          message.error('Error deleting item');  // Hiển thị thông báo lỗi
+        }
+      },
+      onCancel: () => {
+        message.info('Deletion cancelled');  // Hiển thị thông báo khi người dùng hủy
+      },
+    });
   };
 
   const handleUpdate = (e) => {
@@ -39,6 +50,7 @@ const PostCard = ({ id, image, title, sdescription, author, content, category })
       state: {
         type: 'update',
         id,
+        postID,
         title,
         sdescription,
         author,

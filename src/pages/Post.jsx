@@ -32,6 +32,7 @@ const Post = () => {
       if (result && result.EC === 200) {
         const newPosts = result.DT.map((post) => ({
           _id: post._id || post.id, // Đảm bảo có ID
+          postID: post.postID,
           title: post.title || 'Untitled', // Tiêu đề bài viết
           image: post.image || 'https://via.placeholder.com/150?text=No+Image', // URL ảnh
           sdescription: post.sdescription || 'No description available.', // Mô tả ngắn
@@ -132,6 +133,7 @@ const Post = () => {
                   <PostCard
                   key={post._id}
                   id={post._id}
+                  postID={post.postID}
                   image={post.image || 'https://via.placeholder.com/150?text=No+Image'}
                   title={post.title}
                   sdescription={post.sdescription}

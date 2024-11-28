@@ -2,25 +2,32 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import clientApi from '../client-api/rest-client'; // Import clientApi
 import Header from '../components/Header';
+import { message, Progress } from 'antd';  // Thêm các thành phần của antd để xử lý thông báo và thanh tiến trình
+import { uploadToCloudinary } from '../utils/uploadToCloudinary';  // Import hàm uploadToCloudinary
 
 const AddSpa = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // State for spa information
+  // State cho thông tin spa
   const [spaInfo, setSpaInfo] = useState({
     name: '',
-    image: '',
+    image: 'https://via.placeholder.com/150?text=Not+Available', // Đặt ảnh mặc định
     location: { province: '', district: '', ward: '', street: '' },
-    services: [''],
+    services: [''], // Ban đầu có một dịch vụ trống
     contactInfo: { phone: '', email: '' },
+    description: '',  // Thêm trường description
   });
 
-  const [isUpdate, setIsUpdate] = useState(false); // State to check if it's an update
+  const [isUpdate, setIsUpdate] = useState(false); // Kiểm tra xem có phải cập nhật hay không
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Provinces dropdown options
+  // State cho tiến trình tải ảnh
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploading, setUploading] = useState(false);
+
+  // Các tỉnh thành cho dropdown
   const provinces = [
     'An Giang', 'Ba Ria - Vung Tau', 'Bac Lieu', 'Bac Giang', 'Bac Kan',
     'Bac Ninh', 'Ben Tre', 'Binh Duong', 'Binh Dinh', 'Binh Phuoc',
@@ -36,30 +43,28 @@ const AddSpa = () => {
     'Yen Bai',
   ];
 
-  // Populate fields if editing an existing spa
+  // Tải thông tin khi đang chỉnh sửa spa
   useEffect(() => {
     if (location.state?.action === 'update' && location.state?.type === 'spas') {
       setSpaInfo({
         name: location.state.name || '',
-        image: location.state.image || '',
+        image: location.state.image || 'https://via.placeholder.com/150?text=Not+Available',
         location: location.state.location || { province: '', district: '', ward: '', street: '' },
         services: location.state.services || [''],
         contactInfo: location.state.contactInfo || { phone: '', email: '' },
-        id: location.state.id, // Keep the ID for updating
+        description: location.state.description || '',
+        id: location.state.id, // Lưu id khi chỉnh sửa
       });
-      setIsUpdate(true); // Set the form to update mode
+      setIsUpdate(true);
     }
   }, [location.state]);
 
-  // Handle changes in form fields
+  // Hàm xử lý thay đổi dữ liệu
   const handleChange = (e, index) => {
     const { name, value } = e.target;
-    if (name === 'service') {
-      const updatedServices = [...spaInfo.services];
-      updatedServices[index] = value;
-      setSpaInfo({ ...spaInfo, services: updatedServices });
-    } else if (name.startsWith('location')) {
-      const locationField = name.split('.')[1]; // Get the part after '.'
+
+    if (name.startsWith('location')) {
+      const locationField = name.split('.')[1]; 
       setSpaInfo((prevState) => ({
         ...prevState,
         location: {
@@ -68,13 +73,38 @@ const AddSpa = () => {
         },
       }));
     } else if (name.startsWith('contactInfo')) {
-      const contactField = name.split('.')[1]; // Get the part after '.'
+      const contactField = name.split('.')[1];
+    
+      if (contactField === 'phone' && !/^\d+$/.test(value)) {
+        message.error('Phone number must be a valid number!');
+        return;
+      }
+    
       setSpaInfo((prevState) => ({
         ...prevState,
         contactInfo: {
           ...prevState.contactInfo,
           [contactField]: value,
         },
+      }));
+    } else if (name.startsWith('services')) {
+      const serviceIndex = parseInt(name.split('.')[1], 10);  // Lấy chỉ số dịch vụ
+      const updatedServices = [...spaInfo.services];
+      updatedServices[serviceIndex] = value;  // Cập nhật dịch vụ ở chỉ số tương ứng
+    
+      if (updatedServices[serviceIndex].trim() === '') {
+        message.error('Service cannot be empty!');
+        return;
+      }
+    
+      setSpaInfo((prevState) => ({
+        ...prevState,
+        services: updatedServices,
+      }));
+    } else if (name === 'description') {
+      setSpaInfo((prevState) => ({
+        ...prevState,
+        description: value,
       }));
     } else {
       setSpaInfo((prevState) => ({
@@ -84,41 +114,109 @@ const AddSpa = () => {
     }
   };
 
-  // Add a new input for services
+  // Hàm thêm dịch vụ mới
   const handleAddService = () => {
     setSpaInfo((prevState) => ({
       ...prevState,
-      services: [...prevState.services, ''], // Add an empty input
+      services: [...prevState.services, ''], // Thêm một dịch vụ trống
     }));
   };
 
-  // Handle form submission
+  // Hàm xử lý gửi form
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
+    // Kiểm tra các trường location có bị bỏ trống không
+    if (
+      !spaInfo.location.province.trim() ||
+      !spaInfo.location.district.trim() ||
+      !spaInfo.location.ward.trim() ||
+      !spaInfo.location.street.trim()
+    ) {
+      message.error('All location fields must be filled!');
+      setLoading(false);
+      return;
+    }
+
+    // Kiểm tra nếu có dịch vụ trống
+    if (spaInfo.services.some(service => service.trim() === '')) {
+      message.error('All services must be filled!');
+      setLoading(false);
+      return;
+    }
+
+    // Kiểm tra trường description
+    if (!spaInfo.description.trim()) {
+      message.error('Description field must be filled!');
+      setLoading(false);
+      return;
+    }
+
+    // Kiểm tra nếu số điện thoại không hợp lệ
+    if (!/^\d+$/.test(spaInfo.contactInfo.phone)) {
+      message.error('Phone number must be a valid number!');
+      setLoading(false);
+      return;
+    }
+
     try {
       const spaService = clientApi.service('spas');
       if (isUpdate) {
-        // If updating an existing spa
         await spaService.patch(spaInfo.id, spaInfo);
-        alert('Spa updated successfully!');
+        message.success('Spa updated successfully!');
       } else {
-        // If creating a new spa
         await spaService.create(spaInfo);
-        alert('Spa added successfully!');
+        message.success('Spa added successfully!');
       }
-      navigate('/spas'); // Navigate back to the spa list
+      navigate('/spas');
     } catch (err) {
       console.error('Error saving spa:', err);
       setError('An error occurred while saving the spa.');
+      message.error('Error saving spa');
     }
     setLoading(false);
   };
 
   const handleCancel = () => {
     navigate('/spas');
+  };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    
+    if (!file) {
+      setSpaInfo((prevState) => ({
+        ...prevState,
+        image: "https://via.placeholder.com/150?text=Not+Available",  // Sử dụng ảnh mặc định nếu không có file
+      }));
+      return;
+    }
+  
+    setUploading(true);
+    setUploadProgress(0);
+  
+    try {
+      const url = await uploadToCloudinary(file, 'spas', (progress) => {
+        setUploadProgress(progress);
+      });
+      
+      setSpaInfo((prevState) => ({
+        ...prevState,
+        image: url,
+      }));
+      message.success('Image uploaded successfully!');
+    } catch (error) {
+      setSpaInfo((prevState) => ({
+        ...prevState,
+        image: "https://via.placeholder.com/150?text=Not+Available",  // Nếu lỗi, sử dụng ảnh mặc định
+      }));
+      message.error('Error uploading image.');
+      console.error(error);
+    } finally {
+      setUploading(false);
+    }
   };
 
   return (
@@ -148,15 +246,27 @@ const AddSpa = () => {
 
           {/* Image */}
           <div>
-            <label htmlFor="image" className="block font-bold">Image URL</label>
+            <label htmlFor="image" className="block font-bold">Image</label>
             <input
-              type="text"
+              type="file"
               id="image"
               name="image"
-              value={spaInfo.image}
-              onChange={handleChange}
+              onChange={handleImageUpload}
               className="w-full p-2 border rounded"
+              accept="image/*"
             />
+            {uploading && (
+              <div style={{ marginTop: '20px', width: '100%' }}>
+                <Progress percent={uploadProgress} status="active" />
+              </div>
+            )}
+            <div className="mt-2">
+              <img
+                src={spaInfo.image || "https://via.placeholder.com/150?text=Not+Available"}
+                alt="Preview"
+                className="w-40 h-40 object-cover rounded"
+              />
+            </div>
           </div>
 
           {/* Location */}
@@ -210,7 +320,7 @@ const AddSpa = () => {
               <div key={index} className="flex items-center mb-2">
                 <input
                   type="text"
-                  name="service"
+                  name={`services.${index}`}  // Đảm bảo `name` đúng với chỉ số của dịch vụ
                   value={service}
                   onChange={(e) => handleChange(e, index)}
                   placeholder="Service"
@@ -229,7 +339,7 @@ const AddSpa = () => {
             ))}
           </div>
 
-          {/* Contact Info */}
+          {/* Phone */}
           <div>
             <label htmlFor="phone" className="block font-bold">Phone</label>
             <input
@@ -242,6 +352,7 @@ const AddSpa = () => {
             />
           </div>
 
+          {/* Email */}
           <div>
             <label htmlFor="email" className="block font-bold">Email</label>
             <input
@@ -251,6 +362,20 @@ const AddSpa = () => {
               value={spaInfo.contactInfo.email}
               onChange={handleChange}
               className="w-full p-2 border rounded"
+            />
+          </div>
+
+          {/* Description */}
+          <div>
+            <label htmlFor="description" className="block font-bold">Description</label>
+            <textarea
+              id="description"
+              name="description"
+              value={spaInfo.description}
+              onChange={handleChange}
+              className="w-full p-2 border rounded mb-2"
+              placeholder="Enter a description for the spa"
+              rows="4"
             />
           </div>
 
