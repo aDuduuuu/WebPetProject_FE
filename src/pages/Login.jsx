@@ -24,6 +24,7 @@ const Login = () => {
       console.log(response);
       localStorage.setItem('token', response.DT.token);
       localStorage.setItem('role', response.DT.role);
+      localStorage.setItem('id',response.DT.id);
       if (response.EC === 0) {
         toast.success(response.EM); 
         localStorage.setItem('token', response.DT.token); // Lưu token vào localStorage

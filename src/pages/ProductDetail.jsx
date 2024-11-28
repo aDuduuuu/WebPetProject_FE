@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import clientApi from "../client-api/rest-client";
 import Header from "../components/Header";
 import { message } from "antd";
+import { FaHeart } from "react-icons/fa"; // Thêm import cho biểu tượng trái tim
 
 const ProductDetail = () => {
   const { id } = useParams(); // Lấy ID từ URL
@@ -33,8 +34,34 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
+  const handleFavor = async () => {
+    const uid = localStorage.getItem("id"); // Lấy userID từ localStorage
+    if (!uid) {
+      message.error("You must be logged in to add to favorites.");
+      return;
+    }
+
+    try {
+      const response = await clientApi.service("favorites").create({
+        userID: uid,
+        referenceID: id, // referenceID là id của sản phẩm hiện tại
+        type: "Product", // Type là "product"
+      });
+
+      if (response.EC === 200 || response.EC === 0) {
+        message.success("Product added to favorites.");
+      } else {
+        message.error("Failed to add product to favorites.");
+      }
+    } catch (err) {
+      message.error("Failed to add product to favorites.");
+      console.error(err);
+    }
+  };
+
+
   const handleAddToCart = async () => {
-    let cart = clientApi.service("cartItem")
+    let cart = clientApi.service("cartItem");
     try {
       let response = await cart.create({ product: id, quantity: quantity });
       if (response.EC === 0) {
@@ -122,12 +149,23 @@ const ProductDetail = () => {
                 className="w-16 p-2 border border-gray-300 rounded-md"
               />
             </div>
-            <button
-              className="px-6 py-3 bg-teal-500 text-white rounded hover:bg-teal-600 text-xl font-semibold w-full"
-              onClick={handleAddToCart}
-            >
-              Add to cart
-            </button>
+
+            {/* Các nút */}
+            <div className="flex gap-4">
+  <button
+    className="w-5/6 bg-teal-500 text-white rounded-md py-3 hover:bg-teal-600 text-xl font-semibold"
+    onClick={handleAddToCart}
+  >
+    Add to cart
+  </button>
+  <button 
+    className="w-14 h-14 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600"
+    onClick={handleFavor}
+  >
+    <FaHeart size={24} />
+  </button>
+</div>
+
           </div>
 
           {/* Khối 2: Mô tả */}
