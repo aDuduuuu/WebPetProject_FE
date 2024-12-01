@@ -88,6 +88,7 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("role");
     setIsLoggedIn(false);
     setIsMenuOpen(false);
     toast.success('You are logged out!'); 

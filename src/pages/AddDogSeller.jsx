@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import clientApi from '../client-api/rest-client';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const AddDogSeller = () => {
   const [dogSellerInfo, setDogSellerInfo] = useState({
@@ -226,6 +227,7 @@ const AddDogSeller = () => {
           </div>
         </form>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { useAnswers } from "../context/AnswerContext";
 
 const Question4 = () => {
@@ -99,6 +100,7 @@ const Question4 = () => {
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

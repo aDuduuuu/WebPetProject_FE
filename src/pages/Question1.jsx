@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { useAnswers } from "../context/AnswerContext"; // Import context
 
 const Question1 = () => {
@@ -79,7 +80,7 @@ const Question1 = () => {
         <div className="flex justify-between items-center">
           <button
             className="text-16423C hover:underline"
-            onClick={() => alert("Navigate to the previous page")}
+            onClick={() => navigate("/find-best-dog")}
           >
             Back
           </button>
@@ -96,6 +97,7 @@ const Question1 = () => {
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

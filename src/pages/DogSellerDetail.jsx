@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import clientApi from '../client-api/rest-client';
 
 const DogSellerDetail = () => {
@@ -87,6 +88,7 @@ const DogSellerDetail = () => {
           {detail.contactInfo || 'No contact information available'}
         </p>
       </div>
+      <Footer />
     </div>
   );
 };

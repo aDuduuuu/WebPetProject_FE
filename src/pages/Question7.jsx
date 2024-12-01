@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { useAnswers } from "../context/AnswerContext"; // Import context
 import clientApi from "../client-api/rest-client"; // Import API client
 import { useNavigate } from "react-router-dom"; // Import useNavigate
@@ -202,6 +203,7 @@ const Question7 = () => {
           </>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

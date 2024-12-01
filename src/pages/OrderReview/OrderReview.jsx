@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 import "./OrderReview.scss";
 import { Button, Input, message, Rate } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
@@ -127,6 +128,7 @@ const OrderReview = () => {
                         );
                     })}
             </div>
+            <Footer />
         </>
     );
 }

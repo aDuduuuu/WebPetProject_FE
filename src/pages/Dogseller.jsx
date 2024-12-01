@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import Card from '../components/Card';
 import ProvinceFilter from '../components/ProvinceFilter';
 import clientApi from '../client-api/rest-client';
@@ -87,6 +88,7 @@ const DogSeller = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

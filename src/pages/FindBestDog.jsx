@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate hook
 import Header from "../components/Header"; // Assuming Header is in the same folder
+import Footer from "../components/Footer";
 
 const FindBestDog = () => {
   const navigate = useNavigate(); // Initialize the navigate function

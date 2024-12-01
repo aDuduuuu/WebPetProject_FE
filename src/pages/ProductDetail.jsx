@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import clientApi from "../client-api/rest-client";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { message } from "antd";
 import { FaHeart } from "react-icons/fa"; // Thêm import cho biểu tượng trái tim
 import ProductReview from "./Review/ProductReview";
@@ -186,6 +187,7 @@ const ProductDetail = () => {
           {id && <ProductReview productId={id} />}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
