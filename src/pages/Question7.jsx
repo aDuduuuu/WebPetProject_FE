@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import { useAnswers } from "../context/AnswerContext"; // Import context
 import clientApi from "../client-api/rest-client"; // Import API client
 import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { Button } from "antd";
 
 const Question7 = () => {
   const { answers } = useAnswers(); // Lấy câu trả lời từ context
@@ -109,6 +111,10 @@ const Question7 = () => {
     navigate(`/dogbreeds/${currentMatch.id}`); // Điều hướng đến trang chi tiết với `id`
   };
 
+  const handleViewDetails = (breedId) => {
+    navigate(`/dogbreeds/${breedId}`);
+  };
+
   return (
     <div>
       <Header />
@@ -151,20 +157,28 @@ const Question7 = () => {
               {/* Left Section */}
               <div className="w-2/3">
                 <div className="flex items-center mb-4 mt-10">
-                  <div>
-                    <h2 className="text-xl font-bold text-gray-800">
-                      {currentMatch.name}
-                    </h2>
-                    <p className="text-gray-600">{currentMatch.description}</p>
-                  </div>
+                <div className="bg-[#C4DACB] p-6 rounded-lg shadow-lg">
+                  <h2 className="text-xl font-bold text-[#16423C] mb-7">
+                    {currentMatch.name}
+                  </h2>
+                  <p className="text-[#16423C]">{currentMatch.description}</p>
                 </div>
-                <div className="w-full h-64 rounded-lg overflow-hidden flex items-center justify-center bg-gray-100">
+                </div>
+                <div className="w-full h-90 rounded-lg overflow-hidden flex items-center justify-center bg-gray-100">
                   <img
                     src={currentMatch.image || "https://via.placeholder.com/300"}
                     alt={currentMatch.name}
                     className="max-w-full max-h-full"
                   />
                 </div>
+                <div className="mt-4 flex justify-center">
+                  <button 
+                    onClick={() => handleViewDetails(currentMatch._id)}
+                    className="bg-teal-600 text-white px-6 py-2 rounded-full hover:bg-teal-700 transition-colors"
+                  >
+                    View Details
+                  </button>
+                </div>  
               </div>
 
               {/* Right Section */}
@@ -202,6 +216,7 @@ const Question7 = () => {
           </>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

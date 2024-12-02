@@ -4,6 +4,7 @@ import Header from '../components/Header';
 import clientApi from '../client-api/rest-client';
 import { message, Progress } from 'antd';  // Thêm các thành phần của antd để xử lý thông báo và thanh tiến trình
 import { uploadToCloudinary } from '../utils/uploadToCloudinary';  // Import hàm uploadToCloudinary
+import Footer from '../components/Footer';
 
 const AddPost = () => {
   const navigate = useNavigate();
@@ -297,6 +298,7 @@ const handleSubmit = async (e) => {
           </div>
         </form>
       </div>
+      <Footer />
     </div>
   );
 };

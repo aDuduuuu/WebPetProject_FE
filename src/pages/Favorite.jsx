@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import clientApi from '../client-api/rest-client';
 import FavorCard from '../components/FavorCard'; // Giả sử bạn đã tạo component FavorCard
 import Header from '../components/Header'; // Import Header từ component
+import Footer from '../components/Footer'; 
 
 const Favorite = () => {
   const [favorList, setFavorList] = useState([]); // Danh sách sản phẩm yêu thích

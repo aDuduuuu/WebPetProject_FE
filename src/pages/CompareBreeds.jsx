@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import clientApi from '../client-api/rest-client';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -199,6 +200,7 @@ const CompareBreeds = () => {
           );
         })}
       </div>
+      <Footer />
 
       <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
     </div>

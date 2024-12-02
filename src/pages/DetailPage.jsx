@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import clientApi from '../client-api/rest-client';
 
 const DetailPage = ({ type }) => {
@@ -99,6 +100,7 @@ const DetailPage = ({ type }) => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

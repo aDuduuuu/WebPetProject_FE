@@ -9,6 +9,7 @@ import birthdayIcon from '../pictures/icons8-birthday-cake-100.png';
 import heightIcon from '../pictures/icons8-height-50.png';
 import weightIcon from '../pictures/icons8-weight-50.png';
 import clientApi from '../client-api/rest-client';
+import Footer from '../components/Footer';
 
 const DogBreedDetail = () => {
   const { breedId } = useParams();
@@ -542,10 +543,8 @@ const DogBreedDetail = () => {
             </div>
           </div>
         </div>
-
-
-
       </div>
+      <Footer />
     </div>
   );
 };

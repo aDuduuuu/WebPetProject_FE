@@ -7,6 +7,7 @@ import { FaRegGrinStars } from "react-icons/fa";
 import React, { useState, useEffect } from 'react';
 import Header from '../components/Header'; // Đảm bảo đường dẫn chính xác
 import clientApi from '../client-api/rest-client'; // API client để lấy danh sách tên
+import Footer from '../components/Footer';
 
 const NamePage = () => {
   const [selectedOption, setSelectedOption] = useState(null); // Chỉ lưu 1 lựa chọn
@@ -140,6 +141,7 @@ const NamePage = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -223,6 +223,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import clientApi from '../client-api/rest-client';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { message, Progress } from 'antd';  // Thêm các thành phần của antd để xử lý thông báo và thanh tiến trình
 import { uploadToCloudinary } from '../utils/uploadToCloudinary';  // Import hàm uploadToCloudinary
 
@@ -491,6 +492,7 @@ const AddProduct = () => {
           </div>
         </form>
       </div>
+      <Footer />
     </div>
   );
 };

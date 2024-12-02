@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 import arrowRightIcon from '../pictures/icons8-arrow-right-50.png';
 import arrowDownIcon from '../pictures/icons8-arrow-down-50.png';
 import clientApi from '../client-api/rest-client';
@@ -272,6 +273,7 @@ const FilterSection = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

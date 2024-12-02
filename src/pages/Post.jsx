@@ -3,6 +3,7 @@ import Header from '../components/Header';
 import PostFilter from '../components/PostFilter';
 import PostCard from '../components/PostCard';
 import clientApi from '../client-api/rest-client';
+import Footer from '../components/Footer';
 
 const Post = () => {
   const [postList, setPostList] = useState([]); // Danh sách bài đăng
@@ -161,6 +162,7 @@ const Post = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
