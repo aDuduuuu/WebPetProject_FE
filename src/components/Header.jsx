@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { FaPaw, FaSearch, FaUserCircle, FaHeart, FaBalanceScale,FaUser,  FaSignOutAlt, FaClipboardList } from "react-icons/fa";
+import { FaPaw, FaSearch, FaUserCircle, FaHeart, FaBalanceScale,FaUser,  FaSignOutAlt, FaClipboardList, FaChartLine } from "react-icons/fa";
 import { IoSparklesOutline } from "react-icons/io5";
 import { GiWhistle } from "react-icons/gi";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import logo from "../pictures/heart-with-dog.png";
 import { LuDog } from "react-icons/lu";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import "../css/Header.css";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -244,7 +245,7 @@ const Header = () => {
         {isMenuOpen && (
   <div
     ref={menuRef}
-    className="absolute right-0 mt-16 w-40 bg-white rounded-md shadow-lg z-10 transform translate-y-5"
+    className="user-menu absolute right-0 mt-12 w-40 bg-white rounded-md shadow-lg z-20 transform translate-y-0"
   >
     <ul className="py-2">
       {isLoggedIn ? (
@@ -267,13 +268,19 @@ const Header = () => {
           >
             <FaHeart className="inline-block mr-2 text-red-500" /> Favorite
           </li>
+          {/* Add the new Statistics button here */}
+          <li
+            className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
+            onClick={() => navigate("/statistics")}
+          >
+            <FaChartLine className="inline-block mr-2 text-gray-600" /> Statistics
+          </li>
           <li
             className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
             onClick={handleLogout}
           >
             <FaSignOutAlt className="inline-block mr-2 text-gray-600" /> Logout
           </li>
-          
         </>
       ) : (
         <li
@@ -286,6 +293,7 @@ const Header = () => {
     </ul>
   </div>
 )}
+
         <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
       </div>
     </header>

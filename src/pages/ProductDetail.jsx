@@ -9,11 +9,14 @@ import ProductReview from "./Review/ProductReview";
 
 const ProductDetail = () => {
   const { id } = useParams(); // Lấy ID từ URL
+  const [userID, setUserID] = useState(localStorage.getItem('id'));
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true); // Trạng thái tải dữ liệu
   const [error, setError] = useState("");
   const [quantity, setQuantity] = useState(1); // Số lượng sản phẩm
+  const [isFavorited, setIsFavorited] = useState(false); // Trạng thái yêu thích
+  const [favorList, setFavorList] = useState([]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -36,32 +39,109 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        const uid = localStorage.getItem('id');
+        const response = await clientApi.service('favorites').get(uid); // Lấy danh sách yêu thích
+
+        if (response && response.EC === 0) {
+          const favoriteItems = Array.isArray(response.DT) ? response.DT : response.DT.items || [];
+
+          // Lọc ra các mục yêu thích có type là "Product"
+          const filteredFavorites = favoriteItems.filter(item => item.type === 'Product');
+
+          // Lặp qua danh sách yêu thích, lấy chi tiết sản phẩm từ API
+          const favorListWithDetails = await Promise.all(
+            filteredFavorites.map(async (item) => {
+              const productResponse = await clientApi.service('products').get(item.referenceID); // Truyền _id của sản phẩm
+              return {
+                id: productResponse.DT._id, // Lưu _id của sản phẩm
+                name: productResponse.DT.name, // Lưu tên của sản phẩm
+                image: productResponse.DT.image || 'https://via.placeholder.com/150', // Lưu hình ảnh hoặc placeholder nếu không có
+                price: productResponse.DT.price, // Lưu giá của sản phẩm
+                favoriteID: item._id, // Thêm _id của mục yêu thích vào
+              };
+            })
+          );
+
+          setFavorList(favorListWithDetails);
+
+          // Kiểm tra xem sản phẩm hiện tại có trong danh sách yêu thích không
+          const isProductFavorited = favorListWithDetails.some(item => item.id === id);
+          setIsFavorited(isProductFavorited); // Cập nhật trạng thái yêu thích
+
+          setLoading(false);
+        }
+      } catch (error) {
+        console.error('Error fetching favorite items:', error);
+        setLoading(false);
+      }
+    };
+
+    if (userID) {
+      fetchFavorites();
+    }
+  }, [userID, id]);
+
   const handleFavor = async () => {
     const uid = localStorage.getItem("id"); // Lấy userID từ localStorage
     if (!uid) {
       message.error("You must be logged in to add to favorites.");
       return;
     }
-
+  
     try {
-      const response = await clientApi.service("favorites").create({
-        userID: uid,
-        referenceID: id, // referenceID là id của sản phẩm hiện tại
-        type: "Product", // Type là "product"
-      });
-
-      if (response.EC === 200 || response.EC === 0) {
-        message.success("Product added to favorites.");
+      if (isFavorited) {
+        // Nếu sản phẩm đã yêu thích, thực hiện xóa yêu thích
+        const favoriteItem = favorList.find(item => item.id === id); // Tìm sản phẩm trong danh sách yêu thích
+        if (favoriteItem) {
+          // Gửi yêu cầu xóa yêu thích
+          const response = await clientApi.service("favorites").delete(favoriteItem.favoriteID);
+  
+          if (response.EC === 200 || response.EC === 0) {
+            message.success("Product removed from favorites.");
+            
+            // Cập nhật lại trạng thái
+            setFavorList(prevFavorList => prevFavorList.filter(item => item.id !== id)); // Xóa sản phẩm khỏi danh sách yêu thích
+            setIsFavorited(false); // Cập nhật trạng thái là chưa yêu thích
+          } else {
+            message.error("Failed to remove product from favorites.");
+          }
+        }
       } else {
-        message.error("Failed to add product to favorites.");
+        // Nếu sản phẩm chưa yêu thích, thực hiện thêm vào yêu thích
+        const response = await clientApi.service("favorites").create({
+          userID: uid,
+          referenceID: id, // referenceID là id của sản phẩm hiện tại
+          type: "Product", // Type là "product"
+        });
+  
+        if (response.EC === 200 || response.EC === 0) {
+          message.success("Product added to favorites.");
+  
+          // Thêm sản phẩm vào danh sách yêu thích
+          const newFavoriteItem = {
+            id,
+            name: product.name,
+            price: product.price,
+            image: product.image,
+            favoriteID: response.DT._id, // Lấy _id từ response khi thêm vào yêu thích
+          };
+          
+          setFavorList(prevFavorList => [...prevFavorList, newFavoriteItem]); // Thêm vào danh sách yêu thích
+          setIsFavorited(true); // Cập nhật trạng thái là đã yêu thích
+        } else {
+          message.error("Failed to add product to favorites.");
+        }
       }
     } catch (err) {
-      message.error("Failed to add product to favorites.");
+      message.error("Failed to update favorites.");
       console.error(err);
     }
   };
-
-
+  
+  
   const handleAddToCart = async () => {
     let cart = clientApi.service("cartItem");
     try {
@@ -108,7 +188,6 @@ const ProductDetail = () => {
     <div className="product-detail-container flex flex-col min-h-screen bg-gray-100">
       <Header />
       <div className="container mx-auto p-6">
-        {/* Bố cục chính */}
         <div className="flex flex-col lg:flex-row gap-6">
           {/* Khối 1: Hình ảnh và thông tin */}
           <div className="flex-1 bg-white shadow-md rounded-lg p-6">
@@ -137,9 +216,9 @@ const ProductDetail = () => {
             </p>
             <p
               className="text-4xl font-bold mb-4"
-              style={{ color: "rgb(22, 122, 122)" }} // Màu giống màu nút
+              style={{ color: "rgb(22, 122, 122)" }}
             >
-              ${product.price}
+              {product.price} VNĐ
             </p>
             <div className="flex items-center gap-4 mb-6">
               <label className="font-bold">Quantity:</label>
@@ -154,20 +233,19 @@ const ProductDetail = () => {
 
             {/* Các nút */}
             <div className="flex gap-4">
-  <button
-    className="w-5/6 bg-teal-500 text-white rounded-md py-3 hover:bg-teal-600 text-xl font-semibold"
-    onClick={handleAddToCart}
-  >
-    Add to cart
-  </button>
-  <button 
-    className="w-14 h-14 bg-red-500 text-white rounded-full flex items-center justify-center hover:bg-red-600"
-    onClick={handleFavor}
-  >
-    <FaHeart size={24} />
-  </button>
-</div>
-
+              <button
+                className="w-5/6 bg-teal-500 text-white rounded-md py-3 hover:bg-teal-600 text-xl font-semibold"
+                onClick={handleAddToCart}
+              >
+                Add to cart
+              </button>
+              <button
+                className={`w-14 h-14 ${isFavorited ? 'bg-red-500' : 'bg-white border-2 border-red-500'} text-white rounded-md flex items-center justify-center hover:bg-red-600`}
+                onClick={handleFavor}
+              >
+                <FaHeart size={24} color={isFavorited ? "white" : "red"} />
+              </button>
+            </div>
           </div>
 
           {/* Khối 2: Mô tả */}

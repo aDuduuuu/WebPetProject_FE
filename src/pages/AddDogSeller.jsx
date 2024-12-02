@@ -3,10 +3,12 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import clientApi from '../client-api/rest-client';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import { uploadToCloudinary } from '../utils/uploadToCloudinary';  // Import hàm uploadToCloudinary
+import { message, Progress } from 'antd';  // Thêm các thành phần của antd để xử lý thông báo và thanh tiến trình
 
 const AddDogSeller = () => {
   const [dogSellerInfo, setDogSellerInfo] = useState({
-    sellerId: '',
+    sellerID: '',
     name: '',
     image: '',
     location: '',
@@ -35,6 +37,10 @@ const AddDogSeller = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const isUpdate = location.state?.action === 'update';
+  
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [uploading, setUploading] = useState(false);
+
 
   // Load initial data if updating
   useEffect(() => {
@@ -79,6 +85,42 @@ const AddDogSeller = () => {
     }));
   };
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    
+    if (!file) {
+      setDogSellerInfo((prevState) => ({
+        ...prevState,
+        image: "https://via.placeholder.com/150?text=Not+Available",  // Sử dụng ảnh mặc định nếu không có file
+      }));
+      return;
+    }
+  
+    setUploading(true);
+    setUploadProgress(0);
+  
+    try {
+      const url = await uploadToCloudinary(file, 'spas', (progress) => {
+        setUploadProgress(progress);
+      });
+      
+      setDogSellerInfo((prevState) => ({
+        ...prevState,
+        image: url,
+      }));
+      message.success('Image uploaded successfully!');
+    } catch (error) {
+      setDogSellerInfo((prevState) => ({
+        ...prevState,
+        image: "https://via.placeholder.com/150?text=Not+Available",  // Nếu lỗi, sử dụng ảnh mặc định
+      }));
+      message.error('Error uploading image.');
+      console.error(error);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -90,6 +132,7 @@ const AddDogSeller = () => {
         await dogSellerService.patch(dogSellerInfo._id, dogSellerInfo);
         alert('Dog seller updated successfully!');
       } else {
+        console.log(dogSellerInfo);
         await dogSellerService.create(dogSellerInfo);
         alert('Dog seller added successfully!');
       }
@@ -114,13 +157,13 @@ const AddDogSeller = () => {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label htmlFor="sellerId" className="block font-bold">Seller ID</label>
+            <label htmlFor="sellerID" className="block font-bold">Seller ID</label>
             <input
               type="text"
-              id="sellerId"
-              name="sellerId"
-              value={dogSellerInfo.sellerId}
-              onChange={(e) => setDogSellerInfo({ ...dogSellerInfo, sellerId: e.target.value })}
+              id="sellerID"
+              name="sellerID"
+              value={dogSellerInfo.sellerID}
+              onChange={(e) => setDogSellerInfo({ ...dogSellerInfo, sellerID: e.target.value })}
               className="w-full p-2 border rounded"
               required
               disabled={isUpdate}
@@ -139,15 +182,27 @@ const AddDogSeller = () => {
             />
           </div>
           <div>
-            <label htmlFor="image" className="block font-bold">Image URL</label>
+            <label htmlFor="image" className="block font-bold">Image</label>
             <input
-              type="text"
+              type="file"
               id="image"
               name="image"
-              value={dogSellerInfo.image}
-              onChange={(e) => setDogSellerInfo({ ...dogSellerInfo, image: e.target.value })}
+              onChange={handleImageUpload}
               className="w-full p-2 border rounded"
+              accept="image/*"
             />
+                       {uploading && (
+              <div style={{ marginTop: '20px', width: '100%' }}>
+                <Progress percent={uploadProgress} status="active" />
+              </div>
+            )}
+            <div className="mt-2">
+              <img
+                src={dogSellerInfo.image || "https://via.placeholder.com/150?text=Not+Available"}
+                alt="Preview"
+                className="w-40 h-40 object-cover rounded"
+              />
+            </div>
           </div>
           <div>
             <label htmlFor="location" className="block font-bold">Location</label>
