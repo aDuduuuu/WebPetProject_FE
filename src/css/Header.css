@@ -1,0 +1,20 @@
+header {
+    z-index: 10; /* Header có z-index thấp hơn menu */
+  }
+  
+  /* Menu con của user, service, breeds cần có z-index cao hơn header */
+  .user-menu, .service-menu, .breed-menu {
+    position: absolute;
+    z-index: 20; /* Đảm bảo menu của user, service và breeds có z-index cao hơn */
+  }
+  
+  .user-menu {
+    top: 16px;  /* Đảm bảo menu của user không đè lên header */
+    right: 0;
+  }
+  
+  .service-menu, .breed-menu {
+    top: 16px;
+    left: 0;
+  }
+  

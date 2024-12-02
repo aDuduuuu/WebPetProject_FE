@@ -8,6 +8,7 @@ import React, { useState, useEffect } from 'react';
 import Header from '../components/Header'; // Đảm bảo đường dẫn chính xác
 import clientApi from '../client-api/rest-client'; // API client để lấy danh sách tên
 import Footer from '../components/Footer';
+import { message } from "antd";
 
 const NamePage = () => {
   const [selectedOption, setSelectedOption] = useState(null); // Chỉ lưu 1 lựa chọn
@@ -15,6 +16,18 @@ const NamePage = () => {
   const [loading, setLoading] = useState(false); // Trạng thái loading
   const [hasMore, setHasMore] = useState(true); // Kiểm tra xem còn thẻ nào để load thêm
   const [page, setPage] = useState(1); // Trang hiện tại
+  const [isManager, setIsManager] = useState(false); // Kiểm tra role là manager hay không
+  const [showAddNameForm, setShowAddNameForm] = useState(false); // Kiểm tra trạng thái form Add Name
+  const [nameInfo, setNameInfo] = useState({
+    name: '',
+    category: '',
+  });
+
+  useEffect(() => {
+    // Lấy role từ localStorage
+    const role = localStorage.getItem('role');
+    setIsManager(role === 'manager'); // Kiểm tra nếu role là manager
+  }, []);
 
   // Hàm lấy danh sách tên chó từ API
   const fetchDogNames = async (category, page = 1) => {
@@ -56,6 +69,35 @@ const NamePage = () => {
     setHasMore(true); // Đặt lại trạng thái có thêm thẻ để load
   };
 
+  const handleAdd = async (e) => {
+    e.preventDefault();
+    const { name, category } = nameInfo;
+  
+    if (!name || !category) {
+      message.error('Please enter a name and select a category'); // Hiển thị lỗi nếu chưa điền tên hoặc chọn category
+      return;
+    }
+  
+    try {
+      // Gửi yêu cầu API để thêm tên mới
+      const response = await clientApi.service('dognames').create({ name, category });
+      
+      if (response.EC === 0) {
+        message.success('Dog name added successfully');
+        // Cập nhật danh sách tên chó sau khi thêm thành công
+        setDogNames((prev) => [response.DT, ...prev]);
+        setShowAddNameForm(false); // Ẩn form sau khi thêm
+        setNameInfo({ name: '', category: '' }); // Reset form
+      } else {
+        message.error('Failed to add dog name');
+      }
+    } catch (error) {
+      console.error('Error adding dog name:', error);
+      message.error('Error adding dog name');
+    }
+  };
+  
+
   const icons = {
     Baby: <PiBaby className="w-10 h-10" />,
     Celebrity: <LuSparkles className="w-10 h-10" />,
@@ -75,6 +117,11 @@ const NamePage = () => {
   const handleLoadMore = () => {
     setPage((prev) => prev + 1); // Tăng trang hiện tại lên 1
     fetchDogNames(selectedOption, page + 1); // Lấy thêm dữ liệu cho trang tiếp theo
+  };
+
+  // Hàm toggle form Add Name
+  const toggleAddNameForm = () => {
+    setShowAddNameForm(!showAddNameForm);
   };
 
   return (
@@ -102,6 +149,54 @@ const NamePage = () => {
 
           {/* Divider giữa Category và Tên */}
           <div className="border-t-2 border-gray-300 my-6"></div> {/* Divider có viền mỏng */}
+
+          {/* Nút Add Name cho manager */}
+          {isManager && (
+            <div className="flex justify-center mb-6">
+              <button
+                className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600"
+                onClick={toggleAddNameForm} // Toggle form khi click
+              >
+                {showAddNameForm ? 'Cancel' : 'Add Name'}
+              </button>
+            </div>
+          )}
+
+          {/* Form Add Name */}
+          {/* Form Add Name */}
+          {showAddNameForm && (
+            <div className="flex items-center space-x-4 mb-6">
+              {/* Dropdown chọn category */}
+              <select 
+                className="p-2 border rounded-md w-1/4"
+                value={nameInfo.category} // Binding category
+                onChange={(e) => setNameInfo({ ...nameInfo, category: e.target.value })}
+              >
+                {['Baby', 'Celebrity', 'Cute', 'Superhero', 'Trendy', 'Videogame', 'Movie', 'Silly'].map((category) => (
+                  <option key={category} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+
+              {/* Text field nhập tên */}
+              <input 
+                type="text" 
+                className="p-2 border rounded-md w-1/4" 
+                placeholder="Enter dog name" 
+                value={nameInfo.name} // Binding name
+                onChange={(e) => setNameInfo({ ...nameInfo, name: e.target.value })}
+              />
+
+              {/* Nút Add */}
+              <button 
+                className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600"
+                onClick={handleAdd}
+              >
+                Add
+              </button>
+            </div>
+          )}
 
           {/* Danh sách tên chó */}
           {loading ? (

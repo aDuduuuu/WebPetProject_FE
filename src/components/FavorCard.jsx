@@ -60,7 +60,7 @@ const FavorCard = ({ id, name, image, price, favoriteID }) => {
                 />
                 <h2 className="text-lg font-semibold">{name}</h2>
                 {/* Hiển thị giá sản phẩm */}
-                <p className="text-xl text-gray-800 mt-2">${price}</p>
+                <p className="text-xl text-gray-800 mt-2">{price} VNĐ</p>
             </div>
 
             {/* Hiển thị nút xoá ở góc phải dưới */}

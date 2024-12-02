@@ -68,7 +68,7 @@ const Card = ({ id, image, name, location, services, contactInfo, price, type, a
     if (type === 'products') {
       return (
         <>
-          <p className="text-sm text-gray-600">Price: ${price}</p>
+          <p className="text-sm text-gray-600">Price: {price} VNĐ</p>
         </>
       );
     }
