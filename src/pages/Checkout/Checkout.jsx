@@ -102,7 +102,7 @@ const Checkout = () => {
             message.error("Please update the information");
             return;
         }
-        let order = await clientApi.service('order')
+        let order = await clientApi.service('orders')
         try {
             let response = await order.create({
                 paymentMethod: payment,
