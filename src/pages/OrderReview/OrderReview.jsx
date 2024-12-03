@@ -16,7 +16,7 @@ const OrderReview = () => {
         fetchOrderDetail();
     }, []);
     let fetchOrderDetail = async () => {
-        let order = clientApi.service('order');
+        let order = clientApi.service('orders');
         try {
             let response = await order.get(id)
             if (response.EC === 0) {

@@ -15,7 +15,7 @@ const OrderList = () => {
         fetchListOrder();
     }, []);
     let fetchListOrder = async () => {
-        let order = clientApi.service('order');
+        let order = clientApi.service('orders');
         try {
             let response = await order.find({});
             if (response.EC === 0) {
