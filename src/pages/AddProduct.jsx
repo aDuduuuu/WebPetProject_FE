@@ -100,12 +100,6 @@ const AddProduct = () => {
     setLoading(true);
     setError('');
 
-    // if (!productInfo.name || !productInfo.productCode || !productInfo.productType || !productInfo.price || !productInfo.quantity) {
-    //   setError('Please fill in all required fields');
-    //   setLoading(false);
-    //   return;
-    // }
-
     try {
       const productService = clientApi.service('products');
       if (isUpdate) {

@@ -31,6 +31,7 @@ import NamePage from "./pages/Naming.jsx";
 import CompareBreeds from "./pages/CompareBreeds.jsx";
 import OrderReview from "./pages/OrderReview/OrderReview.jsx";
 import StatisticsRoutes from "./routes/statisticsRoute.jsx";
+import TotalOrders from "./pages/TotalOrders.jsx";
 
 const App = () => (
   <AnswerProvider>
@@ -66,6 +67,7 @@ const App = () => (
           <Route path="/name/*" element={<NameRoutes />} />
           <Route path="/compareDogs" element={<CompareBreeds />} />
           <Route path="/statistics" element={<StatisticsRoutes />} />
+          <Route path="/manageorder" element={<TotalOrders />} />
         </Routes>
       </Router>
     </AppProvider>
