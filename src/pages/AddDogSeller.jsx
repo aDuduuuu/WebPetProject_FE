@@ -130,11 +130,11 @@ const AddDogSeller = () => {
       const dogSellerService = clientApi.service('dogsellers');
       if (isUpdate) {
         await dogSellerService.patch(dogSellerInfo._id, dogSellerInfo);
-        alert('Dog seller updated successfully!');
+        message.success('Dog seller updated successfully!');
       } else {
         console.log(dogSellerInfo);
         await dogSellerService.create(dogSellerInfo);
-        alert('Dog seller added successfully!');
+        message.success('Dog seller added successfully!');
       }
       navigate('/dogsellers');
     } catch (err) {

@@ -18,6 +18,13 @@ const Header = () => {
   const menuRef = useRef(null);
   const breedMenuRef = useRef(null);
   const serviceMenuRef = useRef(null);
+  const [isManager, setIsManager] = useState(false);
+
+  useEffect(() => {
+    // Lấy role từ localStorage
+    const role = localStorage.getItem('role');
+    setIsManager(role === 'manager'); // Kiểm tra nếu role là manager
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -153,6 +160,11 @@ const Header = () => {
         <button onClick={() => navigate("/cart")} className="hover:text-teal-400 relative">
           Cart
         </button>
+        {isManager && (
+        <button onClick={() => navigate("/manageorder")} className="hover:text-teal-400 relative">
+          Order
+        </button>
+      )}
         {isBreedMenuOpen && (
           <div
             ref={breedMenuRef}
@@ -269,12 +281,14 @@ const Header = () => {
             <FaHeart className="inline-block mr-2 text-red-500" /> Favorite
           </li>
           {/* Add the new Statistics button here */}
+          {isManager && (
           <li
             className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
             onClick={() => navigate("/statistics")}
           >
             <FaChartLine className="inline-block mr-2 text-gray-600" /> Statistics
           </li>
+          )}
           <li
             className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
             onClick={handleLogout}

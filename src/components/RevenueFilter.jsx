@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select'; // Đảm bảo bạn đã cài react-select
 
-const CustomDatePicker = ({ selectedDate, setSelectedDate, onApplyFilter }) => {
+const RevenueDatePicker = ({ selectedDate, setSelectedDate, onApplyFilter }) => {
   const [year, setYear] = useState(selectedDate.year || '');
   const [month, setMonth] = useState(selectedDate.month || '');
   const [day, setDay] = useState(selectedDate.day || '');
-  const [status, setStatus] = useState('');  // State cho status
 
   // Tạo danh sách năm từ 2020 đến năm hiện tại
   const yearOptions = [];
@@ -36,11 +35,6 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate, onApplyFilter }) => {
     setDay(e.target.value);
   };
 
-  // Hàm xử lý thay đổi status
-  const handleStatusChange = (selectedOption) => {
-    setStatus(selectedOption ? selectedOption.value : '');
-  };
-
   // Tạo danh sách ngày dựa trên tháng và năm
   const getDaysInMonth = (month, year) => {
     if (!month || !year) return [];
@@ -61,7 +55,6 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate, onApplyFilter }) => {
     if (year) filters.year = year;
     if (month) filters.month = month;
     if (day) filters.day = day;
-    if (status) filters.status = status;  // Thêm status vào bộ lọc
 
     onApplyFilter(filters);  // Truyền bộ lọc cho component cha
   };
@@ -125,24 +118,6 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate, onApplyFilter }) => {
         )}
       </div>
 
-      {/* Dropdown cho status */}
-      <div className="status-dropdown-container mt-4">
-        <label className="block text-teal-500 font-semibold">Status</label>
-        <Select
-          value={status ? { label: status, value: status } : null}
-          onChange={handleStatusChange}
-          options={[
-            { label: "All", value: '' },
-            { label: "Ordered", value: "ordered" },
-            { label: "Waiting for shipping", value: "waitingship" },
-            { label: "Shipping", value: "shipping" },
-            { label: "Delivered", value: "delivered" },
-            { label: "Cancel", value: "cancel" },
-          ]}
-          className="w-full p-2 border rounded-md"
-        />
-      </div>
-
       {/* Nút Filter */}
       <div className="mt-4">
         <button
@@ -156,4 +131,4 @@ const CustomDatePicker = ({ selectedDate, setSelectedDate, onApplyFilter }) => {
   );
 };
 
-export default CustomDatePicker;
+export default RevenueDatePicker;
