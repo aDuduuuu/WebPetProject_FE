@@ -151,7 +151,7 @@ const CompareBreeds = () => {
         {[...Array(5)].map((_, index) => {
           const breedKey = `breed${index + 1}`;
           return (
-            <div key={breedKey} className="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg w-[250px]">
+            <div key={breedKey} className="flex flex-col items-center bg-white p-6 rounded-lg shadow-lg w-[275px]">
               <div className="bg-[#F0F0F0] p-4 border border-gray-300 rounded-md w-full flex justify-center">
                 {/* Hiển thị ảnh của giống chó nếu có */}
                 {dogDetails[breedKey] && dogDetails[breedKey].image ? (
@@ -192,29 +192,100 @@ const CompareBreeds = () => {
 
               {/* Hiển thị thông tin giống chó nếu có */}
               {dogDetails[breedKey] && dogDetails[breedKey] !== null && (
-                <div className="mt-6 bg-white p-4 border border-gray-300 rounded-md w-full">
-                  <h3 className="font-semibold text-[#16423C] text-lg">{selectedBreeds[breedKey]}</h3>
-                  <div className="text-sm text-gray-700 space-y-4">
-                    <p><strong>Height: </strong>{dogDetails[breedKey].height.min} - {dogDetails[breedKey].height.max} inches</p>
-                    <p><strong>Weight: </strong>{dogDetails[breedKey].weight.min} - {dogDetails[breedKey].weight.max} lbs</p>
-                    <p><strong>Lifespan: </strong>{dogDetails[breedKey].lifespan.min} - {dogDetails[breedKey].lifespan.max} years</p>
-                    <p><strong>Affective with Family: </strong>{dogDetails[breedKey].affectionateWithFamily}/5</p>
-                    <p><strong>Good with Other Dogs: </strong>{dogDetails[breedKey].goodWithOtherDogs}/5</p>
-                    <p><strong>Good with Young Children: </strong>{dogDetails[breedKey].goodWithYoungChildren}/5</p>
-                    <p><strong>Shedding Level: </strong>{dogDetails[breedKey].sheddingLevel}/5</p>
-                    <p><strong>Coat Type: </strong>{dogDetails[breedKey].coatType.join(', ')}</p>
-                    <p><strong>Coat Length: </strong>{dogDetails[breedKey].coatLength.join(', ')}</p>
-                    <p><strong>Openness to Strangers: </strong>{dogDetails[breedKey].opennessToStrangers}/5</p>
-                    <p><strong>Watchdog Protective Nature: </strong>{dogDetails[breedKey].watchdogProtectiveNature}/5</p>
-                    <p><strong>Playfulness Level: </strong>{dogDetails[breedKey].playfulnessLevel}/5</p>
-                    <p><strong>Adaptability Level: </strong>{dogDetails[breedKey].adaptabilityLevel}/5</p>
-                    <p><strong>Trainability Level: </strong>{dogDetails[breedKey].trainabilityLevel}/5</p>
-                    <p><strong>Barking Level: </strong>{dogDetails[breedKey].barkingLevel}/5</p>
-                    <p><strong>Energy Level: </strong>{dogDetails[breedKey].energyLevel}/5</p>
-                    <p><strong>Mental Stimulation Needs: </strong>{dogDetails[breedKey].mentalStimulationNeeds}/5</p>
+                <div className="mt-6 bg-white p-6 border border-gray-300 rounded-lg shadow-lg w-full">
+                  <h3 className="font-semibold text-[#16423C] text-xl mb-6">{selectedBreeds[breedKey]}</h3>
+                  
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Height:</span>
+                      <span>{dogDetails[breedKey].height.min} - {dogDetails[breedKey].height.max} inches</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Weight:</span>
+                      <span>{dogDetails[breedKey].weight.min} - {dogDetails[breedKey].weight.max} lbs</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Lifespan:</span>
+                      <span>{dogDetails[breedKey].lifespan.min} - {dogDetails[breedKey].lifespan.max} years</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Affective with Family:</span>
+                      <span>{dogDetails[breedKey].affectionateWithFamily}/5</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Good with Other Dogs:</span>
+                      <span>{dogDetails[breedKey].goodWithOtherDogs}/5</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Good with Young Children:</span>
+                      <span>{dogDetails[breedKey].goodWithYoungChildren}/5</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Shedding Level:</span>
+                      <span>{dogDetails[breedKey].sheddingLevel}/5</span>
+                    </div>
+
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Openness to Strangers:</span>
+                      <span>{dogDetails[breedKey].opennessToStrangers}/5</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Watchdog Protective Nature:</span>
+                      <span>{dogDetails[breedKey].watchdogProtectiveNature}/5</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Playfulness Level:</span>
+                      <span>{dogDetails[breedKey].playfulnessLevel}/5</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Adaptability Level:</span>
+                      <span>{dogDetails[breedKey].adaptabilityLevel}/5</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Trainability Level:</span>
+                      <span>{dogDetails[breedKey].trainabilityLevel}/5</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Barking Level:</span>
+                      <span>{dogDetails[breedKey].barkingLevel}/5</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Energy Level:</span>
+                      <span>{dogDetails[breedKey].energyLevel}/5</span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-gray-800">Mental Stimulation Needs:</span>
+                      <span>{dogDetails[breedKey].mentalStimulationNeeds}/5</span>
+                    </div>
+
+                    {/* Coat Type & Coat Length được xử lý đặc biệt vì chúng có thể chứa nhiều giá trị */}
+                    <div className="flex justify-between items-start">
+                      <span className="font-medium text-gray-800">Coat Type:</span>
+                      <div className="text-gray-700">
+                        <ul className="list-disc pl-6">
+                          {dogDetails[breedKey].coatType.map((type, index) => (
+                            <li key={index}>{type}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    <div className="flex justify-between items-start">
+                      <span className="font-medium text-gray-800">Coat Length:</span>
+                      <div className="text-gray-700">
+                        <ul className="list-disc pl-6">
+                          {dogDetails[breedKey].coatLength.map((length, index) => (
+                            <li key={index}>{length}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                    
                   </div>
                 </div>
               )}
+
+
+
             </div>
           );
         })}

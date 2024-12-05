@@ -23,6 +23,10 @@ const DogBreedDetail = () => {
   const [isPhysicalVisible, setPhysicalVisible] = useState(false);
   const [isSocialVisible, setSocialVisible] = useState(false);
   const [isPersonalVisible, setPersonalVisible] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalTitle, setModalTitle] = useState("");
+  const [modalContent, setModalContent] = useState("");
+
   useEffect(() => {
     const fetchDogBreedDetails = async () => {
       setLoading(true);
@@ -91,6 +95,12 @@ const DogBreedDetail = () => {
 
   const togglePersonalVisibility = () => {
     setPersonalVisible(!isPersonalVisible);
+  };
+
+  const toggleModal = (title, content) => {
+    setModalTitle(title);
+    setModalContent(content);
+    setShowModal(!showModal);
   };
 
   return (
@@ -168,12 +178,23 @@ const DogBreedDetail = () => {
                 {/* Affectionate with Family */}
                 {dogBreed.affectionateWithFamily !== undefined && (
                   <div className="trait">
-                    <h4>Affectionate with family</h4>
+                    <h4
+                      className="text-16423C cursor-pointer hover:underline"
+                      onClick={() => toggleModal(
+                        "Affectionate with Family",
+                        "How affectionate a breed is likely to be with family members, or other people he knows well. Some breeds can be aloof with everyone but their owner, while other breeds treat everyone they know like their best friend."
+                      )}
+                    >
+                      Affectionate with Family
+                    </h4>
                     <div className="rating-bar-container">
                       <p>Independent</p>
                       <div className="rating-bar">
                         {Array(5).fill().map((_, index) => (
-                          <span key={index} className={index < dogBreed.affectionateWithFamily ? 'filled' : ''}></span>
+                          <span
+                            key={index}
+                            className={index < dogBreed.affectionateWithFamily ? 'filled text-[#16423C]' : 'text-gray-400'}
+                          ></span>
                         ))}
                       </div>
                       <p>Lovely-dovey</p>
@@ -184,7 +205,15 @@ const DogBreedDetail = () => {
                 {/* Good with Other Dogs */}
                 {dogBreed.goodWithOtherDogs !== undefined && (
                   <div className="trait">
-                    <h4>Good with other dogs</h4>
+                    <h4
+                      className="text-16423C cursor-pointer hover:underline"
+                      onClick={() => toggleModal(
+                        "Good with other dogs",
+                        "How generally friendly a breed is towards other dogs. Dogs should always be supervised for interactions and introductions with other dogs, but some breeds are innately more likely to get along with other dogs, both at home and in public."
+                      )}
+                    >
+                      Good with other dogs
+                    </h4>
                     <div className="rating-bar-container">
                       <p>Not recommended</p>
                       <div className="rating-bar">
@@ -200,7 +229,15 @@ const DogBreedDetail = () => {
                 {/* Good with Young Children */}
                 {dogBreed.goodWithYoungChildren !== undefined && (
                   <div className="trait">
-                    <h4>Good with young children</h4>
+                    <h4
+                      className="text-16423C cursor-pointer hover:underline"
+                      onClick={() => toggleModal(
+                        "Good with young children",
+                        "A breed's level of tolerance and patience with childrens' behavior, and overall family-friendly nature. Dogs should always be supervised around young children, or children of any age who have little exposure to dogs."
+                      )}
+                    >
+                      Good with young children
+                    </h4>
                     <div className="rating-bar-container">
                       <p>Not recommended</p>
                       <div className="rating-bar">
@@ -229,7 +266,15 @@ const DogBreedDetail = () => {
               <div className="trait-section">
                 {dogBreed.sheddingLevel !== undefined && (
                   <div className="trait">
-                    <h4>Shedding level</h4>
+                    <h4
+                      className="text-16423C cursor-pointer hover:underline"
+                      onClick={() => toggleModal(
+                        "Shedding level",
+                        "How much fur and hair you can expect the breed to leave behind. Breeds with high shedding will need to be brushed more frequently, are more likely to trigger certain types of allergies, and are more likely to require more consistent vacuuming and lint-rolling."
+                      )}
+                    >
+                      Shedding level
+                    </h4>
                     <div className="rating-bar-container">
                       <p>No shedding</p>
                       <div className="rating-bar">
@@ -244,7 +289,15 @@ const DogBreedDetail = () => {
 
                 {dogBreed.coatGroomingFrequency !== undefined && (
                   <div className="trait">
-                    <h4>Coat grooming frequency</h4>
+                    <h4
+                      className="text-16423C cursor-pointer hover:underline"
+                      onClick={() => toggleModal(
+                        "Coat grooming frequency",
+                        "How frequently a breed requires bathing, brushing, trimming, or other kinds of coat maintenance. Consider how much time, patience, and budget you have for this type of care when looking at the grooming effort needed. All breeds require regular nail trimming."
+                      )}
+                    >
+                      Coat grooming frequency
+                    </h4>
                     <div className="rating-bar-container">
                       <p>Monthly</p>
                       <div className="rating-bar">
@@ -259,7 +312,15 @@ const DogBreedDetail = () => {
 
                 {dogBreed.droolingLevel !== undefined && (
                   <div className="trait">
-                    <h4>Drooling level</h4>
+                    <h4
+                      className="text-16423C cursor-pointer hover:underline"
+                      onClick={() => toggleModal(
+                        "Drooling level",
+                        "How drool-prone a breed tends to be. If you're a neat freak, dogs that can leave ropes of slobber on your arm or big wet spots on your clothes may not be the right choice for you."
+                      )}
+                    >
+                      Drooling level
+                    </h4>
                     <div className="rating-bar-container">
                       <p>Less likely to drool</p>
                       <div className="rating-bar">
@@ -275,7 +336,15 @@ const DogBreedDetail = () => {
               <div id="coat-details" className="coat-details">
                 {/* Coat Type Section */}
                 <div className="coat-type">
-                  <h3>Coat Type</h3>
+                  <h4
+                    className="text-16423C cursor-pointer hover:underline mb-7 font-semibold"
+                    onClick={() => toggleModal(
+                      "Coat Type",
+                      "Canine coats come in many different types, depending on the breed's purpose. Each coat type comes with different grooming needs, allergen potential, and shedding level. You may also just prefer the look or feel of certain coat types over others when choosing a family pet."
+                    )}
+                  >
+                    Coat Type
+                  </h4>
                   <ul id="coatTypeList">
                     {[
                       "Wiry",
@@ -300,7 +369,15 @@ const DogBreedDetail = () => {
 
                 {/* Coat Length Section */}
                 <div className="coat-length">
-                  <h3>Coat Length</h3>
+                <h4
+                    className="text-16423C cursor-pointer hover:underline mt-7 mb-7 font-semibold"
+                    onClick={() => toggleModal(
+                      "Coat Length",
+                      "How long the breed's coat is expected to be. Some long-haired breeds can be trimmed short, but this will require additional upkeep to maintain."
+                    )}
+                  >
+                    Coat Length
+                  </h4>
                   <ul id="coatLengthList">
                     {["Short", "Medium", "Long"].map((length) => (
                       <li
@@ -330,7 +407,15 @@ const DogBreedDetail = () => {
                 {/* Openness to strangers */}
                 {dogBreed.opennessToStrangers !== undefined && (
                   <div className="trait">
-                    <h4>Openness to strangers</h4>
+                    <h4
+                      className="text-16423C cursor-pointer hover:underline"
+                      onClick={() => toggleModal(
+                        "Openness to strangers",
+                        "How welcoming a breed is likely to be towards strangers. Some breeds will be reserved or cautious around all strangers, regardless of the location, while other breeds will be happy to meet a new human whenever one is around!"
+                      )}
+                    >
+                      Openness to strangers
+                    </h4>
                     <div className="rating-bar-container">
                       <p>Reserved</p>
                       <div className="rating-bar">
@@ -348,7 +433,15 @@ const DogBreedDetail = () => {
                 {/* Watchdog/Protective nature */}
                 {dogBreed.watchdogProtectiveNature !== undefined && (
                   <div className="trait">
-                    <h4>Watchdog/Protective nature</h4>
+                    <h4
+                      className="text-16423C cursor-pointer hover:underline"
+                      onClick={() => toggleModal(
+                        "Watchdog/Protective nature",
+                        "A breed's tendency to alert you that strangers are around. These breeds are more likely to react to any potential threat, whether it's the mailman or a squirrel outside the window. These breeds are likely to warm to strangers who enter the house and are accepted by their family."
+                      )}
+                    >
+                      Watchdog/Protective nature
+                    </h4>
                     <div className="rating-bar-container">
                       <p>What's mine is yours</p>
                       <div className="rating-bar">
@@ -368,7 +461,15 @@ const DogBreedDetail = () => {
                 {/* Playfulness level */}
                 {dogBreed.playfulnessLevel !== undefined && (
                   <div className="trait">
-                    <h4>Playfulness level</h4>
+                    <h4
+                      className="text-16423C cursor-pointer hover:underline"
+                      onClick={() => toggleModal(
+                        "Playfulness level",
+                        "How enthusiastic about play a breed is likely to be, even past the age of puppyhood. Some breeds will continue wanting to play tug-of-war or fetch well into their adult years, while others will be happy to just relax on the couch with you most of the time."
+                      )}
+                    >
+                      Playfulness level
+                    </h4>
                     <div className="rating-bar-container">
                       <p>Only when you want to play</p>
                       <div className="rating-bar">
@@ -386,7 +487,15 @@ const DogBreedDetail = () => {
                 {/* Adaptability level */}
                 {dogBreed.adaptabilityLevel !== undefined && (
                   <div className="trait">
-                    <h4>Adaptability level</h4>
+                    <h4
+                      className="text-16423C cursor-pointer hover:underline"
+                      onClick={() => toggleModal(
+                        "Adaptability level",
+                        "How easily a breed handles change. This can include changes in living conditions, noise, weather, daily schedule, and other variations in day-to-day life."
+                      )}
+                    >
+                      Adaptability level
+                    </h4>
                     <div className="rating-bar-container">
                       <p>Live for routine</p>
                       <div className="rating-bar">
@@ -418,7 +527,15 @@ const DogBreedDetail = () => {
                 {/* Trainability level */}
                 {dogBreed.trainabilityLevel !== undefined && (
                   <div className="trait">
-                    <h4>Trainability level</h4>
+                    <h4
+                      className="text-16423C cursor-pointer hover:underline"
+                      onClick={() => toggleModal(
+                        "Trainability level",
+                        "How easy it will be to train your dog, and how willing your dog will be to learn new things. Some breeds just want to make their owner proud, while others prefer to do what they want, when they want to, wherever they want!"
+                      )}
+                    >
+                      Trainability level
+                    </h4>
                     <div className="rating-bar-container">
                       <p>Self-willed</p>
                       <div className="rating-bar">
@@ -436,7 +553,15 @@ const DogBreedDetail = () => {
                 {/* Watchdog/Protective nature */}
                 {dogBreed.barkingLevel !== undefined && (
                   <div className="trait">
-                    <h4>Backing level</h4>
+                    <h4
+                      className="text-16423C cursor-pointer hover:underline"
+                      onClick={() => toggleModal(
+                        "Backing level",
+                        "How often this breed vocalizes, whether it's with barks or howls. While some breeds will bark at every passer-by or bird in the window, others will only bark in particular situations. Some barkless breeds can still be vocal, using other sounds to express themselves."
+                      )}
+                    >
+                      Backing level
+                    </h4>
                     <div className="rating-bar-container">
                       <p>Only to alert</p>
                       <div className="rating-bar">
@@ -456,7 +581,15 @@ const DogBreedDetail = () => {
                 {/* Energy level */}
                 {dogBreed.energyLevel !== undefined && (
                   <div className="trait">
-                    <h4>Energy level</h4>
+                    <h4
+                      className="text-16423C cursor-pointer hover:underline"
+                      onClick={() => toggleModal(
+                        "Energy level",
+                        "The amount of exercise and mental stimulation a breed needs. High energy breeds are ready to go and eager for their next adventure. They'll spend their time running, jumping, and playing throughout the day. Low energy breeds are like couch potatoes - they're happy to simply lay around and snooze."
+                      )}
+                    >
+                      Energy level
+                    </h4>
                     <div className="rating-bar-container">
                       <p>Couch potato</p>
                       <div className="rating-bar">
@@ -474,7 +607,15 @@ const DogBreedDetail = () => {
                 {/* Adaptability level */}
                 {dogBreed.mentalStimulationNeeds !== undefined && (
                   <div className="trait">
-                    <h4>Mental stimulation needs</h4>
+                    <h4
+                      className="text-16423C cursor-pointer hover:underline"
+                      onClick={() => toggleModal(
+                        "Mental stimulation needs",
+                        "How much mental stimulation a breed needs to stay happy and healthy. Purpose-bred dogs can have jobs that require decision-making, problem-solving, concentration, or other qualities, and without the brain exercise they need, they'll create their own projects to keep their minds busy -- and they probably won't be the kind of projects you'd like."
+                      )}
+                    >
+                      Mental stimulation needs
+                    </h4>
                     <div className="rating-bar-container">
                       <p>Happy to lounge</p>
                       <div className="rating-bar">
@@ -544,6 +685,24 @@ const DogBreedDetail = () => {
           </div>
         </div>
       </div>
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full">
+            <h3 className="text-16423C text-lg font-semibold mb-4">
+              {modalTitle}
+            </h3>
+            <p className="text-16423C text-sm mb-4">
+              {modalContent}
+            </p>
+            <button
+              onClick={() => setShowModal(false)}
+              className="bg-16423C text-white px-4 py-2 rounded-md hover:bg-16423C/90"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
       <Footer />
     </div>
   );
