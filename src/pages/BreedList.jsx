@@ -29,6 +29,8 @@ const FilterSection = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedBreeds, setSelectedBreeds] = useState([]);
   const [selectedBreedsDetails, setSelectedBreedsDetails] = useState([]);
+  const [goToPage, setGoToPage] = useState(currentPage);
+
 
   // Lấy selectedBreeds từ localStorage khi load trang
   useEffect(() => {
@@ -162,6 +164,12 @@ const FilterSection = () => {
     navigate('/compareDogs'); // Redirect to the CompareDogs page
   };
 
+  const handleGoToPage = () => {
+    if (goToPage >= 1 && goToPage <= Math.ceil(totalBreeds / itemsPerPage)) {
+      paginate(goToPage);
+    }
+  };
+
   return (
     <div className="home-container text-white flex flex-col min-h-screen">
       <Header />
@@ -172,8 +180,8 @@ const FilterSection = () => {
           </div>
           {/* Filters */}
           {renderFilterSection("GROUP", "group", [
-            "Sporting Group", "Hound Group", "Working Group", "Terrier Group", 
-            "Toy Group", "Non-Sporting Group", "Herding Group", "Miscellaneous Class", 
+            "Sporting Group", "Hound Group", "Working Group", "Terrier Group",
+            "Toy Group", "Non-Sporting Group", "Herding Group", "Miscellaneous Class",
             "Foundation Stock",
           ])}
           {renderFilterSection("ACTIVITY LEVEL", "activityLevel", [
@@ -183,15 +191,15 @@ const FilterSection = () => {
             "When Necessary", "Infrequent", "Medium", "Frequent", "Likes To Be Vocal",
           ])}
           {renderFilterSection("CHARACTERISTICS", "characteristics", [
-            "Smallest Dog Breeds", "Medium Dog Breeds", "Largest Dog Breeds", 
+            "Smallest Dog Breeds", "Medium Dog Breeds", "Largest Dog Breeds",
             "Smartest Breeds Of Dogs", "Hypoallergenic Dogs", "Best Dog Breeds For Kids",
             "Hairless Dog Breeds", "Best Dogs For Apartment Dwellers", "Large Dog Breeds",
           ])}
           {renderFilterSection("COAT TYPE", "coatType", [
-            "Curly", "Wavy", "Rough", "Corded", "Hairless", "Short", "Medium", "Long", 
+            "Curly", "Wavy", "Rough", "Corded", "Hairless", "Short", "Medium", "Long",
             "Smooth", "Wiry", "Silky", "Double",
           ])}
-          {renderFilterSection("SHEDDING", "sheddingLevel", [
+          {renderFilterSection("SHEDDING", "shedding", [
             "Infrequent", "Seasonal", "Frequent", "Occasional", "Regularly",
           ])}
           {renderFilterSection("SIZE", "size", [
@@ -299,6 +307,30 @@ const FilterSection = () => {
             >
               Next
             </button>
+          </div>
+          {/* Go to Page Section */}
+          <div className="flex justify-center mt-4">
+            <div className="flex items-center ml-4">
+              {/* Label "Go to Page" */}
+              <span className="mr-2 text-teal-800 text-sm font-semibold">Go to Page:</span>
+              
+              <input
+                type="number"
+                value={goToPage}
+                onChange={(e) => setGoToPage(Number(e.target.value))}
+                min={1}
+                max={Math.ceil(totalBreeds / itemsPerPage)}
+                className="px-2 py-1 border border-teal-600 rounded-md text-sm focus:ring-2 focus:ring-teal-400 text-teal-800"
+                placeholder="Enter page number"
+              />
+              
+              <button
+                onClick={handleGoToPage}
+                className="ml-2 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-400"
+              >
+                Go
+              </button>
+            </div>
           </div>
         </div>
       </div>
