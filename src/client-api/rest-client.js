@@ -107,5 +107,5 @@ class RestClient {
 }
 
 let clientApi = new RestClient();
-clientApi.config(import.meta.env.VITE_BACKEND_URL2);
+clientApi.config(import.meta.env.VITE_BACKEND_URL);
 export default clientApi;
