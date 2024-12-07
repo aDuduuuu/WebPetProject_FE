@@ -6,18 +6,18 @@ const ProductFilter = ({ onFilter }) => {
   const [maxPrice, setMaxPrice] = useState('');
   const [sortBy, setSortBy] = useState('');
   const [selectedProductType, setSelectedProductType] = useState('');
-  const [openMenu, setOpenMenu] = useState({ dog: false, you: false }); // Manage menu toggle
+  const [openMenu, setOpenMenu] = useState({ dog: false, you: false });
   const [isManager, setIsManager] = useState(false);
 
   useEffect(() => {
     const role = localStorage.getItem('role');
-    setIsManager(role === 'manager'); // Kiểm tra role có phải manager hay không
+    setIsManager(role === 'manager');
   }, []);
 
-  const navigate = useNavigate(); // To handle navigation for Add Product
+  const navigate = useNavigate();
 
   const handleToggleMenu = (menu) => {
-    setOpenMenu((prev) => ({ ...prev, [menu]: !prev[menu] })); // Toggle menu
+    setOpenMenu((prev) => ({ ...prev, [menu]: !prev[menu] }));
   };
 
   const handleProductTypeClick = (type) => {
@@ -34,12 +34,18 @@ const ProductFilter = ({ onFilter }) => {
     setMaxPrice('');
     setSortBy('');
     setSelectedProductType('');
-    setOpenMenu({ dog: false, you: false }); // Reset menu state
+    setOpenMenu({ dog: false, you: false });
     onFilter({ Type: '', minPrice: '', maxPrice: '', sortBy: '' });
   };
 
   const handleAddProductClick = () => {
-    navigate('/products/add'); // Redirect to Add Product page
+    navigate('/products/add');
+  };
+
+  // Hàm kiểm tra giá trị hợp lệ (chỉ số dương)
+  const validatePrice = (value) => {
+    // Chỉ cho phép số dương và không cho phép chữ cái hay ký tự đặc biệt
+    return /^[0-9]*$/.test(value);
   };
 
   return (
@@ -129,14 +135,22 @@ const ProductFilter = ({ onFilter }) => {
           type="number"
           placeholder="Min Price"
           value={minPrice}
-          onChange={(e) => setMinPrice(e.target.value)}
+          onChange={(e) => {
+            if (validatePrice(e.target.value)) {
+              setMinPrice(e.target.value);
+            }
+          }}
           className="w-1/2 p-2 border border-gray-300 rounded-md"
         />
         <input
           type="number"
           placeholder="Max Price"
           value={maxPrice}
-          onChange={(e) => setMaxPrice(e.target.value)}
+          onChange={(e) => {
+            if (validatePrice(e.target.value)) {
+              setMaxPrice(e.target.value);
+            }
+          }}
           className="w-1/2 p-2 border border-gray-300 rounded-md"
         />
       </div>
@@ -175,15 +189,14 @@ const ProductFilter = ({ onFilter }) => {
     
       {/* Add Product Button */}
       {isManager && (
-
-      <div className="flex mb-4">
-        <button
-          className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
-          onClick={handleAddProductClick}
-        >
-          Add Product
-        </button>
-      </div>
+        <div className="flex mb-4">
+          <button
+            className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
+            onClick={handleAddProductClick}
+          >
+            Add Product
+          </button>
+        </div>
       )}
     </div>
   );

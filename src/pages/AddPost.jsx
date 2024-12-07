@@ -104,51 +104,51 @@ const AddPost = () => {
 
   // Xử lý gửi dữ liệu
   // Hàm xử lý gửi dữ liệu (sửa lại)
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setLoading(true);
-  setError('');
-  setSuccess('');
-
-  // Kiểm tra các trường bắt buộc không được bỏ trống
-  if (!postInfo.title || !postInfo.category || !postInfo.sdescription || !postInfo.author || !postInfo.content) {
-    setError('Please fill in all required fields');
-    setLoading(false);
-    return;
-  }
-
-  // Kiểm tra nếu trường image trống
-  if (postInfo.image === 'https://via.placeholder.com/150?text=Not+Available') {
-    message.error('Please upload an image!');
-    setLoading(false);
-    return;
-  }
-
-  try {
-    let response;
-    const api = clientApi.service('posts');
-
-    if (location.state?.type === 'update') {
-      // Nếu đang cập nhật bài viết
-      response = await api.patch(postInfo.id, postInfo); // Cập nhật bài viết
-    } else {
-      // Nếu thêm mới bài viết
-      response = await api.create(postInfo); // Tạo bài viết mới
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess('');
+  
+    
+    if (!postInfo.title || !postInfo.category || !postInfo.sdescription || !postInfo.author || !postInfo.content) {
+      setError('Please fill in all required fields');
+      setLoading(false);
+      return;
     }
-
-    if (response.EC === 0) {
-      setSuccess(location.state?.type === 'update' ? 'Post updated successfully!' : 'Post added successfully!');
-      navigate('/posts'); // Quay lại danh sách bài viết
-    } else {
-      setError(response.EM);
+  
+    
+    if (postInfo.image === 'https://via.placeholder.com/150?text=Not+Available') {
+      message.error('Please upload an image!');
+      setLoading(false);
+      return;
     }
-  } catch (err) {
-    console.error('Error saving post:', err);
-    setError('An error occurred while saving the post.');
-  }
-
-  setLoading(false);
-};
+  
+    try {
+      let response;
+      const api = clientApi.service('posts');
+  
+      if (location.state?.type === 'update') {
+        // Nếu đang cập nhật bài viết
+        response = await api.patch(postInfo.id, postInfo); // Cập nhật bài viết
+      } else {
+        // Nếu thêm mới bài viết
+        response = await api.create(postInfo); // Tạo bài viết mới
+      }
+  
+      if (response.EC === 0) {
+        message.success('action successfully!');
+        // Sau khi thêm hoặc cập nhật thành công, điều hướng về trang /posts
+        navigate('/posts'); 
+      } else {
+        setError(response.EM);
+      }
+    } catch (err) {
+      
+    }
+  
+    setLoading(false);
+  };
 
 
   return (
@@ -291,7 +291,7 @@ const handleSubmit = async (e) => {
             <button
               type="submit"
               className={`px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={loading}
+              disabled={loading||uploading}
             >
               {loading ? 'Saving...' : location.state?.type === 'update' ? 'Update Post' : 'Add Post'}
             </button>
