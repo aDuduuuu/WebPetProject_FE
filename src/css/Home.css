@@ -1,8 +1,15 @@
+/* Hero Section */
 .hero-section {
   position: relative;
   background-image: url('../pictures/Home.jpg'); /* Đặt ảnh nền cho hero */
   background-size: cover;
   background-position: center;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+  text-align: center;
 }
 
 .hero-overlay {
@@ -14,45 +21,54 @@
   background: rgba(0, 0, 0, 0.5); /* Lớp phủ mờ */
 }
 
+.hero-section .max-w-lg {
+  z-index: 10;
+  color: white;
+}
+
+.hero-section h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-section button {
+  padding: 0.8rem 2rem;
+  background-color: #00796b; /* Màu nền của nút */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease; /* Thời gian hiệu ứng ngắn hơn */
+}
+
+.hero-section button:hover {
+  background-color: #004d40; /* Màu nền khi hover */
+  transform: scale(1.05); /* Phóng to nút khi hover */
+}
+
+/* Card */
 .card {
   background: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   padding: 20px;
   text-align: center;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Thời gian hiệu ứng ngắn hơn */
 }
 
 .card:hover {
-  transform: translateY(-10px); /* Tạo hiệu ứng hover */
+  transform: translateY(-8px); /* Tạo hiệu ứng hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Thêm hiệu ứng shadow mạnh khi hover */
 }
 
-button {
-  transition: all 0.3s ease-in-out;
-}
-
-button:hover {
-  background-color: #00796b; /* Thay đổi màu nền khi hover */
-  transform: scale(1.05); /* Phóng to nút khi hover */
-}
-
-/* Các media queries để tối ưu giao diện cho màn hình nhỏ */
-@media screen and (max-width: 768px) {
-  .hero-section {
-    padding: 15px;
-    text-align: center;
-  }
-
-  .hero-section h1 {
-    font-size: 2rem;
-  }
-
-  .card {
-    padding: 15px;
-  }
-}
-
-
+/* Post Cards */
 .post-card {
   display: flex;
   flex-direction: column;
@@ -60,8 +76,10 @@ button:hover {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.3s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Thời gian hiệu ứng ngắn hơn */
   height: 400px; /* Đảm bảo mỗi bài viết có chiều cao giống nhau */
+  position: relative;
+  transform: scale(1); /* Khởi tạo với kích thước bình thường */
 }
 
 .post-card img {
@@ -91,5 +109,100 @@ button:hover {
 }
 
 .post-card:hover {
-  transform: translateY(-5px); /* Hiệu ứng hover nhẹ */
+  transform: translateY(-5px) scale(1.03); /* Tạo hiệu ứng phóng to nhẹ và nâng thẻ lên khi hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Thêm hiệu ứng shadow mạnh khi hover */
+}
+
+/* Breed Buttons */
+.breed-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #00796b; /* Màu nền mặc định của nút */
+  color: white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s ease, transform 0.2s ease; /* Thời gian hiệu ứng ngắn hơn */
+}
+
+.breed-button:hover {
+  background-color: #004d40; /* Màu khi hover */
+  transform: scale(1.05); /* Phóng to nút khi hover */
+}
+
+/* Button hover effect */
+button.hover\:text-teal-400:hover {
+  color: #26a69a; /* Thêm hiệu ứng hover riêng biệt cho các button mà không bị ảnh hưởng bởi các phần khác */
+}
+
+/* Section for Featured Dog Breed */
+.random-dog-section {
+  background-color: #C4DACB; /* Màu nền cho section giống chó */
+  color: #16423C; /* Màu chữ */
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+.random-dog-section h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.random-dog-section .dog-link {
+  display: block;
+  text-align: center;
+  transition: opacity 0.2s ease; /* Thời gian hiệu ứng ngắn hơn */
+}
+
+.random-dog-section .dog-link:hover {
+  opacity: 0.8;
+}
+
+.random-dog-section img {
+  width: 18rem;
+  height: 18rem;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.random-dog-section .dog-details p {
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+.random-dog-section .dog-details .text-teal-600 {
+  color: #26a69a;
+}
+
+/* Function Buttons for Dog Breeds */
+.breed-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+.breed-buttons .breed-button {
+  padding: 1.5rem;
+  background-color: #00796b;
+  color: white;
+  border-radius: 12px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: background-color 0.2s ease, transform 0.2s ease; /* Thời gian hiệu ứng ngắn hơn */
+}
+
+.breed-buttons .breed-button:hover {
+  background-color: #004d40;
+  transform: scale(1.05);
 }

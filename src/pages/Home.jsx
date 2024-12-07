@@ -62,8 +62,8 @@ const Home = () => {
     <div className="home-container text-white flex flex-col min-h-screen">
       <Header />
 
-      {/* Phần Hero */}
-      <div className="hero-section h-screen bg-cover bg-center flex flex-col justify-center items-center p-20 lg:p-30 relative">
+      {/* Hero Section */}
+      <div className="hero-section h-screen bg-cover bg-center flex flex-col justify-center items-center relative p-20 lg:p-30">
         <div className="hero-overlay absolute top-0 left-0 right-0 bottom-0 bg-black opacity-50"></div>
         <div className="max-w-lg text-center space-y-4 z-10">
           <h1 className="text-4xl lg:text-5xl font-bold mb-4" data-aos="fade-up">
@@ -83,14 +83,14 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Phần Nội Dung Bổ Sung */}
+      {/* Additional Content Section */}
       <div className="additional-content bg-gray-100 text-gray-800 p-8 lg:p-20 flex flex-col items-center space-y-8">
         <h2 className="text-3xl font-bold mb-4" data-aos="fade-up">
           Latest Stories
         </h2>
 
-        {/* Hiển thị 5 bài post mới nhất */}
-        <div className="posts-list grid grid-cols-5 gap-6 w-full">
+        {/* Display Latest Posts */}
+        <div className="posts-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 w-full">
           {postList.map((post, index) => (
             <Link to={`/posts/${post._id}`} key={post._id} className="post-link">
               <div className="post-card" data-aos="fade-up" data-aos-delay={`${index * 100}`}>
@@ -105,7 +105,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Phần Giới Thiệu Giống Chó Ngẫu Nhiên */}
+      {/* Featured Dog Breed Section */}
       {randomDogBreed && (
         <div className="random-dog-section bg-[#C4DACB] text-[#16423C] p-8 lg:p-20 flex flex-col items-center space-y-8" data-aos="fade-up" data-aos-duration="1500">
           <h2 className="text-3xl font-bold mb-4 text-center" data-aos="fade-up" data-aos-delay="200">
@@ -123,7 +123,7 @@ const Home = () => {
             </div>
           </Link>
 
-          {/* Các Nút Chức Năng */}
+          {/* Breed Functionality Buttons */}
           <div className="breed-buttons grid grid-cols-2 gap-6 mt-8">
             <Link to="/breedList" className="breed-button p-6 bg-teal-500 text-white rounded-lg text-center flex flex-col items-center hover:bg-teal-700 transition duration-300" data-aos="fade-up" data-aos-delay="100">
               <FaPaw className="text-3xl mb-2" />
@@ -145,7 +145,7 @@ const Home = () => {
         </div>
       )}
 
-      {/* Phần Footer */}
+      {/* Footer */}
       <Footer />
     </div>
   );
