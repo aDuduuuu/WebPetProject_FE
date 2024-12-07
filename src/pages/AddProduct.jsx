@@ -5,7 +5,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { message, Progress } from 'antd';  // Thêm các thành phần của antd để xử lý thông báo và thanh tiến trình
 import { uploadToCloudinary } from '../utils/uploadToCloudinary';  // Import hàm uploadToCloudinary
-
+import "../css/NumberType.css"
 const AddProduct = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -50,6 +50,9 @@ const AddProduct = () => {
   // Handle changes in form fields
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if ((name === 'price' || name === 'quantity') && value < 0) {
+      return;  // Prevent negative values for price and quantity
+    }
     setProductInfo((prevState) => ({
       ...prevState,
       [name]: value,
@@ -217,22 +220,24 @@ const AddProduct = () => {
               onChange={handleChange}
               className="w-full p-2 border rounded"
               required
+              min="0"  // Prevent negative numbers
             />
           </div>
 
           {/* Quantity */}
           <div>
-            <label htmlFor="quantity" className="block font-bold">Quantity</label>
-            <input
-              type="number"
-              id="quantity"
-              name="quantity"
-              value={productInfo.quantity}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
+  <label htmlFor="quantity" className="block font-bold">Quantity</label>
+  <input
+    type="number"
+    id="quantity"
+    name="quantity"
+    value={productInfo.quantity}
+    onChange={handleChange}
+    className="w-full p-2 border rounded"
+    required
+    min="0"  // Prevent negative numbers
+  />
+</div>
 
           {/* Description */}
           <div>
@@ -257,10 +262,10 @@ const AddProduct = () => {
             </button>
             <button
               type="submit"
-              className={`px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={loading}
+              className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600"
+              disabled={loading || uploading}
             >
-              {loading ? 'Saving...' : isUpdate ? 'Update Product' : 'Add Product'}
+              {isUpdate ? 'Update Product' : 'Add Product'}
             </button>
           </div>
         </form>
