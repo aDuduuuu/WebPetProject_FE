@@ -93,7 +93,7 @@ const Home = () => {
         <div className="posts-list grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 w-full">
           {postList.map((post, index) => (
             <Link to={`/posts/${post._id}`} key={post._id} className="post-link">
-              <div className="post-card" data-aos="fade-up" data-aos-delay={`${index * 100}`}>
+              <div className="card-home" data-aos="fade-up" data-aos-delay={`${index * 100}`}>
                 <img src={post.image} alt={post.title} />
                 <div className="content p-4">
                   <h3 className="text-xl font-semibold text-gray-800">{post.title}</h3>

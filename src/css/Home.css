@@ -69,7 +69,7 @@
 }
 
 /* Post Cards */
-.post-card {
+.post-card-home {
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -82,13 +82,13 @@
   transform: scale(1); /* Khởi tạo với kích thước bình thường */
 }
 
-.post-card img {
+.post-card-home img {
   width: 100%;
   height: 200px; /* Đảm bảo ảnh có chiều cao cố định */
   object-fit: cover; /* Giữ tỷ lệ ảnh mà không bị kéo dãn */
 }
 
-.post-card .content {
+.post-card-home .content {
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -96,19 +96,19 @@
   flex-grow: 1; /* Đảm bảo nội dung chiếm toàn bộ phần còn lại của card */
 }
 
-.post-card h3 {
+.post-card-home h3 {
   font-size: 1.25rem;
   font-weight: 600;
   color: #333;
 }
 
-.post-card p {
+.post-card-home p {
   font-size: 1rem;
   color: #666;
   margin-top: 8px;
 }
 
-.post-card:hover {
+.post-card-home:hover {
   transform: translateY(-5px) scale(1.03); /* Tạo hiệu ứng phóng to nhẹ và nâng thẻ lên khi hover */
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Thêm hiệu ứng shadow mạnh khi hover */
 }
@@ -205,4 +205,53 @@ button.hover\:text-teal-400:hover {
 .breed-buttons .breed-button:hover {
   background-color: #004d40;
   transform: scale(1.05);
+}
+
+/* Container để hiển thị các thẻ theo dạng grid */
+.posts-list {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Tạo 5 cột đều trong một hàng */
+  gap: 16px; /* Khoảng cách giữa các thẻ */
+}
+
+/* Mỗi thẻ */
+.card-home {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 400px; /* Chiều cao cố định cho thẻ */
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bóng nhẹ cho thẻ */
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Mượt mà hơn */
+}
+
+/* Đảm bảo ảnh luôn có cùng kích thước */
+.card-home img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out; /* Mượt mà khi phóng to ảnh */
+}
+
+/* Nội dung của thẻ */
+.card-home .content {
+  padding: 16px;
+  flex-grow: 1;
+  transition: transform 0.3s ease-in-out; /* Mượt mà khi nâng nội dung */
+}
+
+/* Hiệu ứng hover */
+.card-home:hover {
+  transform: scale(1.05); /* Phóng to nhẹ */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* Nâng thẻ lên với bóng đổ rõ hơn */
+}
+
+.card-home:hover img {
+  transform: scale(1.05); /* Phóng to ảnh nhẹ */
+}
+
+.card-home:hover .content {
+  transform: translateY(-6px); /* Nâng nội dung lên nhẹ khi hover */
 }
