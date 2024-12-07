@@ -8,6 +8,7 @@ import { LuDog } from "react-icons/lu";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "../css/Header.css";
+import clientApi from "../client-api/rest-client";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,11 +20,41 @@ const Header = () => {
   const breedMenuRef = useRef(null);
   const serviceMenuRef = useRef(null);
   const [isManager, setIsManager] = useState(false);
+  const [userInfo, setUserInfo] = useState({
+    email: '',
+    fullName: '',
+    role: '',
+  });
 
   useEffect(() => {
-    // Lấy role từ localStorage
+    const fetchUserProfile = async () => {
+      let authen = clientApi.service('users');
+      try {
+        const response = await authen.find();
+        console.log(response);
+        if (response.EC === 0) {
+          const { firstName, lastName, email, role } = response.DT;
+          setUserInfo({
+            email,
+            fullName: `${firstName} ${lastName}`,
+            role,
+          });
+        } else {
+          console.error(response.EM);
+        }
+      } catch (err) {
+        console.error('Error during login:', err);
+        setError('Something went wrong. Please try again later.');
+      }
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  useEffect(() => {
+    // Láº¥y role tá»« localStorage
     const role = localStorage.getItem('role');
-    setIsManager(role === 'manager'); // Kiểm tra nếu role là manager
+    setIsManager(role === 'manager'); // Kiá»ƒm tra náº¿u role lÃ  manager
   }, []);
 
   useEffect(() => {
@@ -143,7 +174,7 @@ const Header = () => {
         <img src={logo} alt="WoofHaven Logo" className="w-10 h-10 mr-2" />
         WoofHaven
       </div>
-
+  
       <nav className="flex gap-6 text-lg relative">
         <button onClick={toggleBreedMenu} className="hover:text-teal-400 relative">
           Breeds
@@ -161,10 +192,10 @@ const Header = () => {
           Cart
         </button>
         {isManager && (
-        <button onClick={() => navigate("/manageorder")} className="hover:text-teal-400 relative">
-          Order
-        </button>
-      )}
+          <button onClick={() => navigate("/manageorder")} className="hover:text-teal-400 relative">
+            Order
+          </button>
+        )}
         {isBreedMenuOpen && (
           <div
             ref={breedMenuRef}
@@ -180,7 +211,7 @@ const Header = () => {
             </div>
             <div className="flex flex-col items-start mx-6">
               <button
-                onClick={() => navigate("/bestDog")} // Navigate to FindBestDog page
+                onClick={() => navigate("/bestDog")}
                 className="flex items-center text-teal-600 font-bold mb-2"
               >
                 <FaHeart className="mr-2" /> Find your match
@@ -188,7 +219,7 @@ const Header = () => {
               <span className="text-sm text-gray-500">
                 Answer a few simple questions and find the right dog for you
               </span>
-              <button 
+              <button
                 onClick={() => navigate("/compareDogs")}
                 className="flex items-center mt-2 text-teal-600 font-bold"
               >
@@ -198,7 +229,7 @@ const Header = () => {
                 Compare up to 5 different breeds side by side
               </span>
               <button
-                onClick={() => navigate("/dog-name-finder")} // Navigate to Dog Name Finder page
+                onClick={() => navigate("/dog-name-finder")}
                 className="flex items-center mt-2 text-teal-600 font-bold"
               >
                 <FaPaw className="mr-2" /> Dog name finder
@@ -209,7 +240,7 @@ const Header = () => {
             </div>
           </div>
         )}
-
+  
         {isServiceMenuOpen && (
           <div
             ref={serviceMenuRef}
@@ -239,79 +270,76 @@ const Header = () => {
             </button>
           </div>
         )}
-
+  
       </nav>
-
+  
       <div className="flex items-center gap-4 relative">
-        <div className="relative flex items-center">
-          <FaSearch className="absolute left-3 text-gray-500" />
-          <input
-            type="text"
-            placeholder="Search"
-            className="pl-10 pr-4 py-2 rounded-full bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400"
-          />
-        </div>
+  {isLoggedIn && (
+    <span className="text-white text-lg font italic">Hello, {userInfo.fullName}!</span>
+  )}
+  
+  <FaUserCircle className="text-3xl cursor-pointer" onClick={toggleMenu} />
 
-        <FaUserCircle className="text-3xl cursor-pointer" onClick={toggleMenu} />
+  {isMenuOpen && (
+    <div
+      ref={menuRef}
+      className="user-menu absolute right-0 mt-12 w-40 bg-white rounded-md shadow-lg z-20 transform translate-y-0"
+    >
+      <ul className="py-2">
+        {isLoggedIn ? (
+          <>
+            <li
+              className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
+              onClick={handleAccount}
+            >
+              <FaUser className="inline-block mr-2 text-gray-600" /> Account
+            </li>
+            <li
+              className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
+              onClick={() => navigate("/orderList")}
+            >
+              <FaClipboardList className="inline-block mr-2 text-gray-600" /> Your order
+            </li>
+            <li
+              className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
+              onClick={handleFavor}
+            >
+              <FaHeart className="inline-block mr-2 text-red-500" /> Favorite
+            </li>
+            {/* Add the new Statistics button here */}
+            {isManager && (
+              <li
+                className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
+                onClick={() => navigate("/statistics")}
+              >
+                <FaChartLine className="inline-block mr-2 text-gray-600" /> Statistics
+              </li>
+            )}
+            <li
+              className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
+              onClick={handleLogout}
+            >
+              <FaSignOutAlt className="inline-block mr-2 text-gray-600" /> Logout
+            </li>
+          </>
+        ) : (
+          <li
+            className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
+            onClick={handleLogin}
+          >
+            <FaUser className="inline-block mr-2 text-gray-600" /> Login
+          </li>
+        )}
+      </ul>
+    </div>
+  )}
 
-        {isMenuOpen && (
-  <div
-    ref={menuRef}
-    className="user-menu absolute right-0 mt-12 w-40 bg-white rounded-md shadow-lg z-20 transform translate-y-0"
-  >
-    <ul className="py-2">
-      {isLoggedIn ? (
-        <>
-          <li
-            className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-            onClick={handleAccount}
-          >
-            <FaUser className="inline-block mr-2 text-gray-600" /> Account
-          </li>
-          <li
-            className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-            onClick={() => navigate("/orderList")}
-          >
-            <FaClipboardList className="inline-block mr-2 text-gray-600" /> Your order
-          </li>
-          <li
-            className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-            onClick={handleFavor}
-          >
-            <FaHeart className="inline-block mr-2 text-red-500" /> Favorite
-          </li>
-          {/* Add the new Statistics button here */}
-          {isManager && (
-          <li
-            className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-            onClick={() => navigate("/statistics")}
-          >
-            <FaChartLine className="inline-block mr-2 text-gray-600" /> Statistics
-          </li>
-          )}
-          <li
-            className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-            onClick={handleLogout}
-          >
-            <FaSignOutAlt className="inline-block mr-2 text-gray-600" /> Logout
-          </li>
-        </>
-      ) : (
-        <li
-          className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-          onClick={handleLogin}
-        >
-          <FaUser className="inline-block mr-2 text-gray-600" /> Login
-        </li>
-      )}
-    </ul>
-  </div>
-)}
+  <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
+</div>
 
-        <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
-      </div>
     </header>
   );
+  
 };
 
 export default Header;
