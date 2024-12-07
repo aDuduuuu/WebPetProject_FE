@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaEnvelope, FaUser } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { getUserProfile } from '../client-api/rest-client-api';
 import dogBackground from '../pictures/Home.jpg';
 import dogImage2 from '../pictures/dog2.jpg';
 import exitIcon from '../pictures/exit.png';
