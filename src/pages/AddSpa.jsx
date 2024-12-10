@@ -223,61 +223,65 @@ const AddSpa = () => {
   return (
     <div className="spa-container flex flex-col min-h-screen bg-gray-100">
       <Header />
-      <div className="container mx-auto p-6">
-        <h1 className="text-2xl font-bold mb-4">
+      <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
+        <h1 className="text-3xl font-semibold text-teal-700 mb-6">
           {isUpdate ? 'Update Spa' : 'Add New Spa'}
         </h1>
-
-        {error && <div className="text-red-500 mb-4">{error}</div>}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
+  
+        {error && <div className="text-red-500 text-lg mb-4">{error}</div>}
+  
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Name */}
           <div>
-            <label htmlFor="name" className="block font-bold">Spa Name</label>
+            <label htmlFor="name" className="block text-lg font-medium text-teal-500 mb-2">
+              Spa Name
+            </label>
             <input
               type="text"
               id="name"
               name="name"
               value={spaInfo.name}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
-
+  
           {/* Image */}
           <div>
-            <label htmlFor="image" className="block font-bold">Image</label>
+            <label htmlFor="image" className="block text-lg font-medium text-teal-500 mb-2">
+              Image
+            </label>
             <input
               type="file"
               id="image"
               name="image"
               onChange={handleImageUpload}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
               accept="image/*"
             />
             {uploading && (
-              <div style={{ marginTop: '20px', width: '100%' }}>
+              <div className="w-full mt-4">
                 <Progress percent={uploadProgress} status="active" />
               </div>
             )}
-            <div className="mt-2">
+            <div className="mt-4">
               <img
                 src={spaInfo.image || "https://via.placeholder.com/150?text=Not+Available"}
                 alt="Preview"
-                className="w-40 h-40 object-cover rounded"
+                className="w-40 h-40 object-cover rounded-lg shadow-md"
               />
             </div>
           </div>
-
+  
           {/* Location */}
           <div>
-            <label className="block font-bold">Location</label>
+            <label className="block text-lg font-medium text-teal-500 mb-2">Location</label>
             <select
               name="location.province"
               value={spaInfo.location.province}
               onChange={handleChange}
-              className="w-full p-2 border rounded mb-2"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
               required
             >
               <option value="">Select Province</option>
@@ -293,7 +297,7 @@ const AddSpa = () => {
               value={spaInfo.location.district}
               onChange={handleChange}
               placeholder="District"
-              className="w-full p-2 border rounded mb-2"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
               required
             />
             <input
@@ -302,7 +306,7 @@ const AddSpa = () => {
               value={spaInfo.location.ward}
               onChange={handleChange}
               placeholder="Ward"
-              className="w-full p-2 border rounded mb-2"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
             />
             <input
               type="text"
@@ -310,28 +314,30 @@ const AddSpa = () => {
               value={spaInfo.location.street}
               onChange={handleChange}
               placeholder="Street"
-              className="w-full p-2 border rounded mb-2"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
             />
           </div>
-
+  
           {/* Services */}
           <div>
-            <label htmlFor="services" className="block font-bold">Services</label>
+            <label htmlFor="services" className="block text-lg font-medium text-teal-500 mb-2">
+              Services
+            </label>
             {spaInfo.services.map((service, index) => (
-              <div key={index} className="flex items-center mb-2">
+              <div key={index} className="flex items-center mb-4">
                 <input
                   type="text"
                   name={`services.${index}`}  // Đảm bảo `name` đúng với chỉ số của dịch vụ
                   value={service}
                   onChange={(e) => handleChange(e, index)}
                   placeholder="Service"
-                  className="w-full p-2 border rounded mr-2"
+                  className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mr-4"
                 />
                 {index === spaInfo.services.length - 1 && (
                   <button
                     type="button"
                     onClick={handleAddService}
-                    className="p-2 bg-teal-500 text-white rounded hover:bg-teal-600"
+                    className="p-3 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600 transition"
                   >
                     +
                   </button>
@@ -339,62 +345,51 @@ const AddSpa = () => {
               </div>
             ))}
           </div>
-
+  
           {/* Phone */}
           <div>
-            <label htmlFor="phone" className="block font-bold">Phone</label>
+            <label htmlFor="phone" className="block text-lg font-medium text-teal-500 mb-2">
+              Phone
+            </label>
             <input
               type="text"
               id="phone"
               name="contactInfo.phone"
               value={spaInfo.contactInfo.phone}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
             />
           </div>
-
+  
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block font-bold">Email</label>
+            <label htmlFor="email" className="block text-lg font-medium text-teal-500 mb-2">
+              Email
+            </label>
             <input
               type="email"
               id="email"
               name="contactInfo.email"
               value={spaInfo.contactInfo.email}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
             />
           </div>
-
-          {/* Description */}
-          <div>
-            <label htmlFor="description" className="block font-bold">Description</label>
-            <textarea
-              id="description"
-              name="description"
-              value={spaInfo.description}
-              onChange={handleChange}
-              className="w-full p-2 border rounded mb-2"
-              placeholder="Enter a description for the spa"
-              rows="4"
-            />
-          </div>
-
+  
           {/* Buttons */}
-          <div className="flex justify-between mt-4">
+          <div className="flex justify-between mt-6">
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 bg-white border border-teal-500 text-teal-500 rounded hover:bg-teal-500 hover:text-white"
+              className="p-3 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className={`px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={loading}
+              className="p-3 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600 transition"
             >
-              {loading ? 'Saving...' : isUpdate ? 'Update Spa' : 'Add Spa'}
+              Submit
             </button>
           </div>
         </form>
@@ -402,6 +397,7 @@ const AddSpa = () => {
       <Footer />
     </div>
   );
+  
 };
 
 export default AddSpa;

@@ -5,6 +5,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { uploadToCloudinary } from '../utils/uploadToCloudinary';  // Import hàm uploadToCloudinary
 import { message, Progress } from 'antd';  // Thêm các thành phần của antd để xử lý thông báo và thanh tiến trình
+import { text } from '@fortawesome/fontawesome-svg-core';
 
 const AddDogSeller = () => {
   const [dogSellerInfo, setDogSellerInfo] = useState({
@@ -69,7 +70,7 @@ const AddDogSeller = () => {
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
-    if (name === 'breed') {
+    if (name === 'breeds') {
       const updatedBreeds = [...dogSellerInfo.breeds];
       updatedBreeds[index] = value;
       setDogSellerInfo({ ...dogSellerInfo, breeds: updatedBreeds });
@@ -150,68 +151,85 @@ const AddDogSeller = () => {
   return (
     <div className="dog-seller-container flex flex-col min-h-screen bg-gray-100">
       <Header />
-      <div className="container mx-auto p-6">
-        <h1 className="text-2xl font-bold mb-4">{isUpdate ? 'Update Dog Seller' : 'Add New Dog Seller'}</h1>
-
-        {error && <div className="text-red-500 mb-4">{error}</div>}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
+        <h1 className="text-3xl font-semibold text-teal-700 mb-6">
+          {isUpdate ? 'Update Dog Seller' : 'Add New Dog Seller'}
+        </h1>
+  
+        {error && <div className="text-red-500 text-lg mb-4">{error}</div>}
+  
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Seller ID */}
           <div>
-            <label htmlFor="sellerID" className="block font-bold">Seller ID</label>
+            <label htmlFor="sellerID" className="block text-lg font-medium text-teal-500 mb-2">
+              Seller ID
+            </label>
             <input
               type="text"
               id="sellerID"
               name="sellerID"
               value={dogSellerInfo.sellerID}
               onChange={(e) => setDogSellerInfo({ ...dogSellerInfo, sellerID: e.target.value })}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
               disabled={isUpdate}
             />
           </div>
+  
+          {/* Seller Name */}
           <div>
-            <label htmlFor="name" className="block font-bold">Seller Name</label>
+            <label htmlFor="name" className="block text-lg font-medium text-teal-500 mb-2">
+              Seller Name
+            </label>
             <input
               type="text"
               id="name"
               name="name"
               value={dogSellerInfo.name}
               onChange={(e) => setDogSellerInfo({ ...dogSellerInfo, name: e.target.value })}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
+  
+          {/* Image Upload */}
           <div>
-            <label htmlFor="image" className="block font-bold">Image</label>
+            <label htmlFor="image" className="block text-lg font-medium text-teal-500 mb-2">
+              Image
+            </label>
             <input
               type="file"
               id="image"
               name="image"
               onChange={handleImageUpload}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
               accept="image/*"
             />
-                       {uploading && (
-              <div style={{ marginTop: '20px', width: '100%' }}>
+            {uploading && (
+              <div className="w-full mt-4">
                 <Progress percent={uploadProgress} status="active" />
               </div>
             )}
-            <div className="mt-2">
+            <div className="mt-4">
               <img
                 src={dogSellerInfo.image || "https://via.placeholder.com/150?text=Not+Available"}
                 alt="Preview"
-                className="w-40 h-40 object-cover rounded"
+                className="w-40 h-40 object-cover rounded-lg shadow-md"
               />
             </div>
           </div>
+  
+          {/* Location */}
           <div>
-            <label htmlFor="location" className="block font-bold">Location</label>
+            <label htmlFor="location" className="block text-lg font-medium text-teal-500 mb-2">
+              Location
+            </label>
             <select
               id="location"
               name="location"
               value={dogSellerInfo.location}
               onChange={(e) => setDogSellerInfo({ ...dogSellerInfo, location: e.target.value })}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
               required
             >
               <option value="">Select Location</option>
@@ -222,15 +240,17 @@ const AddDogSeller = () => {
               ))}
             </select>
           </div>
+  
+          {/* Breeds */}
           <div>
-            <label className="block font-bold">Breeds</label>
-            {dogSellerInfo.breeds.map((breed, index) => (
-              <div key={index} className="flex items-center space-x-2 mb-2">
+            <label className="block text-lg font-medium text-teal-500 mb-2">Breeds</label>
+            {dogSellerInfo.breeds.map((breeds, index) => (
+              <div key={index} className="flex items-center space-x-2 mb-4">
                 <select
-                  name="breed"
-                  value={breed}
+                  name="breeds"  
+                  value={breeds._id}
                   onChange={(e) => handleChange(e, index)}
-                  className="w-full p-2 border rounded"
+                  className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
                   required
                 >
                   <option value="">Select Breed</option>
@@ -244,7 +264,7 @@ const AddDogSeller = () => {
                   <button
                     type="button"
                     onClick={handleAddBreed}
-                    className="p-2 bg-teal-500 text-white rounded hover:bg-teal-600"
+                    className="p-3 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600 transition"
                   >
                     +
                   </button>
@@ -252,39 +272,45 @@ const AddDogSeller = () => {
               </div>
             ))}
           </div>
+  
+          {/* Contact Information */}
           <div>
-            <label htmlFor="contactInfo" className="block font-bold">Contact Information</label>
+            <label htmlFor="contactInfo" className="block text-lg font-medium text-teal-500 mb-2">
+              Contact Information
+            </label>
             <input
               type="text"
               id="contactInfo"
               name="contactInfo"
               value={dogSellerInfo.contactInfo}
               onChange={(e) => setDogSellerInfo({ ...dogSellerInfo, contactInfo: e.target.value })}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
               required
             />
           </div>
-          <div className="flex justify-between mt-4">
+  
+          {/* Action Buttons */}
+          <div className="flex justify-between mt-6">
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 bg-white border border-teal-500 text-teal-500 rounded hover:bg-teal-500 hover:text-white"
+              className="px-6 py-3 bg-white border border-teal-500 text-teal-500 rounded-lg hover:bg-teal-500 hover:text-white transition"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className={`px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`px-6 py-3 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600 transition ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
               disabled={loading}
             >
-              {loading ? 'Saving...' : isUpdate ? 'Update Dog Seller' : 'Add Dog Seller'}
+              {loading ? 'Saving...' : 'Save'}
             </button>
           </div>
         </form>
       </div>
-      <Footer />
     </div>
   );
+  
 };
 
 export default AddDogSeller;

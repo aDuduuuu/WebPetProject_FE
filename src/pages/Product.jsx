@@ -66,6 +66,7 @@ const Product = () => {
                     image={product.image || 'https://via.placeholder.com/150?text=Not+Available'}
                     name={product.name}
                     price={product.price}
+                    productType={product.productType}
                     quantity={product.quantity}
                     description={product.description}
                     type="products"
