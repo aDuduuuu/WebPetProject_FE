@@ -308,6 +308,7 @@ const AddDogSeller = () => {
           </div>
         </form>
       </div>
+      <Footer/>
     </div>
   );
   
