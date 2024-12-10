@@ -119,7 +119,7 @@ const Question7 = () => {
     <div>
       <Header />
       <div className="bg-gray-100 min-h-screen p-6 flex flex-col">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">
+        <h1 className="text-3xl font-bold text-[#16423C] mb-6">
           Top 5 Matches
         </h1>
 
@@ -141,7 +141,7 @@ const Question7 = () => {
                     alt={match.name}
                     className="w-full h-full rounded-full object-cover"
                   />
-                  <div className="text-center text-sm font-bold">
+                  <div className="text-center text-sm font-bold text-[#16423C]">
                     Top {index + 1} ({match.matchCount} matches) {/* Hiển thị số lượng match */}
                   </div>
                   {match.rare && (

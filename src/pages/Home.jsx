@@ -16,6 +16,7 @@ const Home = () => {
     // Khởi tạo AOS
     AOS.init({
       duration: 1200,  // Thời gian cho mỗi animation
+      easing: 'ease-out-back',
     });
 
     // Fetch bài đăng từ API
@@ -102,6 +103,42 @@ const Home = () => {
               </div>
             </Link>
           ))}
+        </div>
+      </div>
+
+      <div className="about-section bg-gray-100 text-gray-800 p-8 lg:p-20 flex flex-col items-center space-y-8">
+        {/* Title */}
+        <h2 className="text-3xl font-bold mb-4 text-center" data-aos="fade-up">
+          Welcome to WoofHaven
+        </h2>
+        
+        {/* Description */}
+        <p 
+          className="text-lg text-center max-w-3xl" 
+          data-aos="fade-up" 
+          data-aos-delay="200"
+        >
+          At WoofHaven, we are dedicated to providing your furry friends with the best care and attention they deserve.
+          Whether you're looking for expert grooming, training, or simply the perfect breed for your family, we've got you covered.
+          Join our community and give your pet the life they deserve!
+        </p>
+
+        {/* Image Gallery */}
+        <div className="image-gallery flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
+          <img 
+            src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2021/01/18151213/Alaskan-Klee-Kai-head-portrait-outdoors-11.jpg" 
+            alt="Alaskan Klee Kai 1" 
+            className="w-full md:w-1/2 rounded-lg shadow-lg"
+            data-aos="zoom-in" 
+            data-aos-delay="400"
+          />
+          <img 
+            src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2021/01/18151226/Alaskan-Klee-Kai-head-portrait-outdoors1.jpg" 
+            alt="Alaskan Klee Kai 2" 
+            className="w-full md:w-1/2 rounded-lg shadow-lg"
+            data-aos="zoom-in" 
+            data-aos-delay="600"
+          />
         </div>
       </div>
 

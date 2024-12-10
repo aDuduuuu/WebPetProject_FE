@@ -1,0 +1,47 @@
+/* File: MatchList.css */
+
+/* Hiệu ứng hover khi card được chọn */
+.card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Hiệu ứng hover cho hình ảnh */
+.card-image {
+  border-radius: 50%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.card-image:hover {
+  transform: scale(1.1);
+}
+
+/* Hiệu ứng hover cho phần text */
+.card-text {
+  transition: color 0.3s ease;
+}
+.card-text:hover {
+  color: #F4A261; /* Màu sắc khi hover */
+}
+
+/* Thêm bóng đổ và bo góc cho container */
+.card-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+.card-item {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.card-item.selected {
+  border: 4px solid #16423C;
+}

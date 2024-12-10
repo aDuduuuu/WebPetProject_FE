@@ -107,5 +107,5 @@ class RestClient {
 }
 
 let clientApi = new RestClient();
-clientApi.config(import.meta.env.VITE_BACKEND_URL);
+clientApi.config('http://localhost:3000/api/');
 export default clientApi;

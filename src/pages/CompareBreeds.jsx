@@ -193,8 +193,7 @@ const CompareBreeds = () => {
               {/* Hiển thị thông tin giống chó nếu có */}
               {dogDetails[breedKey] && dogDetails[breedKey] !== null && (
                 <div className="mt-6 bg-white p-6 border border-gray-300 rounded-lg shadow-lg w-full">
-                  <h3 className="font-semibold text-[#16423C] text-xl mb-6">{selectedBreeds[breedKey]}</h3>
-                  
+
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
                       <span className="font-medium text-gray-800">Height:</span>
@@ -208,54 +207,204 @@ const CompareBreeds = () => {
                       <span className="font-medium text-gray-800">Lifespan:</span>
                       <span>{dogDetails[breedKey].lifespan.min} - {dogDetails[breedKey].lifespan.max} years</span>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Affective with Family:</span>
-                      <span>{dogDetails[breedKey].affectionateWithFamily}/5</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Good with Other Dogs:</span>
-                      <span>{dogDetails[breedKey].goodWithOtherDogs}/5</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Good with Young Children:</span>
-                      <span>{dogDetails[breedKey].goodWithYoungChildren}/5</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Shedding Level:</span>
-                      <span>{dogDetails[breedKey].sheddingLevel}/5</span>
-                    </div>
+                    <div className="flex flex-col space-y-2">
+                      {/* Affective with Family */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-800">Affective with Family:</span>
+                      </div>
+                      <div className="flex items-center">
+                        {/* Mỗi thanh màu sẽ được lặp qua mức độ từ 1 đến 5 */}
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`w-6 h-2 mx-1 rounded-full ${level <= dogDetails[breedKey].affectionateWithFamily ? 'bg-[#16423C]' : 'bg-[#C4DACB]'}`}
+                          ></div>
+                        ))}
+                        {/* Hiển thị mức độ */}
+                        <span className="ml-2 text-gray-600">{dogDetails[breedKey].affectionateWithFamily}/5</span>
+                      </div>
 
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Openness to Strangers:</span>
-                      <span>{dogDetails[breedKey].opennessToStrangers}/5</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Watchdog Protective Nature:</span>
-                      <span>{dogDetails[breedKey].watchdogProtectiveNature}/5</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Playfulness Level:</span>
-                      <span>{dogDetails[breedKey].playfulnessLevel}/5</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Adaptability Level:</span>
-                      <span>{dogDetails[breedKey].adaptabilityLevel}/5</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Trainability Level:</span>
-                      <span>{dogDetails[breedKey].trainabilityLevel}/5</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Barking Level:</span>
-                      <span>{dogDetails[breedKey].barkingLevel}/5</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Energy Level:</span>
-                      <span>{dogDetails[breedKey].energyLevel}/5</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Mental Stimulation Needs:</span>
-                      <span>{dogDetails[breedKey].mentalStimulationNeeds}/5</span>
+                      {/* Good with Other Dogs */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-800">Good with Other Dogs:</span>
+                      </div>
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`w-6 h-2 mx-1 rounded-full ${level <= dogDetails[breedKey].goodWithOtherDogs ? 'bg-[#16423C]' : 'bg-[#C4DACB]'}`}
+                          ></div>
+                        ))}
+                        <span className="ml-2 text-gray-600">{dogDetails[breedKey].goodWithOtherDogs}/5</span>
+                      </div>
+
+                      {/* Good with Young Children */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-800">Good with Young Children:</span>
+                      </div>
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`w-6 h-2 mx-1 rounded-full ${level <= dogDetails[breedKey].goodWithYoungChildren ? 'bg-[#16423C]' : 'bg-[#C4DACB]'}`}
+                          ></div>
+                        ))}
+                        <span className="ml-2 text-gray-600">{dogDetails[breedKey].goodWithYoungChildren}/5</span>
+                      </div>
+
+                      {/* Shedding Level */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-800">Shedding Level:</span>
+                      </div>
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`w-6 h-2 mx-1 rounded-full ${level <= dogDetails[breedKey].sheddingLevel ? 'bg-[#16423C]' : 'bg-[#C4DACB]'}`}
+                          ></div>
+                        ))}
+                        <span className="ml-2 text-gray-600">{dogDetails[breedKey].sheddingLevel}/5</span>
+                      </div>
+
+                      {/* Coat Grooming Frequency */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-800">Coat Grooming Frequency:</span>
+                      </div>
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`w-6 h-2 mx-1 rounded-full ${level <= dogDetails[breedKey].coatGroomingFrequency ? 'bg-[#16423C]' : 'bg-[#C4DACB]'}`}
+                          ></div>
+                        ))}
+                        <span className="ml-2 text-gray-600">{dogDetails[breedKey].coatGroomingFrequency}/5</span>
+                      </div>
+
+                      {/* Drooling Level */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-800">Drooling Level:</span>
+                      </div>
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`w-6 h-2 mx-1 rounded-full ${level <= dogDetails[breedKey].droolingLevel ? 'bg-[#16423C]' : 'bg-[#C4DACB]'}`}
+                          ></div>
+                        ))}
+                        <span className="ml-2 text-gray-600">{dogDetails[breedKey].droolingLevel}/5</span>
+                      </div>
+
+                      {/* Openness to Strangers */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-800">Openness to Strangers:</span>
+                      </div>
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`w-6 h-2 mx-1 rounded-full ${level <= dogDetails[breedKey].opennessToStrangers ? 'bg-[#16423C]' : 'bg-[#C4DACB]'}`}
+                          ></div>
+                        ))}
+                        <span className="ml-2 text-gray-600">{dogDetails[breedKey].opennessToStrangers}/5</span>
+                      </div>
+
+                      {/* Watchdog Protective Nature */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-800">Watchdog Protective Nature:</span>
+                      </div>
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`w-6 h-2 mx-1 rounded-full ${level <= dogDetails[breedKey].watchdogProtectiveNature ? 'bg-[#16423C]' : 'bg-[#C4DACB]'}`}
+                          ></div>
+                        ))}
+                        <span className="ml-2 text-gray-600">{dogDetails[breedKey].watchdogProtectiveNature}/5</span>
+                      </div>
+
+                      {/* Playfulness Level */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-800">Playfulness Level:</span>
+                      </div>
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`w-6 h-2 mx-1 rounded-full ${level <= dogDetails[breedKey].playfulnessLevel ? 'bg-[#16423C]' : 'bg-[#C4DACB]'}`}
+                          ></div>
+                        ))}
+                        <span className="ml-2 text-gray-600">{dogDetails[breedKey].playfulnessLevel}/5</span>
+                      </div>
+
+                      {/* Adaptability Level */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-800">Adaptability Level:</span>
+                      </div>
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`w-6 h-2 mx-1 rounded-full ${level <= dogDetails[breedKey].adaptabilityLevel ? 'bg-[#16423C]' : 'bg-[#C4DACB]'}`}
+                          ></div>
+                        ))}
+                        <span className="ml-2 text-gray-600">{dogDetails[breedKey].adaptabilityLevel}/5</span>
+                      </div>
+
+                      {/* Trainability Level */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-800">Trainability Level:</span>
+                      </div>
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`w-6 h-2 mx-1 rounded-full ${level <= dogDetails[breedKey].trainabilityLevel ? 'bg-[#16423C]' : 'bg-[#C4DACB]'}`}
+                          ></div>
+                        ))}
+                        <span className="ml-2 text-gray-600">{dogDetails[breedKey].trainabilityLevel}/5</span>
+                      </div>
+
+                      {/* Barking Level */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-800">Barking Level:</span>
+                      </div>
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`w-6 h-2 mx-1 rounded-full ${level <= dogDetails[breedKey].barkingLevel ? 'bg-[#16423C]' : 'bg-[#C4DACB]'}`}
+                          ></div>
+                        ))}
+                        <span className="ml-2 text-gray-600">{dogDetails[breedKey].barkingLevel}/5</span>
+                      </div>
+
+                      {/* Energy Level */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-800">Energy Level:</span>
+                      </div>
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`w-6 h-2 mx-1 rounded-full ${level <= dogDetails[breedKey].energyLevel ? 'bg-[#16423C]' : 'bg-[#C4DACB]'}`}
+                          ></div>
+                        ))}
+                        <span className="ml-2 text-gray-600">{dogDetails[breedKey].energyLevel}/5</span>
+                      </div>
+
+                      {/* Mental Stimulation Needs */}
+                      <div className="flex justify-between items-center">
+                        <span className="font-medium text-gray-800">Mental Stimulation Needs:</span>
+                      </div>
+                      <div className="flex items-center">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <div
+                            key={level}
+                            className={`w-6 h-2 mx-1 rounded-full ${level <= dogDetails[breedKey].mentalStimulationNeeds ? 'bg-[#16423C]' : 'bg-[#C4DACB]'}`}
+                          ></div>
+                        ))}
+                        <span className="ml-2 text-gray-600">{dogDetails[breedKey].mentalStimulationNeeds}/5</span>
+                      </div>
                     </div>
 
                     {/* Coat Type & Coat Length được xử lý đặc biệt vì chúng có thể chứa nhiều giá trị */}
@@ -279,7 +428,7 @@ const CompareBreeds = () => {
                         </ul>
                       </div>
                     </div>
-                    
+
                   </div>
                 </div>
               )}
