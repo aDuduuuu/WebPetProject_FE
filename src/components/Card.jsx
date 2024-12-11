@@ -4,7 +4,7 @@ import { FaTrashAlt, FaWrench } from 'react-icons/fa';
 import clientApi from '../client-api/rest-client';
 import { message,Modal } from 'antd';
 
-const Card = ({ id, image, name, location, services, contactInfo, price, type, action, data, quantity ,description}) => {
+const Card = ({ id, image, name, location, services, contactInfo, price, type, action, data, quantity ,description,productType,breeds}) => {
   const navigate = useNavigate();
   const [isManager, setIsManager] = useState(false);
 
@@ -59,6 +59,8 @@ const Card = ({ id, image, name, location, services, contactInfo, price, type, a
         price,
         data,
         quantity,
+        productType,
+        breeds,
         description,
       },
     });

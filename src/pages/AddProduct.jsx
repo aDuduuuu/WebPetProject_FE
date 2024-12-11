@@ -129,81 +129,92 @@ const AddProduct = () => {
   return (
     <div className="product-container flex flex-col min-h-screen bg-gray-100">
       <Header />
-      <div className="container mx-auto p-6">
-        <h1 className="text-2xl font-bold mb-4">{isUpdate ? 'Update Product' : 'Add New Product'}</h1>
+      <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
+        <h1 className="text-3xl font-semibold text-teal-700 mb-6">
+          {isUpdate ? 'Update Product' : 'Add New Product'}
+        </h1>
 
-        {error && <div className="text-red-500 mb-4">{error}</div>}
+        {error && <div className="text-red-500 text-lg mb-4">{error}</div>}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Name */}
           <div>
-            <label htmlFor="name" className="block font-bold">Product Name</label>
+            <label htmlFor="name" className="block text-lg font-medium text-teal-500 mb-2">
+              Product Name
+            </label>
             <input
               type="text"
               id="name"
               name="name"
               value={productInfo.name}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
 
           {/* Product Code */}
-          <div>
-            <label htmlFor="productCode" className="block font-bold">Product Code</label>
-            <input
-              type="text"
-              id="productCode"
-              name="productCode"
-              value={productInfo.productCode}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-              required
-              disabled={isUpdate} // Disable editing Product Code in update mode
-            />
-          </div>
+          {!isUpdate && (
+            <div>
+              <label htmlFor="productCode" className="block text-lg font-medium text-teal-500 mb-2">
+                Product Code
+              </label>
+              <input
+                type="text"
+                id="productCode"
+                name="productCode"
+                value={productInfo.productCode}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                required
+              />
+            </div>
+          )}
 
           {/* Image */}
           <div>
-            <label htmlFor="image" className="block font-bold">Product Image</label>
+            <label htmlFor="image" className="block text-lg font-medium text-teal-500 mb-2">
+              Product Image
+            </label>
             <input
               type="file"
               id="image"
               name="image"
               onChange={handleImageUpload}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 mb-4"
               accept="image/*"
             />
             {uploading && (
-              <div style={{ marginTop: '20px', width: '100%' }}>
+              <div className="w-full mt-4">
                 <Progress percent={uploadProgress} status="active" />
               </div>
             )}
-            <div className="mt-2">
+            <div className="mt-4">
               <img
                 src={productInfo.image || 'https://via.placeholder.com/150?text=Not+Available'}
                 alt="Preview"
-                className="w-40 h-40 object-cover rounded"
+                className="w-40 h-40 object-cover rounded-lg shadow-md"
               />
             </div>
           </div>
 
           {/* Product Type */}
           <div>
-            <label htmlFor="productType" className="block font-bold">Product Type</label>
+            <label htmlFor="productType" className="block text-lg font-medium text-teal-500 mb-2">
+              Product Type
+            </label>
             <select
               id="productType"
               name="productType"
               value={productInfo.productType}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             >
               <option value="">Select Product Type</option>
-              {productTypes.map((type) => (
-                <option key={type} value={type}>
-                  {type}
+              {productTypes.map((productType,index) => (
+                <option key={index} value={productType}>
+                  {productType}
                 </option>
               ))}
             </select>
@@ -211,58 +222,64 @@ const AddProduct = () => {
 
           {/* Price */}
           <div>
-            <label htmlFor="price" className="block font-bold">Price</label>
+            <label htmlFor="price" className="block text-lg font-medium text-teal-500 mb-2">
+              Price
+            </label>
             <input
               type="number"
               id="price"
               name="price"
               value={productInfo.price}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
-              min="0"  // Prevent negative numbers
+              min="0"
             />
           </div>
 
           {/* Quantity */}
           <div>
-  <label htmlFor="quantity" className="block font-bold">Quantity</label>
-  <input
-    type="number"
-    id="quantity"
-    name="quantity"
-    value={productInfo.quantity}
-    onChange={handleChange}
-    className="w-full p-2 border rounded"
-    required
-    min="0"  // Prevent negative numbers
-  />
-</div>
+            <label htmlFor="quantity" className="block text-lg font-medium text-teal-500 mb-2">
+              Quantity
+            </label>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              value={productInfo.quantity}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              required
+              min="0"
+            />
+          </div>
 
           {/* Description */}
           <div>
-            <label htmlFor="description" className="block font-bold">Description</label>
+            <label htmlFor="description" className="block text-lg font-medium text-teal-500 mb-2">
+              Description
+            </label>
             <textarea
               id="description"
               name="description"
               value={productInfo.description}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
 
           {/* Buttons */}
-          <div className="flex justify-between mt-4">
+          <div className="flex justify-between mt-6">
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 bg-white border border-teal-500 text-teal-500 rounded hover:bg-teal-500 hover:text-white"
+              className="p-3 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600"
+              className={`px-6 py-3 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600 transition ${loading || uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
               disabled={loading || uploading}
             >
               {isUpdate ? 'Update Product' : 'Add Product'}
@@ -273,6 +290,7 @@ const AddProduct = () => {
       <Footer />
     </div>
   );
+
 };
 
 export default AddProduct;
