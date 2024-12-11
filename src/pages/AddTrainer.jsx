@@ -56,6 +56,7 @@ const AddTrainer = () => {
         id: location.state.id, // Save the trainer ID for updates
       });
       setIsUpdate(true); // Đặt trạng thái là update
+      console.log(trainerInfo);
     }
   }, [location.state]);
 
@@ -237,59 +238,65 @@ const AddTrainer = () => {
   return (
     <div className="trainer-container flex flex-col min-h-screen bg-gray-100">
       <Header />
-      <div className="container mx-auto p-6">
-        <h1 className="text-2xl font-bold mb-4">{isUpdate ? 'Update Trainer' : 'Add New Trainer'}</h1>
-
-        {error && <div className="text-red-500 mb-4">{error}</div>}
-
-        <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
+        <h1 className="text-3xl font-semibold text-teal-700 mb-6">
+          {isUpdate ? 'Update Trainer' : 'Add New Trainer'}
+        </h1>
+  
+        {error && <div className="text-red-500 text-lg mb-4">{error}</div>}
+  
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name */}
           <div>
-            <label htmlFor="name" className="block font-bold">Trainer Name</label>
+            <label htmlFor="name" className="block text-lg font-medium text-teal-500 mb-2">
+              Trainer Name
+            </label>
             <input
               type="text"
               id="name"
               name="name"
               value={trainerInfo.name}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               required
             />
           </div>
-
-          {/* Tải ảnh */}
+  
+          {/* Image */}
           <div>
-            <label htmlFor="image" className="block font-bold">Image</label>
+            <label htmlFor="image" className="block text-lg font-medium text-teal-500 mb-2">
+              Image
+            </label>
             <input
               type="file"
               id="image"
               name="image"
               onChange={handleImageUpload}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
               accept="image/*"
             />
             {uploading && (
-              <div style={{ marginTop: '20px', width: '100%' }}>
+              <div className="w-full mt-4">
                 <Progress percent={uploadProgress} status="active" />
               </div>
             )}
-            <div className="mt-2">
+            <div className="mt-4">
               <img
-                src={trainerInfo.image || "https://via.placeholder.com/150?text=Not+Available"}  // Hiển thị ảnh mặc định nếu không có ảnh
+                src={trainerInfo.image || "https://via.placeholder.com/150?text=Not+Available"}
                 alt="Preview"
-                className="w-40 h-40 object-cover rounded"
+                className="w-40 h-40 object-cover rounded-lg shadow-md"
               />
             </div>
           </div>
-
-
+  
           {/* Location */}
           <div>
-            <label className="block font-bold">Location</label>
+            <label className="block text-lg font-medium text-teal-500 mb-2">Location</label>
             <select
               name="location.province"
               value={trainerInfo.location.province}
               onChange={handleChange}
-              className="w-full p-2 border rounded mb-2"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
               required
             >
               <option value="">Select Province</option>
@@ -305,7 +312,8 @@ const AddTrainer = () => {
               value={trainerInfo.location.district}
               onChange={handleChange}
               placeholder="District"
-              className="w-full p-2 border rounded mb-2"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
+              required
             />
             <input
               type="text"
@@ -313,7 +321,7 @@ const AddTrainer = () => {
               value={trainerInfo.location.ward}
               onChange={handleChange}
               placeholder="Ward"
-              className="w-full p-2 border rounded mb-2"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
             />
             <input
               type="text"
@@ -321,28 +329,30 @@ const AddTrainer = () => {
               value={trainerInfo.location.street}
               onChange={handleChange}
               placeholder="Street"
-              className="w-full p-2 border rounded mb-2"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
             />
           </div>
-
+  
           {/* Services */}
           <div>
-            <label htmlFor="services" className="block font-bold">Services</label>
+            <label htmlFor="services" className="block text-lg font-medium text-teal-500 mb-2">
+              Services
+            </label>
             {trainerInfo.services.map((service, index) => (
-              <div key={index} className="flex items-center mb-2">
+              <div key={index} className="flex items-center mb-4">
                 <input
                   type="text"
-                  name={`services.${index}`}
+                  name={`services.${index}`}  // Đảm bảo `name` đúng với chỉ số của dịch vụ
                   value={service}
                   onChange={(e) => handleChange(e, index)}
                   placeholder="Service"
-                  className="w-full p-2 border rounded mr-2"
+                  className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mr-4"
                 />
                 {index === trainerInfo.services.length - 1 && (
                   <button
                     type="button"
                     onClick={handleAddService}
-                    className="p-2 bg-teal-500 text-white rounded hover:bg-teal-600"
+                    className="p-3 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600 transition"
                   >
                     +
                   </button>
@@ -350,61 +360,67 @@ const AddTrainer = () => {
               </div>
             ))}
           </div>
-
+  
           {/* Phone */}
           <div>
-            <label htmlFor="phone" className="block font-bold">Phone</label>
+            <label htmlFor="phone" className="block text-lg font-medium text-teal-500 mb-2">
+              Phone
+            </label>
             <input
               type="text"
               id="phone"
               name="contactInfo.phone"
               value={trainerInfo.contactInfo.phone}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
               required
             />
           </div>
-
+  
           {/* Email */}
           <div>
-            <label htmlFor="email" className="block font-bold">Email</label>
+            <label htmlFor="email" className="block text-lg font-medium text-teal-500 mb-2">
+              Email
+            </label>
             <input
               type="email"
               id="email"
               name="contactInfo.email"
               value={trainerInfo.contactInfo.email}
               onChange={handleChange}
-              className="w-full p-2 border rounded"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
             />
           </div>
+  
           {/* Description */}
           <div>
-            <label htmlFor="description" className="block font-bold">Description</label>
+            <label htmlFor="description" className="block text-lg font-medium text-teal-500 mb-2">
+              Description
+            </label>
             <textarea
               id="description"
               name="description"
               value={trainerInfo.description}
               onChange={handleChange}
-              className="w-full p-2 border rounded mb-2"
-              placeholder="Enter a description for the trainer"
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
+              placeholder="Enter a description..."
             />
           </div>
-
-          {/* Buttons */}
-          <div className="flex justify-between mt-4">
+  
+          {/* Cancel and Submit Buttons */}
+          <div className="flex justify-between mt-6">
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 bg-white border border-teal-500 text-teal-500 rounded hover:bg-teal-500 hover:text-white"
+              className="p-3 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className={`px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={loading}
+              className="p-3 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600 transition"
             >
-              {loading ? 'Saving...' : isUpdate ? 'Update Trainer' : 'Add Trainer'}
+              Submit
             </button>
           </div>
         </form>
@@ -412,6 +428,7 @@ const AddTrainer = () => {
       <Footer />
     </div>
   );
+  
 };
 
 export default AddTrainer;

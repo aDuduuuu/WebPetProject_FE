@@ -66,6 +66,7 @@ const DogSeller = () => {
                     name={dogSeller.name}
                     location={dogSeller.location}
                     nameClass="text-lg font-semibold text-teal-500"
+                    breeds={dogSeller.breeds}
                     type="dogsellers"
                     action="update" // Pass 'update' action for editing
                     data={dogSeller} // Pass full dogSeller data to Card
