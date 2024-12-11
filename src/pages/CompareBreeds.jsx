@@ -136,15 +136,20 @@ const CompareBreeds = () => {
 
   return (
     <div className="home-container text-[#16423C] flex flex-col min-h-screen bg-[#F9F9F9]">
-      <Header />
+      <Header /> 
 
-      <div className="flex justify-center items-center mt-6">
-        <button
-          onClick={handleCompareClick}
-          className="px-8 py-3 bg-[#16423C] text-white rounded-lg text-lg hover:bg-[#C4DACB] hover:text-[#16423C] transition-all duration-300"
-        >
-          Compare
-        </button>
+      <div className="bg-[#C4DACB] text-[#16423C] py-16 px-8 rounded-b-lg shadow-lg">
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-4xl font-bold mb-4 leading-tight">
+            Compare Breeds
+          </h1>
+          <p className="text-xl mb-6 max-w-2xl mx-auto">
+            Can’t decide which breed of dog is right for you? Compare dog breeds below to see how different breed characteristics and attributes stack up against each other.
+          </p>
+          <p className="text-lg font-medium max-w-2xl mx-auto">
+            Select up to 5 breeds to see a side-by-side comparison.
+          </p>
+        </div>
       </div>
 
       <div className="flex flex-wrap justify-center gap-8 mt-8">
