@@ -9,7 +9,7 @@ const DropdownShip = (props) => {
             label: (
                 <div className="d-flex justify-content-between">
                     <span>Express Shipping</span>
-                    <span>8.00 USD</span>
+                    <span>8.00 VNĐ</span>
                 </div>
             ),
             key: "1",
@@ -19,7 +19,7 @@ const DropdownShip = (props) => {
             label: (
                 <div className="d-flex justify-content-between">
                     <span>Economy Shipping</span>
-                    <span>2.00 USD</span>
+                    <span>2.00 VNĐ</span>
                 </div>
             ),
             key: "2",
@@ -29,7 +29,7 @@ const DropdownShip = (props) => {
             label: (
                 <div className="d-flex justify-content-between">
                     <span>Expedited Shipping</span>
-                    <span>20.00 USD</span>
+                    <span>20.00 VNĐ</span>
                 </div>
             ),
             key: "3",
