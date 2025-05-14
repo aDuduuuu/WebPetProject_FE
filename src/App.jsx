@@ -34,6 +34,8 @@ import StatisticsRoutes from "./routes/statisticsRoute.jsx";
 import TotalOrders from "./pages/TotalOrders.jsx";
 import Dashboard from './pages/admin/Dashboard';
 import DogBreedPage from "./pages/admin/DogBreedPage";
+import AddBreedPage from "./pages/admin/AddBreedPage";
+import UpdateBreedPage from "./pages/admin/UpdateBreedPage"; // ✅ import
 
 const App = () => (
   <AnswerProvider>
@@ -72,6 +74,8 @@ const App = () => (
           <Route path="/manageorder" element={<TotalOrders />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/dog-breeds" element={<DogBreedPage />} />
+          <Route path="/dashboard/dog-breeds/add" element={<AddBreedPage />} />
+          <Route path="/dashboard/dog-breeds/update/:breedId" element={<UpdateBreedPage />} />
         </Routes>
       </Router>
     </AppProvider>

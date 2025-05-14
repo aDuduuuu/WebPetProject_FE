@@ -37,8 +37,10 @@
     "react-select": "^5.8.3",
     "react-slick": "^0.30.2",
     "react-toastify": "^10.0.6",
+    "recharts": "^2.15.3",
     "sass": "^1.81.0",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "sweetalert2": "^11.21.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
