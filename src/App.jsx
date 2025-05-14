@@ -32,6 +32,8 @@ import CompareBreeds from "./pages/CompareBreeds.jsx";
 import OrderReview from "./pages/OrderReview/OrderReview.jsx";
 import StatisticsRoutes from "./routes/statisticsRoute.jsx";
 import TotalOrders from "./pages/TotalOrders.jsx";
+import Dashboard from './pages/admin/Dashboard';
+import DogBreedPage from "./pages/admin/DogBreedPage";
 
 const App = () => (
   <AnswerProvider>
@@ -68,6 +70,8 @@ const App = () => (
           <Route path="/compareDogs" element={<CompareBreeds />} />
           <Route path="/statistics" element={<StatisticsRoutes />} />
           <Route path="/manageorder" element={<TotalOrders />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/dog-breeds" element={<DogBreedPage />} />
         </Routes>
       </Router>
     </AppProvider>

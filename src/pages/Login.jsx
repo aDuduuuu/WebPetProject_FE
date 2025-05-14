@@ -25,11 +25,18 @@ const Login = () => {
       localStorage.setItem('token', response.DT.token);
       localStorage.setItem('role', response.DT.role);
       localStorage.setItem('id',response.DT.id);
+      const userRole = response.DT.role;
       if (response.EC === 0) {
         toast.success(response.EM); 
         localStorage.setItem('token', response.DT.token); // Lưu token vào localStorage
         setTimeout(() => {
-          navigate('/');
+          if (userRole === 'customer') {
+            navigate('/');
+          } else if (userRole === 'manager') {
+            navigate('/dashboard');
+          } else {
+            navigate('/'); // fallback nếu không xác định
+          }
         }, 2000);
       } else {
         setError(response.EM); // Hiển thị thông báo lỗi nếu có

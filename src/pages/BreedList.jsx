@@ -31,6 +31,7 @@ const FilterSection = () => {
   const [selectedBreeds, setSelectedBreeds] = useState([]);
   const [selectedBreedsDetails, setSelectedBreedsDetails] = useState([]);
   const [goToPage, setGoToPage] = useState(currentPage);
+  const [searchTerm, setSearchTerm] = useState("");  // Add search term state
 
 
   // Lấy selectedBreeds từ localStorage khi load trang
@@ -55,6 +56,7 @@ const FilterSection = () => {
       page: currentPage,
       limit: itemsPerPage,
       ...filters,
+      name: searchTerm,
     };
 
     console.log("Payload Sent to API:", requestPayload);
@@ -81,7 +83,7 @@ const FilterSection = () => {
 
   useEffect(() => {
     fetchDogBreeds();
-  }, [currentPage, filters]);
+  }, [currentPage, filters, searchTerm]);
 
   // Pagination
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -108,6 +110,11 @@ const FilterSection = () => {
 
     setCurrentPage(1);
   };
+
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);  // Update search term on input change
+    setCurrentPage(1);  // Reset to the first page when a new search is entered
+  };  
 
   const renderFilterSection = (title, filterKey, options) => (
     <div className="filter-group mb-6">
@@ -179,6 +186,16 @@ const FilterSection = () => {
           <div className="flex justify-between items-center mb-4">
             <h3 className="text-lg font-semibold text-gray-700">FILTER BREEDS</h3>
           </div>
+          <div className="mb-4">
+            <input
+              type="text"
+              className="w-full p-3 border border-teal-600 rounded-md text-teal-800 focus:outline-none focus:ring-2 focus:ring-teal-400"
+              placeholder="Search by breed name"
+              value={searchTerm}
+              onChange={handleSearchChange}
+            />
+          </div>
+
           {/* Filters */}
           {renderFilterSection("GROUP", "group", [
             "Sporting Group", "Hound Group", "Working Group", "Terrier Group",
