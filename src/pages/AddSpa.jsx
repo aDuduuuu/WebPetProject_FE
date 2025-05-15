@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
 import clientApi from '../client-api/rest-client'; // Import clientApi
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 import { message, Progress } from 'antd';  // Thêm các thành phần của antd để xử lý thông báo và thanh tiến trình
 import { uploadToCloudinary } from '../utils/uploadToCloudinary';  // Import hàm uploadToCloudinary
+import AdminLayout from '../components/admin/AdminLayout';
 
 const AddSpa = () => {
   const navigate = useNavigate();
@@ -221,8 +220,8 @@ const AddSpa = () => {
   };
 
   return (
-    <div className="spa-container flex flex-col min-h-screen bg-gray-100">
-      <Header />
+    <AdminLayout>
+      <div className="spa-container flex flex-col min-h-screen bg-gray-100">
       <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
         <h1 className="text-3xl font-semibold text-teal-700 mb-6">
           {isUpdate ? 'Update Spa' : 'Add New Spa'}
@@ -390,7 +389,7 @@ const AddSpa = () => {
               placeholder="Enter a description for the spa"
             />
           </div>
-
+  
           {/* Buttons */}
           <div className="flex justify-between mt-6">
             <button
@@ -409,8 +408,8 @@ const AddSpa = () => {
           </div>
         </form>
       </div>
-      <Footer />
     </div>
+    </AdminLayout>
   );
 
 };

@@ -2,13 +2,13 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   FaTachometerAlt, FaUserTie, FaUsersCog, FaCogs, FaUserFriends,
-  FaExchangeAlt, FaMoneyBillAlt, FaWallet, FaPaw 
+  FaExchangeAlt, FaMoneyBillAlt, FaWallet, FaPaw, FaSpa
 } from 'react-icons/fa';
 
 const menuItems = [
   { name: 'Dashboards', icon: <FaTachometerAlt />, path: '/dashboard' },
   { name: 'Dog Breeds', icon: <FaPaw  />, path: '/dashboard/dog-breeds' },
-  { name: 'Sub-admin', icon: <FaUsersCog />, path: '/dashboard/sub-admin' },
+  { name: 'Spa Management', icon: <FaSpa />, path: '/dashboard/spas' },
   { name: 'Admin Settings', icon: <FaCogs />, path: '/dashboard/settings/admin' },
   { name: 'Players', icon: <FaUserFriends />, path: '/dashboard/players' },
   { name: 'Transactions', icon: <FaExchangeAlt />, path: '/dashboard/transactions' },

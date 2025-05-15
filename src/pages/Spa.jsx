@@ -9,53 +9,107 @@ const Spa = () => {
   const [spaList, setSpaList] = useState([]);
   const [page, setPage] = useState(1);
   const spaPerPage = 16;
-  const [hasMore, setHasMore] = useState(true);
+  const [totalSpas, setTotalSpas] = useState(0);
   const [filters, setFilters] = useState({ province: '', services: [] });
-  const [userRole, setUserRole] = useState(null); // State lưu role của user
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [userRole, setUserRole] = useState(null);
 
-  // Lấy role từ localStorage khi component load
+  // Lấy role người dùng
   useEffect(() => {
-    const role = localStorage.getItem('role'); // Lấy role từ localStorage
-    setUserRole(role); // Lưu role vào state
+    const role = localStorage.getItem('role');
+    setUserRole(role);
   }, []);
 
-  // Fetch spa data từ API
+  // Gọi API lấy danh sách spa
   useEffect(() => {
     const fetchSpas = async () => {
-      const params = {
-        page,
-        limit: spaPerPage,
-        location: filters.province,
-        services: filters.services.join(','),
-      };
-
       try {
-        let spa = clientApi.service('spas');
-        const result = await spa.find(params);
-        if (result && result.EC === 0) {
-          const newSpas = Array.isArray(result.DT) ? result.DT : result.DT.spas || [];
-          if (newSpas.length < spaPerPage) {
-            setHasMore(false);
-          }
-          setSpaList((prevList) => (page === 1 ? newSpas : [...prevList, ...newSpas]));
+        let result;
+        if (searchKeyword.trim() !== '') {
+          const spa = clientApi.service('spas-search/by-name');
+          result = await spa.find({
+            keyword: searchKeyword,
+            page,
+            limit: spaPerPage,
+          });
         } else {
-          setHasMore(false);
+          const spa = clientApi.service('spas');
+          result = await spa.find({
+            page,
+            limit: spaPerPage,
+            location: filters.province,
+            services: filters.services.join(','),
+          });
+        }
+
+        if (result && result.EC === 0) {
+          const data = Array.isArray(result.DT) ? result.DT : result.DT;
+          setSpaList(data);
+          setTotalSpas(result.totalSpas || 0);
+        } else {
+          setSpaList([]);
+          setTotalSpas(0);
         }
       } catch (error) {
         console.error('Error fetching spas:', error);
-        setHasMore(false);
+        setSpaList([]);
+        setTotalSpas(0);
       }
     };
 
     fetchSpas();
-  }, [page, filters]);
+  }, [page, filters, searchKeyword]);
 
-  // Xử lý thay đổi bộ lọc
   const handleFilterChange = (newFilters) => {
     setFilters(newFilters);
     setPage(1);
-    setHasMore(true);
-    setSpaList([]);
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchKeyword(e.target.value);
+    setPage(1);
+  };
+
+  const totalPages = Math.ceil(totalSpas / spaPerPage);
+
+  const renderPagination = () => {
+    if (totalPages <= 1) return null;
+
+    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
+
+    return (
+      <div className="flex justify-center mt-8 space-x-2">
+        <button
+          className="px-3 py-1 border rounded bg-white text-teal-600 border-teal-500 hover:bg-teal-100"
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          disabled={page === 1}
+        >
+          « Prev
+        </button>
+
+        {pageNumbers.map((num) => (
+          <button
+            key={num}
+            className={`px-3 py-1 border rounded ${
+              page === num
+                ? 'bg-teal-500 text-white'
+                : 'bg-white text-teal-600 border-teal-500 hover:bg-teal-100'
+            }`}
+            onClick={() => setPage(num)}
+          >
+            {num}
+          </button>
+        ))}
+
+        <button
+          className="px-3 py-1 border rounded bg-white text-teal-600 border-teal-500 hover:bg-teal-100"
+          onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
+          disabled={page === totalPages}
+        >
+          Next »
+        </button>
+      </div>
+    );
   };
 
   return (
@@ -65,6 +119,18 @@ const Spa = () => {
         {/* Bộ lọc */}
         <div className="w-1/4 bg-white p-6 shadow-lg">
           <ProvinceFilter onFilter={handleFilterChange} type="spa" />
+
+          {/* Ô tìm kiếm tên spa */}
+          <div className="mt-4">
+            <label className="block text-sm font-medium text-gray-700 mb-1">Search by name</label>
+            <input
+              type="text"
+              value={searchKeyword}
+              onChange={handleSearchChange}
+              placeholder="Enter spa name..."
+              className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
+            />
+          </div>
         </div>
 
         {/* Danh sách spa */}
@@ -84,23 +150,15 @@ const Spa = () => {
                     type="spas"
                     action="update"
                     description={spa.description}
-                    role={userRole} // Truyền role từ localStorage xuống Card
+                    role={userRole}
                   />
                 ))}
               </div>
-              {hasMore && (
-                <div className="flex justify-center mt-6">
-                  <button
-                    className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600"
-                    onClick={() => setPage((prev) => prev + 1)}
-                  >
-                    Load More
-                  </button>
-                </div>
-              )}
+
+              {renderPagination()}
             </>
           ) : (
-            <p className="text-lg text-gray-600">No Spas found.</p>
+            <p className="text-lg text-gray-600 mt-4">No Spas found.</p>
           )}
         </div>
       </div>
