@@ -3,7 +3,6 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import { useNavigate } from 'react-router-dom';
 import clientApi from '../../client-api/rest-client';
 import Card from '../../components/Card';
-// Nếu bạn có filter riêng như ProvinceFilter, import ở đây
 
 const AdminSpaPage = () => {
   const [spaList, setSpaList] = useState([]);
@@ -14,6 +13,7 @@ const AdminSpaPage = () => {
   const [filters, setFilters] = useState({ province: '', services: [] });
   const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
+  const primaryColor = '#184440';
 
   useEffect(() => {
     const role = localStorage.getItem('role');
@@ -115,12 +115,20 @@ const AdminSpaPage = () => {
   return (
     <AdminLayout>
       <div className="p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-2xl font-semibold">Spa Management</h1>
+        {/* Tiêu đề và nút thêm */}
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-2xl font-extrabold text-gray-800 tracking-tight mb-1">
+              🧖 Spa Management
+            </h2>
+            <div className="inline-block bg-[#184440] text-white text-lg font-semibold px-4 py-1 rounded-md shadow">
+              Total spas: {totalSpas}
+            </div>
+          </div>
           <button
             onClick={() => navigate('/spas/add')}
             className="text-white px-4 py-2 rounded-lg hover:bg-[#145c54]"
-            style={{ backgroundColor: '#184440' }}
+            style={{ backgroundColor: primaryColor }}
           >
             + Add New Spa
           </button>
@@ -137,9 +145,7 @@ const AdminSpaPage = () => {
           />
         </div>
 
-        {/* Bộ lọc tỉnh / dịch vụ (nếu có component) */}
-        {/* <ProvinceFilter onFilter={handleFilterChange} type="spa" /> */}
-
+        {/* Danh sách spa */}
         {spaList.length > 0 ? (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
