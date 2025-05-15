@@ -98,7 +98,7 @@ const OrderDetail = () => {
           {isManager && (
             <div className="status-dropdown-container">
               <Select
-                value={orderDetail?.status}  
+                value={orderDetail?.status}
                 onChange={handleStatusChange}
                 options={[
                   { label: "Ordered", value: "ordered" },

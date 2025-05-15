@@ -65,7 +65,7 @@ const AddSpa = () => {
     const { name, value } = e.target;
 
     if (name.startsWith('location')) {
-      const locationField = name.split('.')[1]; 
+      const locationField = name.split('.')[1];
       setSpaInfo((prevState) => ({
         ...prevState,
         location: {
@@ -75,12 +75,12 @@ const AddSpa = () => {
       }));
     } else if (name.startsWith('contactInfo')) {
       const contactField = name.split('.')[1];
-    
+
       if (contactField === 'phone' && !/^\d+$/.test(value)) {
         message.error('Phone number must be a valid number!');
         return;
       }
-    
+
       setSpaInfo((prevState) => ({
         ...prevState,
         contactInfo: {
@@ -92,12 +92,12 @@ const AddSpa = () => {
       const serviceIndex = parseInt(name.split('.')[1], 10);  // Lấy chỉ số dịch vụ
       const updatedServices = [...spaInfo.services];
       updatedServices[serviceIndex] = value;  // Cập nhật dịch vụ ở chỉ số tương ứng
-    
+
       if (updatedServices[serviceIndex].trim() === '') {
         message.error('Service cannot be empty!');
         return;
       }
-    
+
       setSpaInfo((prevState) => ({
         ...prevState,
         services: updatedServices,
@@ -186,7 +186,7 @@ const AddSpa = () => {
 
   const handleImageUpload = async (e) => {
     const file = e.target.files[0];
-    
+
     if (!file) {
       setSpaInfo((prevState) => ({
         ...prevState,
@@ -194,15 +194,15 @@ const AddSpa = () => {
       }));
       return;
     }
-  
+
     setUploading(true);
     setUploadProgress(0);
-  
+
     try {
       const url = await uploadToCloudinary(file, 'spas', (progress) => {
         setUploadProgress(progress);
       });
-      
+
       setSpaInfo((prevState) => ({
         ...prevState,
         image: url,
@@ -227,9 +227,9 @@ const AddSpa = () => {
         <h1 className="text-3xl font-semibold text-teal-700 mb-6">
           {isUpdate ? 'Update Spa' : 'Add New Spa'}
         </h1>
-  
+
         {error && <div className="text-red-500 text-lg mb-4">{error}</div>}
-  
+
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Name */}
           <div>
@@ -246,7 +246,7 @@ const AddSpa = () => {
               required
             />
           </div>
-  
+
           {/* Image */}
           <div>
             <label htmlFor="image" className="block text-lg font-medium text-teal-500 mb-2">
@@ -273,7 +273,7 @@ const AddSpa = () => {
               />
             </div>
           </div>
-  
+
           {/* Location */}
           <div>
             <label className="block text-lg font-medium text-teal-500 mb-2">Location</label>
@@ -317,7 +317,7 @@ const AddSpa = () => {
               className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
             />
           </div>
-  
+
           {/* Services */}
           <div>
             <label htmlFor="services" className="block text-lg font-medium text-teal-500 mb-2">
@@ -345,7 +345,7 @@ const AddSpa = () => {
               </div>
             ))}
           </div>
-  
+
           {/* Phone */}
           <div>
             <label htmlFor="phone" className="block text-lg font-medium text-teal-500 mb-2">
@@ -360,7 +360,7 @@ const AddSpa = () => {
               className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
             />
           </div>
-  
+
           {/* Email */}
           <div>
             <label htmlFor="email" className="block text-lg font-medium text-teal-500 mb-2">
@@ -375,7 +375,22 @@ const AddSpa = () => {
               className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
             />
           </div>
-  
+
+          <div>
+            <label htmlFor="description" className="block text-lg font-medium text-teal-500 mb-2">
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={spaInfo.description}
+              onChange={handleChange}
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
+              rows="4"
+              placeholder="Enter a description for the spa"
+            />
+          </div>
+
           {/* Buttons */}
           <div className="flex justify-between mt-6">
             <button
@@ -397,7 +412,7 @@ const AddSpa = () => {
       <Footer />
     </div>
   );
-  
+
 };
 
 export default AddSpa;

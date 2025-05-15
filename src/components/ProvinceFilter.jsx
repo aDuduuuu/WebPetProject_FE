@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import clientApi from '../client-api/rest-client';
 import { useNavigate } from 'react-router-dom';
+import '../css/ProvinceFilter.css'
 
 const ProvinceFilter = ({ onFilter, type }) => {
   const navigate = useNavigate();
@@ -24,11 +25,11 @@ const ProvinceFilter = ({ onFilter, type }) => {
   const [selectedItems, setSelectedItems] = useState([]);
   const [items, setItems] = useState([]);
   const [userRole, setUserRole] = useState(null); // State để lưu role
+  const [visibleCount, setVisibleCount] = useState(6);
 
-  // Lấy role từ localStorage
   useEffect(() => {
-    const role = localStorage.getItem('role'); // Lấy role từ localStorage
-    setUserRole(role); // Lưu role vào state
+    const role = localStorage.getItem('role');
+    setUserRole(role);
   }, []);
 
   useEffect(() => {
@@ -73,6 +74,10 @@ const ProvinceFilter = ({ onFilter, type }) => {
 
   const handleProvinceChange = (e) => {
     setSelectedProvince(e.target.value);
+  };
+
+  const handleLoadMore = () => {
+    setVisibleCount((prevCount) => prevCount + 6); // Tăng thêm 6 mỗi lần
   };
 
   const handleItemChange = (value) => {
@@ -132,7 +137,7 @@ const ProvinceFilter = ({ onFilter, type }) => {
       {(type === 'spa' || type === 'trainer') && (
         <>
           <h4 className="text-sm font-semibold text-gray-600 mt-4 mb-2">Select Services</h4>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-4 justify-start">
             {items.map((service) => (
               <label key={service} className="flex items-center text-gray-700">
                 <input
@@ -140,7 +145,7 @@ const ProvinceFilter = ({ onFilter, type }) => {
                   value={service}
                   checked={selectedItems.includes(service)}
                   onChange={() => handleItemChange(service)}
-                  className="mr-2"
+                  className="custom-checkbox mr-2"
                 />
                 {service}
               </label>
@@ -152,24 +157,47 @@ const ProvinceFilter = ({ onFilter, type }) => {
       {type === 'dogsellers' && (
         <>
           <h4 className="text-sm font-semibold text-gray-600 mt-4 mb-2">Select Breeds</h4>
-          <div className="grid grid-cols-2 gap-2">
-            {items.map((breed) => (
+          <div className="grid grid-cols-1 gap-4 justify-start">
+            {items.slice(0, visibleCount).map((breed) => (
               <label key={breed.id} className="flex items-center text-gray-700">
                 <input
                   type="checkbox"
                   value={breed.id}
                   checked={selectedItems.includes(breed.id)}
                   onChange={() => handleItemChange(breed.id)}
-                  className="mr-2"
+                  className="custom-checkbox mr-2"
                 />
                 {breed.name}
               </label>
             ))}
           </div>
+          {visibleCount < items.length && (
+            <div
+              onClick={handleLoadMore}
+              className="cursor-pointer mt-4 text-teal-500 flex items-center gap-1 hover:underline"
+            >
+              <span>More</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-4 h-4"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
+                />
+              </svg>
+            </div>
+          )}
         </>
       )}
 
-      <div className="flex mb-4 gap-2">
+      {/* Thêm khoảng cách ở đây */}
+      <div className="flex mt-6 mb-4 gap-2">
         <button
           className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
           onClick={handleFilterClick}
@@ -184,9 +212,8 @@ const ProvinceFilter = ({ onFilter, type }) => {
         </button>
       </div>
 
-      {/* Add button chỉ hiện khi role là 'manager' */}
       {userRole === 'manager' && (
-        <div className="flex mb-4">
+        <div className="flex mb-4 gap-2">
           {type === 'spa' && (
             <button
               className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
@@ -215,6 +242,8 @@ const ProvinceFilter = ({ onFilter, type }) => {
       )}
     </div>
   );
+
+
 };
 
 export default ProvinceFilter;
