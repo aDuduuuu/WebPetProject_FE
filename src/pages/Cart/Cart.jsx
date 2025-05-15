@@ -17,7 +17,7 @@ const Cart = () => {
     let [checkout, setCheckout] = useState(true);
     let [totalQuantity, setTotalQuantity] = useState(0);
     let [totalPrice, setTotalPrice] = useState(0);
-    let [shipping, setShipping] = useState({ name: "Express Shipping", price: 8 });
+    let [shipping, setShipping] = useState({ name: "Express Shipping", price: 100000 });
     useEffect(() => {
         fetchCart();
     }, []);

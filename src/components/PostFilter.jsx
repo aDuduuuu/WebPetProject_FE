@@ -47,7 +47,7 @@ const PostFilter = ({ categories, selectedCategory, sortBy, onCategoryChange, on
           </button>
         ))}
       </div>
-      <div className="flex mb-4 items-center gap-3">
+      <div className="flex mt-6 mb-4 items-center gap-3">
         <h4 className="text-sm font-semibold text-gray-600 mt-0 mb-0">Sort By</h4>
         <select
           value={sortBy}

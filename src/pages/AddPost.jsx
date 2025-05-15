@@ -109,46 +109,46 @@ const AddPost = () => {
     setLoading(true);
     setError('');
     setSuccess('');
-  
-    
+
     if (!postInfo.title || !postInfo.category || !postInfo.sdescription || !postInfo.author || !postInfo.content) {
       setError('Please fill in all required fields');
       setLoading(false);
       return;
     }
-  
-    
+
     if (postInfo.image === 'https://via.placeholder.com/150?text=Not+Available') {
       message.error('Please upload an image!');
       setLoading(false);
       return;
     }
-  
+
     try {
       let response;
       const api = clientApi.service('posts');
-  
+
       if (location.state?.type === 'update') {
-        // Nếu đang cập nhật bài viết
-        response = await api.patch(postInfo.id, postInfo); // Cập nhật bài viết
+        // Cập nhật bài viết
+        response = await api.patch(postInfo.id, postInfo);
       } else {
-        // Nếu thêm mới bài viết
-        response = await api.create(postInfo); // Tạo bài viết mới
+        // Tạo bài viết mới
+        response = await api.create(postInfo);
       }
-  
+
       if (response.EC === 0) {
-        message.success('action successfully!');
-        // Sau khi thêm hoặc cập nhật thành công, điều hướng về trang /posts
-        navigate('/posts'); 
+        message.success('Action successfully!');
+        setSuccess('Post saved successfully!');
+        navigate('/posts'); // Điều hướng về trang /posts
       } else {
-        setError(response.EM);
+        setError(response.EM || 'An error occurred while saving the post.');
       }
     } catch (err) {
-      
+      console.error('Error while submitting the post:', err);
+      setError('An unexpected error occurred. Please try again later.');
+    } finally {
+      setLoading(false);
     }
-  
-    setLoading(false);
   };
+
 
 
   return (
@@ -319,4 +319,3 @@ const AddPost = () => {
 };
 
 export default AddPost;
-

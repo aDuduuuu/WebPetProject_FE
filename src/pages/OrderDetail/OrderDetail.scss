@@ -229,6 +229,33 @@
 
     }
 
+    .status-dropdown-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+    }
+
+    .status-dropdown-container .ant-select-selector {
+        font-size: 16px;
+        /* Tăng size chữ */
+        width: auto;
+        /* Đảm bảo chiều rộng tự động */
+        white-space: nowrap;
+        /* Không cho xuống dòng */
+        overflow: visible;
+        /* Hiển thị đủ nội dung */
+        text-overflow: clip;
+        /* Bỏ dấu '...' */
+    }
+
+    .status-dropdown-container .ant-select-dropdown {
+        font-size: 16px;
+        /* Tăng size chữ trong dropdown */
+        min-width: 150px;
+        /* Đảm bảo chiều rộng tối thiểu */
+    }
+
     .cancel {
         display: flex;
         flex-direction: column;
@@ -249,7 +276,8 @@
                 background: #ff5b5b;
             }
         }
-        .btn-review{
+
+        .btn-review {
             background: #16423C;
             color: white;
             border-radius: 30px;
