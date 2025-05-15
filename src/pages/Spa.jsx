@@ -155,6 +155,7 @@ const Spa = () => {
                 ))}
               </div>
 
+              {/* Phân trang */}
               {renderPagination()}
             </>
           ) : (

@@ -3,6 +3,7 @@ import AdminLayout from '../../components/admin/AdminLayout';
 import { useNavigate } from 'react-router-dom';
 import clientApi from '../../client-api/rest-client';
 import Card from '../../components/Card';
+// Nếu bạn có filter riêng như ProvinceFilter, import ở đây
 
 const AdminSpaPage = () => {
   const [spaList, setSpaList] = useState([]);
@@ -10,6 +11,7 @@ const AdminSpaPage = () => {
   const spaPerPage = 10;
   const [totalSpas, setTotalSpas] = useState(0);
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [filters, setFilters] = useState({ province: '', services: [] });
   const [userRole, setUserRole] = useState(null);
   const navigate = useNavigate();
 
@@ -22,8 +24,8 @@ const AdminSpaPage = () => {
     const fetchSpas = async () => {
       try {
         let result;
+
         if (searchKeyword.trim() !== '') {
-          // Gọi API tìm kiếm theo tên (không bọc query nếu dùng Axios REST client)
           const spaSearch = clientApi.service('spas-search/by-name');
           result = await spaSearch.find({
             keyword: searchKeyword,
@@ -31,11 +33,12 @@ const AdminSpaPage = () => {
             limit: spaPerPage,
           });
         } else {
-          // Gọi danh sách spa bình thường
-          const spa = clientApi.service('spas');
-          result = await spa.find({
+          const spaService = clientApi.service('spas');
+          result = await spaService.find({
             page,
             limit: spaPerPage,
+            location: filters.province,
+            services: filters.services.join(','),
           });
         }
 
@@ -55,10 +58,15 @@ const AdminSpaPage = () => {
     };
 
     fetchSpas();
-  }, [page, searchKeyword]);
+  }, [page, filters, searchKeyword]);
 
   const handleSearchChange = (e) => {
     setSearchKeyword(e.target.value);
+    setPage(1);
+  };
+
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
     setPage(1);
   };
 
@@ -129,7 +137,9 @@ const AdminSpaPage = () => {
           />
         </div>
 
-        {/* Danh sách Spa */}
+        {/* Bộ lọc tỉnh / dịch vụ (nếu có component) */}
+        {/* <ProvinceFilter onFilter={handleFilterChange} type="spa" /> */}
+
         {spaList.length > 0 ? (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
