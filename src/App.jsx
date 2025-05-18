@@ -37,6 +37,7 @@ import DogBreedPage from "./pages/admin/DogBreedPage";
 import AddBreedPage from "./pages/admin/AddBreedPage";
 import UpdateBreedPage from "./pages/admin/UpdateBreedPage"; 
 import AdminSpaPage from "./pages/admin/AdminSpaPage";
+import AdminTrainerPage from "./pages/admin/AdminTrainerPage.jsx";
 
 const App = () => (
   <AnswerProvider>
@@ -78,6 +79,7 @@ const App = () => (
           <Route path="/dashboard/dog-breeds/add" element={<AddBreedPage />} />
           <Route path="/dashboard/dog-breeds/update/:breedId" element={<UpdateBreedPage />} />
           <Route path="/dashboard/spas" element={<AdminSpaPage />} /> 
+          <Route path="/dashboard/trainers" element={<AdminTrainerPage />} />
         </Routes>
       </Router>
     </AppProvider>
