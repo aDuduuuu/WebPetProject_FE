@@ -4,8 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { message, Progress } from 'antd';  // Thêm các thành phần của antd để xử lý thông báo và thanh tiến trình
 import { uploadToCloudinary } from '../utils/uploadToCloudinary';  // Import hàm uploadToCloudinary
 import clientApi from '../client-api/rest-client';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import AdminLayout from '../components/admin/AdminLayout';
 
 const AddTrainer = () => {
   const navigate = useNavigate();
@@ -236,197 +235,197 @@ const AddTrainer = () => {
 
 
   return (
-    <div className="trainer-container flex flex-col min-h-screen bg-gray-100">
-      <Header />
-      <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
-        <h1 className="text-3xl font-semibold text-teal-700 mb-6">
-          {isUpdate ? 'Update Trainer' : 'Add New Trainer'}
-        </h1>
-  
-        {error && <div className="text-red-500 text-lg mb-4">{error}</div>}
-  
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Name */}
-          <div>
-            <label htmlFor="name" className="block text-lg font-medium text-teal-500 mb-2">
-              Trainer Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={trainerInfo.name}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              required
-            />
-          </div>
-  
-          {/* Image */}
-          <div>
-            <label htmlFor="image" className="block text-lg font-medium text-teal-500 mb-2">
-              Image
-            </label>
-            <input
-              type="file"
-              id="image"
-              name="image"
-              onChange={handleImageUpload}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
-              accept="image/*"
-            />
-            {uploading && (
-              <div className="w-full mt-4">
-                <Progress percent={uploadProgress} status="active" />
-              </div>
-            )}
-            <div className="mt-4">
-              <img
-                src={trainerInfo.image || "https://via.placeholder.com/150?text=Not+Available"}
-                alt="Preview"
-                className="w-40 h-40 object-cover rounded-lg shadow-md"
+    <AdminLayout>
+      <div className="trainer-container flex flex-col min-h-screen bg-gray-100">
+        <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
+          <h1 className="text-3xl font-semibold text-teal-700 mb-6">
+            {isUpdate ? 'Update Trainer' : 'Add New Trainer'}
+          </h1>
+    
+          {error && <div className="text-red-500 text-lg mb-4">{error}</div>}
+    
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Name */}
+            <div>
+              <label htmlFor="name" className="block text-lg font-medium text-teal-500 mb-2">
+                Trainer Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                value={trainerInfo.name}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                required
               />
             </div>
-          </div>
-  
-          {/* Location */}
-          <div>
-            <label className="block text-lg font-medium text-teal-500 mb-2">Location</label>
-            <select
-              name="location.province"
-              value={trainerInfo.location.province}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
-              required
-            >
-              <option value="">Select Province</option>
-              {provinces.map((province) => (
-                <option key={province} value={province}>
-                  {province}
-                </option>
-              ))}
-            </select>
-            <input
-              type="text"
-              name="location.district"
-              value={trainerInfo.location.district}
-              onChange={handleChange}
-              placeholder="District"
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
-              required
-            />
-            <input
-              type="text"
-              name="location.ward"
-              value={trainerInfo.location.ward}
-              onChange={handleChange}
-              placeholder="Ward"
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
-            />
-            <input
-              type="text"
-              name="location.street"
-              value={trainerInfo.location.street}
-              onChange={handleChange}
-              placeholder="Street"
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
-            />
-          </div>
-  
-          {/* Services */}
-          <div>
-            <label htmlFor="services" className="block text-lg font-medium text-teal-500 mb-2">
-              Services
-            </label>
-            {trainerInfo.services.map((service, index) => (
-              <div key={index} className="flex items-center mb-4">
-                <input
-                  type="text"
-                  name={`services.${index}`}  // Đảm bảo `name` đúng với chỉ số của dịch vụ
-                  value={service}
-                  onChange={(e) => handleChange(e, index)}
-                  placeholder="Service"
-                  className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mr-4"
+    
+            {/* Image */}
+            <div>
+              <label htmlFor="image" className="block text-lg font-medium text-teal-500 mb-2">
+                Image
+              </label>
+              <input
+                type="file"
+                id="image"
+                name="image"
+                onChange={handleImageUpload}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
+                accept="image/*"
+              />
+              {uploading && (
+                <div className="w-full mt-4">
+                  <Progress percent={uploadProgress} status="active" />
+                </div>
+              )}
+              <div className="mt-4">
+                <img
+                  src={trainerInfo.image || "https://via.placeholder.com/150?text=Not+Available"}
+                  alt="Preview"
+                  className="w-40 h-40 object-cover rounded-lg shadow-md"
                 />
-                {index === trainerInfo.services.length - 1 && (
-                  <button
-                    type="button"
-                    onClick={handleAddService}
-                    className="p-3 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600 transition"
-                  >
-                    +
-                  </button>
-                )}
               </div>
-            ))}
-          </div>
-  
-          {/* Phone */}
-          <div>
-            <label htmlFor="phone" className="block text-lg font-medium text-teal-500 mb-2">
-              Phone
-            </label>
-            <input
-              type="text"
-              id="phone"
-              name="contactInfo.phone"
-              value={trainerInfo.contactInfo.phone}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
-              required
-            />
-          </div>
-  
-          {/* Email */}
-          <div>
-            <label htmlFor="email" className="block text-lg font-medium text-teal-500 mb-2">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="contactInfo.email"
-              value={trainerInfo.contactInfo.email}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
-            />
-          </div>
-  
-          {/* Description */}
-          <div>
-            <label htmlFor="description" className="block text-lg font-medium text-teal-500 mb-2">
-              Description
-            </label>
-            <textarea
-              id="description"
-              name="description"
-              value={trainerInfo.description}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
-              placeholder="Enter a description..."
-            />
-          </div>
-  
-          {/* Cancel and Submit Buttons */}
-          <div className="flex justify-between mt-6">
-            <button
-              type="button"
-              onClick={handleCancel}
-              className="p-3 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className="p-3 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600 transition"
-            >
-              Submit
-            </button>
-          </div>
-        </form>
+            </div>
+    
+            {/* Location */}
+            <div>
+              <label className="block text-lg font-medium text-teal-500 mb-2">Location</label>
+              <select
+                name="location.province"
+                value={trainerInfo.location.province}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
+                required
+              >
+                <option value="">Select Province</option>
+                {provinces.map((province) => (
+                  <option key={province} value={province}>
+                    {province}
+                  </option>
+                ))}
+              </select>
+              <input
+                type="text"
+                name="location.district"
+                value={trainerInfo.location.district}
+                onChange={handleChange}
+                placeholder="District"
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
+                required
+              />
+              <input
+                type="text"
+                name="location.ward"
+                value={trainerInfo.location.ward}
+                onChange={handleChange}
+                placeholder="Ward"
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
+              />
+              <input
+                type="text"
+                name="location.street"
+                value={trainerInfo.location.street}
+                onChange={handleChange}
+                placeholder="Street"
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
+              />
+            </div>
+    
+            {/* Services */}
+            <div>
+              <label htmlFor="services" className="block text-lg font-medium text-teal-500 mb-2">
+                Services
+              </label>
+              {trainerInfo.services.map((service, index) => (
+                <div key={index} className="flex items-center mb-4">
+                  <input
+                    type="text"
+                    name={`services.${index}`}  // Đảm bảo `name` đúng với chỉ số của dịch vụ
+                    value={service}
+                    onChange={(e) => handleChange(e, index)}
+                    placeholder="Service"
+                    className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mr-4"
+                  />
+                  {index === trainerInfo.services.length - 1 && (
+                    <button
+                      type="button"
+                      onClick={handleAddService}
+                      className="p-3 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600 transition"
+                    >
+                      +
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+    
+            {/* Phone */}
+            <div>
+              <label htmlFor="phone" className="block text-lg font-medium text-teal-500 mb-2">
+                Phone
+              </label>
+              <input
+                type="text"
+                id="phone"
+                name="contactInfo.phone"
+                value={trainerInfo.contactInfo.phone}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
+                required
+              />
+            </div>
+    
+            {/* Email */}
+            <div>
+              <label htmlFor="email" className="block text-lg font-medium text-teal-500 mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="contactInfo.email"
+                value={trainerInfo.contactInfo.email}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm"
+              />
+            </div>
+    
+            {/* Description */}
+            <div>
+              <label htmlFor="description" className="block text-lg font-medium text-teal-500 mb-2">
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                value={trainerInfo.description}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm mb-4"
+                placeholder="Enter a description..."
+              />
+            </div>
+    
+            {/* Cancel and Submit Buttons */}
+            <div className="flex justify-between mt-6">
+              <button
+                type="button"
+                onClick={handleCancel}
+                className="p-3 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className="p-3 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600 transition"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-      <Footer />
-    </div>
+    </AdminLayout>
   );
   
 };

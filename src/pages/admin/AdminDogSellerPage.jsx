@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Card from '../components/Card';
-import ProvinceFilter from '../components/ProvinceFilter';
-import clientApi from '../client-api/rest-client';
+import { useNavigate } from 'react-router-dom';
+import AdminLayout from '../../components/admin/AdminLayout';
+import clientApi from '../../client-api/rest-client';
+import Card from '../../components/Card';
 
-const DogSeller = () => {
+const AdminDogSellerPage = () => {
   const [dogSellerList, setDogSellerList] = useState([]);
   const [page, setPage] = useState(1);
   const dogSellerPerPage = 8;
   const [totalDogSellers, setTotalDogSellers] = useState(0);
-  const [filters, setFilters] = useState({ province: '', breeds: [] });
   const [searchKeyword, setSearchKeyword] = useState('');
+  const navigate = useNavigate();
+  const primaryColor = '#184440';
 
   useEffect(() => {
     const fetchDogSellers = async () => {
@@ -23,15 +23,13 @@ const DogSeller = () => {
           result = await searchApi.find({
             keyword: searchKeyword,
             page,
-            limit: dogSellerPerPage
+            limit: dogSellerPerPage,
           });
         } else {
           const dogSellerApi = clientApi.service('dogsellers');
           result = await dogSellerApi.find({
             page,
             limit: dogSellerPerPage,
-            location: filters.province,
-            breed: filters.breeds.join(','),
           });
         }
 
@@ -51,12 +49,7 @@ const DogSeller = () => {
     };
 
     fetchDogSellers();
-  }, [page, filters, searchKeyword]);
-
-  const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
-    setPage(1);
-  };
+  }, [page, searchKeyword]);
 
   const handleSearchChange = (e) => {
     setSearchKeyword(e.target.value);
@@ -68,8 +61,6 @@ const DogSeller = () => {
   const renderPagination = () => {
     if (totalPages <= 1) return null;
 
-    const pageNumbers = Array.from({ length: totalPages }, (_, i) => i + 1);
-
     return (
       <div className="flex justify-center mt-8 space-x-2">
         <button
@@ -79,8 +70,7 @@ const DogSeller = () => {
         >
           « Prev
         </button>
-
-        {pageNumbers.map((num) => (
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((num) => (
           <button
             key={num}
             className={`px-3 py-1 border rounded ${
@@ -93,7 +83,6 @@ const DogSeller = () => {
             {num}
           </button>
         ))}
-
         <button
           className="px-3 py-1 border rounded bg-white text-teal-600 border-teal-500 hover:bg-teal-100"
           onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
@@ -106,55 +95,64 @@ const DogSeller = () => {
   };
 
   return (
-    <div className="dog-seller-container flex flex-col min-h-screen bg-gray-100">
-      <Header />
-      <div className="flex">
-        {/* Bộ lọc + tìm kiếm */}
-        <div className="w-1/4 bg-white p-6 shadow-lg">
-          <ProvinceFilter onFilter={handleFilterChange} type="dogsellers" />
-
-          {/* Ô tìm kiếm */}
-          <div className="mt-6">
-            <input
-              type="text"
-              value={searchKeyword}
-              onChange={handleSearchChange}
-              placeholder="Search dog seller by name..."
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-            />
+    <AdminLayout>
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h2 className="text-2xl font-extrabold text-gray-800 tracking-tight mb-1">
+              🐶 Dog Seller Management
+            </h2>
+            <div className="inline-block bg-[#184440] text-white text-lg font-semibold px-4 py-1 rounded-md shadow">
+              Total sellers: {totalDogSellers}
+            </div>
           </div>
+          <button
+            onClick={() => navigate('/dogsellers/add')}
+            className="text-white px-4 py-2 rounded-lg hover:bg-[#145c54]"
+            style={{ backgroundColor: primaryColor }}
+          >
+            + Add New Dog Seller
+          </button>
         </div>
 
-        {/* Danh sách dog sellers */}
-        <div className="w-3/4 p-6">
-          {dogSellerList.length > 0 ? (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                {dogSellerList.map((dogSeller) => (
-                  <Card
-                    key={dogSeller._id}
-                    id={dogSeller._id}
-                    image={dogSeller.image || 'https://via.placeholder.com/150?text=Not+Available'}
-                    name={dogSeller.name}
-                    location={dogSeller.location}
-                    nameClass="text-lg font-semibold text-teal-500"
-                    breeds={dogSeller.breeds}
-                    type="dogsellers"
-                    action="update"
-                    data={dogSeller}
-                  />
-                ))}
-              </div>
-              {renderPagination()}
-            </>
-          ) : (
-            <p className="text-lg text-gray-600 mt-4">No Dog Sellers found.</p>
-          )}
+        {/* Tìm kiếm theo tên */}
+        <div className="mb-6">
+          <input
+            type="text"
+            value={searchKeyword}
+            onChange={handleSearchChange}
+            placeholder="Search dog seller by name..."
+            className="w-full md:w-1/3 px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+          />
         </div>
+
+        {/* Danh sách seller */}
+        {dogSellerList.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {dogSellerList.map((dogSeller) => (
+                <Card
+                  key={dogSeller._id}
+                  id={dogSeller._id}
+                  image={dogSeller.image || 'https://via.placeholder.com/150?text=Not+Available'}
+                  name={dogSeller.name}
+                  location={dogSeller.location}
+                  nameClass="text-lg font-semibold text-teal-500"
+                  breeds={dogSeller.breeds}
+                  type="dogsellers"
+                  action="update"
+                  data={dogSeller}
+                />
+              ))}
+            </div>
+            {renderPagination()}
+          </>
+        ) : (
+          <p className="text-lg text-gray-600 mt-4">No Dog Sellers found.</p>
+        )}
       </div>
-      <Footer />
-    </div>
+    </AdminLayout>
   );
 };
 
-export default DogSeller;
+export default AdminDogSellerPage;
