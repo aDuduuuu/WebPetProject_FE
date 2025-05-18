@@ -31,6 +31,9 @@ const Dashboard = () => {
   const [dogSellerProvinceStats, setDogSellerProvinceStats] = useState([]);
   const [dogSellerBreedStats, setDogSellerBreedStats] = useState([]);
 
+  const [totalProducts, setTotalProducts] = useState(0);
+  const [productTypeStats, setProductTypeStats] = useState([]);
+
   useEffect(() => {
     const role = localStorage.getItem('role');
     if (role !== 'manager') navigate('/');
@@ -41,6 +44,7 @@ const Dashboard = () => {
     fetchSpaStats();
     fetchTrainerStats();
     fetchDogSellerStats();
+    fetchProductStats();
   }, []);
 
   const fetchDogBreedStats = async () => {
@@ -181,6 +185,35 @@ const Dashboard = () => {
     }
   };  
 
+  const fetchProductStats = async () => {
+    try {
+      const response = await clientApi.service('products').find({ page: 1, limit: 1000 });
+      if (response.EC === 0 || response.EC === 200) {
+        const products = Array.isArray(response.DT) ? response.DT : [];
+        setTotalProducts(response.totalProducts || products.length);
+  
+        const typeCounts = {};
+        products.forEach((product) => {
+          const type = product.productType || 'Unknown';
+          typeCounts[type] = (typeCounts[type] || 0) + 1;
+        });
+  
+        const typeData = Object.entries(typeCounts)
+          .map(([type, count]) => ({ type, count }))
+          .sort((a, b) => b.count - a.count);
+  
+        setProductTypeStats(typeData);
+      } else {
+        setTotalProducts(0);
+        setProductTypeStats([]);
+      }
+    } catch (error) {
+      console.error('Failed to fetch product stats:', error);
+      setTotalProducts(0);
+      setProductTypeStats([]);
+    }
+  };  
+
   return (
     <AdminLayout>
       <div className="mb-10">
@@ -193,6 +226,7 @@ const Dashboard = () => {
         <StatCard label="Total Spas" value={totalSpas} />
         <StatCard label="Total Trainers" value={totalTrainers} />
         <StatCard label="Total Dog Sellers" value={totalDogSellers} />
+        <StatCard label="Total Products" value={totalProducts} />
       </div>
 
       <StatChart title="🐶 Dog Breeds by Group" data={groupStats} dataKey="name" barKey="count" barColor="#184440" />
@@ -201,6 +235,7 @@ const Dashboard = () => {
       <StatChart title="📍 Trainers by Province" data={trainerProvinceStats} dataKey="province" barKey="count" barColor="#1e9e8d" />
       <StatChart title="🏷️ Trainers by Service" data={trainerServiceStats} dataKey="service" barKey="count" barColor="#f59e0b" />
       <StatChart title="🐾 Dog Sellers by Breed" data={dogSellerBreedStats} dataKey="breed" barKey="count" barColor="#10b981" />
+      <StatChart title="📦 Products by Type" data={productTypeStats} dataKey="type" barKey="count" barColor="#6366f1" />
     </AdminLayout>
   );
 };
