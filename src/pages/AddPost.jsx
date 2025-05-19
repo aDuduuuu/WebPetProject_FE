@@ -5,6 +5,7 @@ import clientApi from '../client-api/rest-client';
 import { message, Progress } from 'antd';  // Thêm các thành phần của antd để xử lý thông báo và thanh tiến trình
 import { uploadToCloudinary } from '../utils/uploadToCloudinary';  // Import hàm uploadToCloudinary
 import Footer from '../components/Footer';
+import AdminLayout from '../components/admin/AdminLayout';
 
 const AddPost = () => {
   const navigate = useNavigate();
@@ -152,168 +153,168 @@ const AddPost = () => {
 
 
   return (
-    <div className="post-container flex flex-col min-h-screen bg-gray-100">
-      <Header />
-      <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
-        <h1 className="text-3xl font-semibold text-teal-700 mb-6">
-          {location.state?.type === 'update' ? 'Update Post' : 'Add New Post'}
-        </h1>
+    <AdminLayout>
+      <div className="post-container flex flex-col min-h-screen bg-gray-100">
+        <div className="container mx-auto p-6 bg-white shadow-lg rounded-lg mt-8">
+          <h1 className="text-3xl font-semibold text-teal-700 mb-6">
+            {location.state?.type === 'update' ? 'Update Post' : 'Add New Post'}
+          </h1>
 
-        {error && <div className="text-red-500 text-lg mb-4">{error}</div>}
-        {success && <div className="text-green-500 text-lg mb-4">{success}</div>}
+          {error && <div className="text-red-500 text-lg mb-4">{error}</div>}
+          {success && <div className="text-green-500 text-lg mb-4">{success}</div>}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Post ID */}
-          <div>
-            <label htmlFor="postID" className="block text-lg font-medium text-teal-500 mb-2">
-              Post ID
-            </label>
-            <input
-              type="text"
-              id="postID"
-              name="postID"
-              value={postInfo.postID}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              required
-              disabled={location.state?.type === 'update'}
-            />
-          </div>
-
-          {/* Title */}
-          <div>
-            <label htmlFor="title" className="block text-lg font-medium text-teal-500 mb-2">
-              Title
-            </label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              value={postInfo.title}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              required
-            />
-          </div>
-
-          {/* Category */}
-          <div>
-            <label htmlFor="category" className="block text-lg font-medium text-teal-500 mb-2">
-              Category
-            </label>
-            <select
-              id="category"
-              name="category"
-              value={postInfo.category}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              required
-            >
-              <option value="">Select Category</option>
-              {categories.map((category, index) => (
-                <option key={index} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Short Description */}
-          <div>
-            <label htmlFor="sdescription" className="block text-lg font-medium text-teal-500 mb-2">
-              Short Description
-            </label>
-            <textarea
-              id="sdescription"
-              name="sdescription"
-              value={postInfo.sdescription}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              rows="3"
-              required
-            />
-          </div>
-
-          {/* Author */}
-          <div>
-            <label htmlFor="author" className="block text-lg font-medium text-teal-500 mb-2">
-              Author
-            </label>
-            <input
-              type="text"
-              id="author"
-              name="author"
-              value={postInfo.author}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              required
-            />
-          </div>
-
-          {/* Content */}
-          <div>
-            <label htmlFor="content" className="block text-lg font-medium text-teal-500 mb-2">
-              Content
-            </label>
-            <textarea
-              id="content"
-              name="content"
-              value={postInfo.content}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-              rows="6"
-              required
-            />
-          </div>
-
-          {/* Image Upload */}
-          <div>
-            <label htmlFor="image" className="block text-lg font-medium text-teal-500 mb-2">
-              Image
-            </label>
-            <input
-              type="file"
-              id="image"
-              name="image"
-              onChange={handleImageUpload}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 mb-4"
-              accept="image/*"
-            />
-            {uploading && (
-              <div className="w-full mt-4">
-                <Progress percent={uploadProgress} status="active" />
-              </div>
-            )}
-            <div className="mt-4">
-              <img
-                src={postInfo.image || "https://via.placeholder.com/150?text=Not+Available"}
-                alt="Preview"
-                className="w-40 h-40 object-cover rounded-lg shadow-md"
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Post ID */}
+            <div>
+              <label htmlFor="postID" className="block text-lg font-medium text-teal-500 mb-2">
+                Post ID
+              </label>
+              <input
+                type="text"
+                id="postID"
+                name="postID"
+                value={postInfo.postID}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                required
+                disabled={location.state?.type === 'update'}
               />
             </div>
-          </div>
 
-          {/* Buttons */}
-          <div className="flex justify-between mt-6">
-            <button
-              type="button"
-              onClick={() => navigate('/posts')}
-              className="p-3 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              className={`px-6 py-3 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600 transition ${loading || uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
-              disabled={loading || uploading}
-            >
-              {loading ? 'Saving...' : location.state?.type === 'update' ? 'Update Post' : 'Add Post'}
-            </button>
-          </div>
-        </form>
+            {/* Title */}
+            <div>
+              <label htmlFor="title" className="block text-lg font-medium text-teal-500 mb-2">
+                Title
+              </label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                value={postInfo.title}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                required
+              />
+            </div>
+
+            {/* Category */}
+            <div>
+              <label htmlFor="category" className="block text-lg font-medium text-teal-500 mb-2">
+                Category
+              </label>
+              <select
+                id="category"
+                name="category"
+                value={postInfo.category}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                required
+              >
+                <option value="">Select Category</option>
+                {categories.map((category, index) => (
+                  <option key={index} value={category}>
+                    {category}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Short Description */}
+            <div>
+              <label htmlFor="sdescription" className="block text-lg font-medium text-teal-500 mb-2">
+                Short Description
+              </label>
+              <textarea
+                id="sdescription"
+                name="sdescription"
+                value={postInfo.sdescription}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                rows="3"
+                required
+              />
+            </div>
+
+            {/* Author */}
+            <div>
+              <label htmlFor="author" className="block text-lg font-medium text-teal-500 mb-2">
+                Author
+              </label>
+              <input
+                type="text"
+                id="author"
+                name="author"
+                value={postInfo.author}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                required
+              />
+            </div>
+
+            {/* Content */}
+            <div>
+              <label htmlFor="content" className="block text-lg font-medium text-teal-500 mb-2">
+                Content
+              </label>
+              <textarea
+                id="content"
+                name="content"
+                value={postInfo.content}
+                onChange={handleChange}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                rows="6"
+                required
+              />
+            </div>
+
+            {/* Image Upload */}
+            <div>
+              <label htmlFor="image" className="block text-lg font-medium text-teal-500 mb-2">
+                Image
+              </label>
+              <input
+                type="file"
+                id="image"
+                name="image"
+                onChange={handleImageUpload}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 mb-4"
+                accept="image/*"
+              />
+              {uploading && (
+                <div className="w-full mt-4">
+                  <Progress percent={uploadProgress} status="active" />
+                </div>
+              )}
+              <div className="mt-4">
+                <img
+                  src={postInfo.image || "https://via.placeholder.com/150?text=Not+Available"}
+                  alt="Preview"
+                  className="w-40 h-40 object-cover rounded-lg shadow-md"
+                />
+              </div>
+            </div>
+
+            {/* Buttons */}
+            <div className="flex justify-between mt-6">
+              <button
+                type="button"
+                onClick={() => navigate('/posts')}
+                className="p-3 bg-gray-300 text-gray-700 rounded-lg shadow-md hover:bg-gray-400 transition"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                className={`px-6 py-3 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600 transition ${loading || uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={loading || uploading}
+              >
+                {loading ? 'Saving...' : location.state?.type === 'update' ? 'Update Post' : 'Add Post'}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-      <Footer />
-    </div>
+    </AdminLayout>
   );
 
 };

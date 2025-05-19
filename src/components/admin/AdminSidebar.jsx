@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   FaTachometerAlt, FaUserTie, FaDog,
-  FaMoneyBillAlt, FaWallet, FaPaw, FaSpa, FaBox 
+  FaWallet, FaPaw, FaSpa, FaBox, FaNewspaper, FaClipboardList 
 } from 'react-icons/fa';
 
 const menuItems = [
@@ -12,8 +12,10 @@ const menuItems = [
   { name: 'Trainer Management', icon: <FaUserTie />, path: '/dashboard/trainers' },
   { name: 'Dog Seller Management', icon: <FaDog />, path: '/dashboard/dogsellers' },
   { name: 'Product Management', icon: <FaBox />, path: '/dashboard/products' },
-  { name: 'Payment', icon: <FaMoneyBillAlt />, path: '/dashboard/payment' },
-  { name: 'Withdrawal', icon: <FaWallet />, path: '/dashboard/withdrawal' }
+  { name: 'Post Management', icon: <FaNewspaper />, path: '/dashboard/posts' },
+  { name: 'Dog Names', icon: <FaDog />, path: '/dashboard/dognames' },
+  { name: 'Orders', icon: <FaClipboardList />, path: '/dashboard/orders' },
+  { name: 'Statistics', icon: <FaWallet />, path: '/dashboard/statistics' },
 ];
 
 const AdminSidebar = () => {

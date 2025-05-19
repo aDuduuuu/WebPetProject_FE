@@ -34,6 +34,9 @@ const Dashboard = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [productTypeStats, setProductTypeStats] = useState([]);
 
+  const [totalPosts, setTotalPosts] = useState(0);
+  const [postCategoryStats, setPostCategoryStats] = useState([]);
+
   useEffect(() => {
     const role = localStorage.getItem('role');
     if (role !== 'manager') navigate('/');
@@ -45,6 +48,7 @@ const Dashboard = () => {
     fetchTrainerStats();
     fetchDogSellerStats();
     fetchProductStats();
+    fetchPostStats();
   }, []);
 
   const fetchDogBreedStats = async () => {
@@ -214,6 +218,35 @@ const Dashboard = () => {
     }
   };  
 
+  const fetchPostStats = async () => {
+    try {
+      const response = await clientApi.service('posts').find({ page: 1, limit: 1000 });
+      if (response.EC === 0 || response.EC === 200) {
+        const posts = Array.isArray(response.DT) ? response.DT : [];
+        setTotalPosts(response.totalPosts || posts.length);
+  
+        const categoryCounts = {};
+        posts.forEach((post) => {
+          const category = post.category || 'Uncategorized';
+          categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+        });
+  
+        const categoryData = Object.entries(categoryCounts)
+          .map(([category, count]) => ({ category, count }))
+          .sort((a, b) => b.count - a.count);
+  
+        setPostCategoryStats(categoryData);
+      } else {
+        setTotalPosts(0);
+        setPostCategoryStats([]);
+      }
+    } catch (error) {
+      console.error('Failed to fetch post stats:', error);
+      setTotalPosts(0);
+      setPostCategoryStats([]);
+    }
+  };  
+
   return (
     <AdminLayout>
       <div className="mb-10">
@@ -227,6 +260,7 @@ const Dashboard = () => {
         <StatCard label="Total Trainers" value={totalTrainers} />
         <StatCard label="Total Dog Sellers" value={totalDogSellers} />
         <StatCard label="Total Products" value={totalProducts} />
+        <StatCard label="Total Posts" value={totalPosts} />
       </div>
 
       <StatChart title="🐶 Dog Breeds by Group" data={groupStats} dataKey="name" barKey="count" barColor="#184440" />
@@ -236,6 +270,7 @@ const Dashboard = () => {
       <StatChart title="🏷️ Trainers by Service" data={trainerServiceStats} dataKey="service" barKey="count" barColor="#f59e0b" />
       <StatChart title="🐾 Dog Sellers by Breed" data={dogSellerBreedStats} dataKey="breed" barKey="count" barColor="#10b981" />
       <StatChart title="📦 Products by Type" data={productTypeStats} dataKey="type" barKey="count" barColor="#6366f1" />
+      <StatChart title="📰 Posts by Category" data={postCategoryStats} dataKey="category" barKey="count" barColor="#7c3aed" />
     </AdminLayout>
   );
 };

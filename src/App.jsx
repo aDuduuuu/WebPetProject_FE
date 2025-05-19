@@ -40,6 +40,10 @@ import AdminSpaPage from "./pages/admin/AdminSpaPage";
 import AdminTrainerPage from "./pages/admin/AdminTrainerPage.jsx";
 import AdminDogSellerPage from "./pages/admin/AdminDogSellerPage";
 import AdminProductPage from "./pages/admin/AdminProductPage";
+import AdminPostPage from "./pages/admin/AdminPostPage";
+import AdminNamePage from "./pages/admin/AdminNamePage";
+import AdminTotalOrders from "./pages/admin/AdminTotalOrders";
+import AdminStatistics from "./pages/admin/AdminStatistics";
 
 const App = () => (
   <AnswerProvider>
@@ -84,6 +88,10 @@ const App = () => (
           <Route path="/dashboard/trainers" element={<AdminTrainerPage />} />
           <Route path="/dashboard/dogsellers" element={<AdminDogSellerPage />} />
           <Route path="/dashboard/products" element={<AdminProductPage />} />
+          <Route path="/dashboard/posts" element={<AdminPostPage />} />
+          <Route path="/dashboard/dognames" element={<AdminNamePage />} />
+          <Route path="/dashboard/orders" element={<AdminTotalOrders />} />
+          <Route path="/dashboard/statistics" element={<AdminStatistics />} />
         </Routes>
       </Router>
     </AppProvider>
