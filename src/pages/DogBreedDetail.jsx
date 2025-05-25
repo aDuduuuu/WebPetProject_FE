@@ -10,6 +10,7 @@ import heightIcon from '../pictures/icons8-height-50.png';
 import weightIcon from '../pictures/icons8-weight-50.png';
 import clientApi from '../client-api/rest-client';
 import Footer from '../components/Footer';
+import { useTranslation } from 'react-i18next';
 
 const DogBreedDetail = () => {
   const { breedId } = useParams();
@@ -26,6 +27,7 @@ const DogBreedDetail = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalTitle, setModalTitle] = useState("");
   const [modalContent, setModalContent] = useState("");
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchDogBreedDetails = async () => {
@@ -109,25 +111,46 @@ const DogBreedDetail = () => {
       <Header />
 
       {/* Phần tên, mô tả, nhóm, và carousel */}
-      <div className="dog-breed-detail">
-        <h1>{dogBreed.name}</h1>
+      <div className="dog-breed-detail relative max-w-4xl mx-auto px-4 py-8">
 
-        <div className="flex items-center space-x-4 mb-6">
-          <button className="group-button">
-            {dogBreed.group || "Unknown Group"}
+        {/* Language Buttons - Top Right */}
+        <div className="absolute top-4 right-4 flex space-x-2">
+          <button
+            onClick={() => i18n.changeLanguage('en')}
+            className="px-4 py-2 border border-white text-[#97d5c8] rounded-md text-sm transition-colors duration-200 hover:bg-white hover:text-[#97d5c8]"
+          >
+            EN
+          </button>
+          <button
+            onClick={() => i18n.changeLanguage('vi')}
+            className="px-4 py-2 border border-white text-[#97d5c8] rounded-md text-sm transition-colors duration-200 hover:bg-white hover:text-[#97d5c8]"
+          >
+            VI
           </button>
         </div>
 
-        {/* Carousel chính */}
-        <div className="w-2/3 mb-6">
-          <Slider {...settingsMain} className="main-slider mb-4">
+        {/* Title */}
+        <h1 className="text-3xl font-bold text-center mb-6">{dogBreed.name}</h1>
+
+        {/* Group Info */}
+        <div className="flex items-center justify-center mb-6">
+          <span className="px-4 py-2 bg-white text-teal-800 rounded-full text-sm font-semibold shadow">
+            {dogBreed.group || "Unknown Group"}
+          </span>
+        </div>
+
+        {/* Main Carousel */}
+        <div className="w-full md:w-3/4 lg:w-2/3 mx-auto mb-8">
+          <Slider {...settingsMain} className="main-slider">
             {images.map((img, index) => (
-              <div key={index}>
-                <img
-                  src={img}
-                  alt={`${dogBreed.name} - ${index}`}
-                  className="carousel-image"
-                />
+              <div key={index} className="p-2">
+                <div className="overflow-hidden rounded-xl shadow-md bg-white">
+                  <img
+                    src={img}
+                    alt={`${dogBreed.name} - ${index}`}
+                    className="w-full h-[400px] object-cover transition-transform duration-300 hover:scale-105"
+                  />
+                </div>
               </div>
             ))}
           </Slider>
