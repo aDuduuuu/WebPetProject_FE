@@ -18,7 +18,7 @@ import clientApi from "../../client-api/rest-client";
 const optionPayment = [
     { value: 1, name: 'Pay when receiving goods ', },
     { value: 2, name: 'Zalo pay', },
-    { value: 3, name: 'Mommo', },
+    { value: 3, name: 'MoMo', },
     { value: 4, name: 'Credit card', }
 ];
 const Checkout = () => {
@@ -89,6 +89,42 @@ const Checkout = () => {
         }
 
     }
+    // let handleCheckout = async () => {
+    //     if (!agree) {
+    //         message.error("You must agree to the terms");
+    //         return;
+    //     }
+    //     if (!userOrder?.fullName || !userOrder?.phoneNumber || !userOrder?.address || !userOrder?.ward || !userOrder?.district || !userOrder?.city) {
+    //         message.error("Please fill in the information");
+    //         return;
+    //     }
+    //     if (updateInfo) {
+    //         message.error("Please update the information");
+    //         return;
+    //     }
+    //     let order = await clientApi.service('orders')
+    //     try {
+    //         let response = await order.create({
+    //             paymentMethod: payment,
+    //             shipmentMethod: shipment,
+    //             expectDeliveryDate: { from: new Date(), to: expectDeliveryDate },
+    //             orderUser: userOrder,
+    //             totalPrice: totalPrice,
+    //             totalAmount: totalPrice + totalPrice * 0.05 + shipment?.price,
+    //             tax: totalPrice * 0.05,
+    //         });
+    //         if (response.EC === 0) {
+    //             message.success("Order successfully");
+    //             setOrderId(response.DT._id);
+    //             setViewOrder(true);
+    //         } else {
+    //             message.error(response.EM);
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //     }
+    // }
+
     let handleCheckout = async () => {
         if (!agree) {
             message.error("You must agree to the terms");
@@ -102,7 +138,8 @@ const Checkout = () => {
             message.error("Please update the information");
             return;
         }
-        let order = await clientApi.service('orders')
+
+        let order = await clientApi.service('orders');
         try {
             let response = await order.create({
                 paymentMethod: payment,
@@ -113,10 +150,23 @@ const Checkout = () => {
                 totalAmount: totalPrice + totalPrice * 0.05 + shipment?.price,
                 tax: totalPrice * 0.05,
             });
+
             if (response.EC === 0) {
                 message.success("Order successfully");
-                setOrderId(response.DT._id);
-                setViewOrder(true);
+
+                // Nếu phương thức thanh toán là MoMo, lấy URL thanh toán và chuyển hướng
+                if (payment.value === 3 && response.DT.payUrl) {
+                    const paymentUrl = response.DT.payUrl;  // Kiểm tra trường payUrl có tồn tại
+                    if (paymentUrl) {
+                        window.location.href = paymentUrl;  // Redirect tới MoMo
+                    } else {
+                        console.error("Pay URL is undefined or not returned.");
+                        message.error("Error retrieving payment URL from MoMo.");
+                    }
+                } else {
+                    setOrderId(response.DT._id);
+                    setViewOrder(true);
+                }
             } else {
                 message.error(response.EM);
             }
@@ -124,6 +174,7 @@ const Checkout = () => {
             console.log(err);
         }
     }
+
     let handleChangePayment = (event) => {
         setPayment(optionPayment[event.target.value - 1]);
     }
@@ -300,7 +351,7 @@ const Checkout = () => {
                                         <FontAwesomeIcon icon={faLandmark} />
                                     </span>
                                     <div className="pay-details">
-                                        <div className="pay-title">Momo</div>
+                                        <div className="pay-title">MoMo</div>
                                         <div className="description">Convenient, secure payments with MoMo.</div>
                                     </div>
                                 </div>
