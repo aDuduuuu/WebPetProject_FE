@@ -37,6 +37,10 @@ const Dashboard = () => {
   const [totalPosts, setTotalPosts] = useState(0);
   const [postCategoryStats, setPostCategoryStats] = useState([]);
 
+  const [totalDogFoods, setTotalDogFoods] = useState(0);
+  const [dogFoodCategoryStats, setDogFoodCategoryStats] = useState([]);
+  const [dogFoodSafetyStats, setDogFoodSafetyStats] = useState([]);
+
   useEffect(() => {
     const role = localStorage.getItem('role');
     if (role !== 'manager') navigate('/');
@@ -49,6 +53,7 @@ const Dashboard = () => {
     fetchDogSellerStats();
     fetchProductStats();
     fetchPostStats();
+    fetchDogFoodStats();
   }, []);
 
   const fetchDogBreedStats = async () => {
@@ -247,6 +252,49 @@ const Dashboard = () => {
     }
   };  
 
+  const fetchDogFoodStats = async () => {
+    try {
+      const response = await clientApi.service('dogfoods').find({ page: 1, limit: 1000 });
+      if (response.EC === 0 || response.EC === 200) {
+        const foods = Array.isArray(response.DT) ? response.DT : [];
+        setTotalDogFoods(response.totalFoods || foods.length);
+  
+        const categoryCounts = {};
+        const safetyCounts = { Safe: 0, Unsafe: 0 };
+  
+        foods.forEach((food) => {
+          const category = food.category || 'Uncategorized';
+          categoryCounts[category] = (categoryCounts[category] || 0) + 1;
+  
+          if (food.isSafe) {
+            safetyCounts.Safe += 1;
+          } else {
+            safetyCounts.Unsafe += 1;
+          }
+        });
+  
+        const categoryData = Object.entries(categoryCounts)
+          .map(([category, count]) => ({ category, count }))
+          .sort((a, b) => b.count - a.count);
+  
+        const safetyData = Object.entries(safetyCounts)
+          .map(([safety, count]) => ({ safety, count }));
+  
+        setDogFoodCategoryStats(categoryData);
+        setDogFoodSafetyStats(safetyData);
+      } else {
+        setTotalDogFoods(0);
+        setDogFoodCategoryStats([]);
+        setDogFoodSafetyStats([]);
+      }
+    } catch (error) {
+      console.error('Failed to fetch dog food stats:', error);
+      setTotalDogFoods(0);
+      setDogFoodCategoryStats([]);
+      setDogFoodSafetyStats([]);
+    }
+  };  
+
   return (
     <AdminLayout>
       <div className="mb-10">
@@ -261,6 +309,7 @@ const Dashboard = () => {
         <StatCard label="Total Dog Sellers" value={totalDogSellers} />
         <StatCard label="Total Products" value={totalProducts} />
         <StatCard label="Total Posts" value={totalPosts} />
+        <StatCard label="Total Dog Foods" value={totalDogFoods} />
       </div>
 
       <StatChart title="🐶 Dog Breeds by Group" data={groupStats} dataKey="name" barKey="count" barColor="#184440" />
@@ -271,6 +320,8 @@ const Dashboard = () => {
       <StatChart title="🐾 Dog Sellers by Breed" data={dogSellerBreedStats} dataKey="breed" barKey="count" barColor="#10b981" />
       <StatChart title="📦 Products by Type" data={productTypeStats} dataKey="type" barKey="count" barColor="#6366f1" />
       <StatChart title="📰 Posts by Category" data={postCategoryStats} dataKey="category" barKey="count" barColor="#7c3aed" />
+      <StatChart title="🍎 Dog Foods by Category" data={dogFoodCategoryStats} dataKey="category" barKey="count" barColor="#f87171" />
+      <StatChart title="✅ Dog Foods by Safety" data={dogFoodSafetyStats} dataKey="safety" barKey="count" barColor="#34d399" />
     </AdminLayout>
   );
 };

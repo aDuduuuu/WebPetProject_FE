@@ -2,12 +2,13 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   FaTachometerAlt, FaUserTie, FaDog,
-  FaWallet, FaPaw, FaSpa, FaBox, FaNewspaper, FaClipboardList 
+  FaWallet, FaPaw, FaSpa, FaBox, FaNewspaper, FaClipboardList, FaDrumstickBite 
 } from 'react-icons/fa';
 
 const menuItems = [
   { name: 'Dashboards', icon: <FaTachometerAlt />, path: '/dashboard' },
   { name: 'Dog Breeds', icon: <FaPaw  />, path: '/dashboard/dog-breeds' },
+  { name: 'Dog Foods', icon: <FaDrumstickBite />, path: '/dashboard/dog-foods' },
   { name: 'Spa Management', icon: <FaSpa />, path: '/dashboard/spas' },
   { name: 'Trainer Management', icon: <FaUserTie />, path: '/dashboard/trainers' },
   { name: 'Dog Seller Management', icon: <FaDog />, path: '/dashboard/dogsellers' },

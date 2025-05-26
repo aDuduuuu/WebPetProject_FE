@@ -44,6 +44,12 @@ import AdminPostPage from "./pages/admin/AdminPostPage";
 import AdminNamePage from "./pages/admin/AdminNamePage";
 import AdminTotalOrders from "./pages/admin/AdminTotalOrders";
 import AdminStatistics from "./pages/admin/AdminStatistics";
+import DogFoodPage from './pages/admin/DogFoodPage';
+import AddDogFoodPage from './pages/admin/AddDogFoodPage';
+import UpdateDogFoodPage from './pages/admin/UpdateDogFoodPage';
+import DogFoodDetailPage from './pages/admin/DogFoodDetailPage';
+import DogFoodCustomerPage from "./pages/DogFood/DogFoodPage.jsx";
+
 
 const App = () => (
   <AnswerProvider>
@@ -92,6 +98,11 @@ const App = () => (
           <Route path="/dashboard/dognames" element={<AdminNamePage />} />
           <Route path="/dashboard/orders" element={<AdminTotalOrders />} />
           <Route path="/dashboard/statistics" element={<AdminStatistics />} />
+          <Route path="/dashboard/dog-foods" element={<DogFoodPage />} />
+          <Route path="/dashboard/dog-foods/add" element={<AddDogFoodPage />} />
+          <Route path="/dashboard/dog-foods/update/:foodId" element={<UpdateDogFoodPage />} />
+          <Route path="/dashboard/dog-foods/detail/:foodId" element={<DogFoodDetailPage />} />
+          <Route path="/dogfoods" element={<DogFoodCustomerPage />} />
         </Routes>
       </Router>
     </AppProvider>

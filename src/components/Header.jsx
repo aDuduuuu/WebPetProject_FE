@@ -199,7 +199,7 @@ const Header = () => {
         {isBreedMenuOpen && (
           <div
             ref={breedMenuRef}
-            className="absolute top-14 left-0 w-[700px] h-[230px] bg-white text-gray-700 p-6 rounded-lg shadow-lg z-10 flex justify-around"
+            className="absolute top-14 left-0 w-[700px] h-[260px] bg-white text-gray-700 p-6 rounded-lg shadow-lg z-10 flex justify-around"
           >
             <div className="flex flex-col items-start">
               <button onClick={handleViewAllBreeds} className="text-teal-600 font-bold mb-2">
@@ -237,6 +237,16 @@ const Header = () => {
               <span className="text-sm text-gray-500">
                 Find the perfect name for your dog
               </span>
+              <button
+                onClick={() => navigate("/dogfoods")}
+                className="flex items-center mt-2 text-teal-600 font-bold"
+              >
+                <FaPaw className="mr-2" /> Dog food guide
+              </button>
+              <span className="text-sm text-gray-500">
+                Discover which foods are safe or toxic for your dog
+              </span>
+
             </div>
           </div>
         )}
