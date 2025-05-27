@@ -3,22 +3,24 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAnswers } from "../context/AnswerContext";
+import { useTranslation } from "react-i18next";
 
 const Question6 = () => {
-  const { answers, setAnswers } = useAnswers(); // Sử dụng context để lấy và lưu câu trả lời
+  const { answers, setAnswers } = useAnswers();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const options = [
-    { label: "X-Large", value: "X-Large" },
-    { label: "Large", value: "Large" },
-    { label: "Medium", value: "Medium" },
-    { label: "Small", value: "Small" },
-    { label: "X-Small", value: "X-Small" },
-    { label: "No preference", value: "No preference" },
+    { label: t("question6.option1"), value: "X-Large" },
+    { label: t("question6.option2"), value: "Large" },
+    { label: t("question6.option3"), value: "Medium" },
+    { label: t("question6.option4"), value: "Small" },
+    { label: t("question6.option5"), value: "X-Small" },
+    { label: t("question6.option6"), value: "No preference" }
   ];
 
   const handleOptionClick = (value) => {
-    setAnswers((prev) => ({ ...prev, size: value })); // Lưu giá trị vào context
+    setAnswers((prev) => ({ ...prev, size: value }));
   };
 
   const handleContinue = () => {
@@ -32,15 +34,31 @@ const Question6 = () => {
   return (
     <div>
       <Header />
+
+      {/* Language Switcher */}
+      <div className="px-6 pt-4 flex justify-end bg-gray-100">
+        <div className="flex space-x-2">
+          <button
+            onClick={() => i18n.changeLanguage("en")}
+            className="px-3 py-1 bg-[#16423C] text-white rounded shadow hover:bg-[#1f5e52] transition"
+          >
+            EN
+          </button>
+          <button
+            onClick={() => i18n.changeLanguage("vi")}
+            className="px-3 py-1 bg-[#16423C] text-white rounded shadow hover:bg-[#1f5e52] transition"
+          >
+            VI
+          </button>
+        </div>
+      </div>
+
       <div className="bg-gray-100 min-h-screen p-6 flex flex-col">
         {/* Progress bar */}
         <div className="flex items-center mb-8">
-          <span className="text-gray-700 font-medium mr-4">Progress</span>
+          <span className="text-gray-700 font-medium mr-4">{t("progress.label")}</span>
           <div className="w-full bg-gray-300 rounded-full h-2.5 flex items-center">
-            <div
-              className="bg-16423C h-2.5 rounded-full"
-              style={{ width: "100%" }}
-            ></div>
+            <div className="bg-16423C h-2.5 rounded-full" style={{ width: "100%" }}></div>
           </div>
           <span className="text-gray-700 font-medium ml-4">6/6</span>
         </div>
@@ -48,13 +66,9 @@ const Question6 = () => {
         {/* Question */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            What size dog do you want?
+            {t("question6.title")}
           </h1>
-          <p className="text-gray-600">
-            From extra small to extra large (and all sizes in between), there’s
-            an ideal fit for every dog-loving household. Big size doesn’t always
-            equal big energy, so some large breeds can live just about anywhere.
-          </p>
+          <p className="text-gray-600">{t("question6.description")}</p>
         </div>
 
         {/* Options */}
@@ -84,7 +98,7 @@ const Question6 = () => {
         {/* Buttons */}
         <div className="flex justify-between items-center">
           <button className="text-16423C hover:underline" onClick={handleBack}>
-            Back
+            {t("back")}
           </button>
           <button
             className={`font-semibold py-2 px-6 rounded-lg transition ${
@@ -95,10 +109,11 @@ const Question6 = () => {
             disabled={answers.size === null}
             onClick={handleContinue}
           >
-            Continue
+            {t("continue")}
           </button>
         </div>
       </div>
+
       <Footer />
     </div>
   );

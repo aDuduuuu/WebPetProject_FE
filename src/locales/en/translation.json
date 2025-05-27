@@ -17,6 +17,98 @@
   "LIFE_EXPECTANCY": "Life Expectancy",
   "YEAR": "years",
   "selectBreed": "Select a breed",
+  "findDog": {
+    "title": "Find the Best Dog Breed for You!",
+    "description1": "Answer a series of quick questions to help us find your best dog breed matches! We’ll ask about your preferences and needs for your new dog, and we’ll ask about your everyday lifestyle. The more questions you answer, the better matches we can make.",
+    "description2": "Keep in mind that these matches are a great starting point, but we always encourage you to meet your favorite breeds in person, and talk with people who own or breed them to learn more!",
+    "letsGo": "Let's Go"
+  },
+  "progress": {
+    "label": "Progress"
+  },
+  "back": "Back",
+  "continue": "Continue",
+  "question1": {
+    "title": "How trainable do you want your dog to be?",
+    "description": "Some dog breeds just want to make their owner proud, while others prefer to do what they want, when they want, wherever they want!",
+    "option1": "Highly trainable",
+    "option2": "Easily trainable",
+    "option3": "Trainable",
+    "option4": "Less-easily trained",
+    "option5": "May be stubborn",
+    "option6": "No preference"
+  },
+  "question2": {
+    "title": "How energetic would you like your dog to be?",
+    "description": "High-energy dog breeds are ready to go and eager for their next adventure. They'll spend their time running, jumping, and playing throughout the day. Low-energy breeds are usually happy to simply hang out with you and snooze.",
+    "option1": "Very High Energy (60–120 minutes daily exercise)",
+    "option2": "Energetic (60–90 minutes daily exercise)",
+    "option3": "Moderate energy (30–60 minutes daily exercise)",
+    "option4": "Low energy (30–45 minutes daily exercise)",
+    "option5": "Calm (20–30 minutes daily exercise)",
+    "option6": "No preference"
+  },
+  "question3": {
+    "title": "How much coat shedding can you deal with?",
+    "description": "High-shedding dog breeds will need to be brushed regularly, may trigger certain types of allergies, and will definitely result in a regular schedule of vacuuming or sweeping your floor to manage the floof.",
+    "option1": "High shedding doesn’t bother me",
+    "option2": "Average shedding is fine",
+    "option3": "I prefer only on occasion",
+    "option4": "I want a dog that doesn’t shed",
+    "option5": "No preference"
+  },
+  "question4": {
+    "title": "How frequently can you care for your dog’s grooming needs?",
+    "description": "Consider how much time, patience, and budget you have for professional grooming when you make this selection. All breeds require regular nail trimming, and if you’re really motivated, you can learn some grooming techniques to do safely at home.",
+    "option1": "Monthly",
+    "option2": "Twice a month",
+    "option3": "Every week",
+    "option4": "Two to three times a week",
+    "option5": "Every day",
+    "option6": "No preference"
+  },
+  "question5": {
+    "title": "How much barking or other vocalizations are you okay with?",
+    "description": "While some breeds will bark at every passer-by or bird in the window, others will only bark in particular situations. Some “barkless” breeds can still be vocal, using other sounds to express themselves.",
+    "option1": "Very vocal",
+    "option2": "Frequent barking",
+    "option3": "Some barking",
+    "option4": "Infrequent barking",
+    "option5": "Quiet most of the time",
+    "option6": "No preference"
+  },
+  "question6": {
+    "title": "What size dog do you want?",
+    "description": "From extra small to extra large (and all sizes in between), there’s an ideal fit for every dog-loving household. Big size doesn’t always equal big energy, so some large breeds can live just about anywhere.",
+    "option1": "X-Large",
+    "option2": "Large",
+    "option3": "Medium",
+    "option4": "Small",
+    "option5": "X-Small",
+    "option6": "No preference"
+  },
+  "question7": {
+    "title": "Top 5 Matches",
+    "loading": "Loading...",
+    "error": "Failed to fetch dog breeds.",
+    "noMatchError": "No matching breeds found.",
+    "apiError": "Something went wrong. Please try again.",
+    "top": "Top",
+    "matches": "matches",
+    "rare": "Rare Breed",
+    "characteristics": "Breed Characteristics",
+    "viewDetails": "View Details",
+    "notAvailable": "Not Available",
+    "matchYes": "{{label}} matches your preference ✔",
+    "matchNo": "{{label}} doesn't match your preference ✘",
+    "trainability": "Trainability",
+    "energyLevel": "Energy Level",
+    "sheddingLevel": "Shedding Level",
+    "grooming": "Coat Grooming Frequency",
+    "barkingLevel": "Barking Level",
+    "size": "Size",
+    "backToStart": "← Back to Start"
+  },
 
   "FAMILY_LIFE": "FAMILY LIFE",
   "Affectionate_with_Family": "Affectionate with Family",

@@ -17,6 +17,98 @@
   "LIFE_EXPECTANCY": "Tuổi thọ",
   "YEAR": "năm",
   "selectBreed": "Chọn giống chó",
+  "findDog": {
+    "title": "Tìm giống chó phù hợp nhất với bạn!",
+    "description1": "Hãy trả lời một loạt câu hỏi nhanh để chúng tôi giúp bạn tìm được giống chó phù hợp nhất! Chúng tôi sẽ hỏi về sở thích, nhu cầu và lối sống hàng ngày của bạn.",
+    "description2": "Hãy nhớ rằng những gợi ý này chỉ là điểm khởi đầu. Bạn nên gặp trực tiếp các giống chó yêu thích và nói chuyện với người nuôi để tìm hiểu thêm!",
+    "letsGo": "Bắt đầu"
+  },
+  "progress": {
+    "label": "Tiến độ"
+  },
+  "back": "Quay lại",
+  "continue": "Tiếp tục",
+  "question1": {
+    "title": "Bạn muốn chú chó của mình dễ huấn luyện đến mức nào?",
+    "description": "Một số giống chó rất muốn làm hài lòng chủ nhân, trong khi số khác thì thích làm theo ý mình!",
+    "option1": "Rất dễ huấn luyện",
+    "option2": "Dễ huấn luyện",
+    "option3": "Có thể huấn luyện",
+    "option4": "Khó huấn luyện hơn",
+    "option5": "Có thể bướng bỉnh",
+    "option6": "Không yêu cầu cụ thể"
+  },
+  "question2": {
+    "title": "Bạn muốn chú chó của mình năng động đến mức nào?",
+    "description": "Các giống chó năng lượng cao luôn sẵn sàng chạy nhảy và khám phá. Chúng sẽ dành cả ngày để vận động. Các giống chó năng lượng thấp thì chỉ cần được ở bên bạn và nghỉ ngơi là đủ.",
+    "option1": "Rất năng động (tập thể dục 60–120 phút mỗi ngày)",
+    "option2": "Năng động (tập thể dục 60–90 phút mỗi ngày)",
+    "option3": "Năng lượng vừa (30–60 phút mỗi ngày)",
+    "option4": "Ít năng lượng (30–45 phút mỗi ngày)",
+    "option5": "Điềm tĩnh (20–30 phút mỗi ngày)",
+    "option6": "Không yêu cầu cụ thể"
+  },
+  "question3": {
+    "title": "Bạn có thể chịu được mức độ rụng lông bao nhiêu?",
+    "description": "Các giống chó rụng lông nhiều cần được chải thường xuyên, có thể gây dị ứng và chắc chắn sẽ khiến bạn phải hút bụi hoặc quét nhà thường xuyên.",
+    "option1": "Rụng lông nhiều không phải vấn đề",
+    "option2": "Rụng lông trung bình là chấp nhận được",
+    "option3": "Tôi chỉ muốn rụng ít",
+    "option4": "Tôi muốn chó không rụng lông",
+    "option5": "Không yêu cầu cụ thể"
+  },
+  "question4": {
+    "title": "Bạn có thể chăm sóc lông cho chó bao lâu một lần?",
+    "description": "Hãy cân nhắc thời gian, kiên nhẫn và ngân sách bạn có cho việc chăm sóc lông chuyên nghiệp. Mọi giống chó đều cần được cắt móng thường xuyên, và nếu bạn thực sự có động lực, bạn có thể học một số kỹ thuật chải chuốt tại nhà.",
+    "option1": "Hàng tháng",
+    "option2": "Hai lần mỗi tháng",
+    "option3": "Mỗi tuần",
+    "option4": "2–3 lần mỗi tuần",
+    "option5": "Hàng ngày",
+    "option6": "Không yêu cầu cụ thể"
+  },
+  "question5": {
+    "title": "Bạn có thể chấp nhận mức độ sủa hoặc phát ra âm thanh như thế nào?",
+    "description": "Một số giống chó sẽ sủa với bất kỳ thứ gì đi qua cửa sổ, trong khi những giống khác chỉ sủa khi cần thiết. Một số giống được gọi là 'không sủa' vẫn có thể phát ra âm thanh để giao tiếp.",
+    "option1": "Rất hay sủa hoặc phát âm",
+    "option2": "Sủa thường xuyên",
+    "option3": "Sủa vừa phải",
+    "option4": "Sủa ít",
+    "option5": "Hầu như im lặng",
+    "option6": "Không yêu cầu cụ thể"
+  },
+  "question6": {
+    "title": "Bạn muốn một chú chó kích thước như thế nào?",
+    "description": "Từ siêu nhỏ đến siêu lớn (và mọi kích cỡ ở giữa), luôn có một giống chó phù hợp với mọi hộ gia đình yêu chó. Kích thước lớn không đồng nghĩa với năng lượng cao – một số giống lớn vẫn thích nghi tốt với không gian nhỏ.",
+    "option1": "Rất lớn",
+    "option2": "Lớn",
+    "option3": "Trung bình",
+    "option4": "Nhỏ",
+    "option5": "Rất nhỏ",
+    "option6": "Không yêu cầu cụ thể"
+  },
+  "question7": {
+    "title": "Top 5 giống chó phù hợp",
+    "loading": "Đang tải...",
+    "error": "Không thể lấy dữ liệu giống chó.",
+    "noMatchError": "Không tìm thấy giống nào phù hợp.",
+    "apiError": "Đã xảy ra lỗi. Vui lòng thử lại.",
+    "top": "Top",
+    "matches": "khớp",
+    "rare": "Giống hiếm",
+    "characteristics": "Đặc điểm giống chó",
+    "viewDetails": "Xem chi tiết",
+    "notAvailable": "Không có dữ liệu",
+    "matchYes": "{{label}} khớp với lựa chọn của bạn ✔",
+    "matchNo": "{{label}} không khớp với lựa chọn của bạn ✘",
+    "trainability": "Khả năng huấn luyện",
+    "energyLevel": "Mức năng lượng",
+    "sheddingLevel": "Mức rụng lông",
+    "grooming": "Tần suất chăm sóc lông",
+    "barkingLevel": "Mức độ sủa",
+    "size": "Kích thước",
+    "backToStart": "← Quay về trang bắt đầu"
+  },
 
   "FAMILY_LIFE": "CUỘC SỐNG TRONG GIA ĐÌNH",
   "Affectionate_with_Family": "Tình cảm với gia đình",

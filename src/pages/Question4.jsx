@@ -1,20 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAnswers } from "../context/AnswerContext";
+import { useTranslation } from "react-i18next";
 
 const Question4 = () => {
   const { answers, setAnswers } = useAnswers();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const options = [
-    { label: "Monthly", value: 5 },
-    { label: "Twice a month", value: 4 },
-    { label: "Every week", value: 3 },
-    { label: "Two to three times a week", value: 2 },
-    { label: "Every day", value: 1 },
-    { label: "No preference", value: 0 },
+    { label: t("question4.option1"), value: 5 },
+    { label: t("question4.option2"), value: 4 },
+    { label: t("question4.option3"), value: 3 },
+    { label: t("question4.option4"), value: 2 },
+    { label: t("question4.option5"), value: 1 },
+    { label: t("question4.option6"), value: 0 }
   ];
 
   const handleOptionClick = (value) => {
@@ -32,10 +34,29 @@ const Question4 = () => {
   return (
     <div>
       <Header />
+
+      {/* Language Switcher */}
+      <div className="px-6 pt-4 flex justify-end bg-gray-100">
+        <div className="flex space-x-2">
+          <button
+            onClick={() => i18n.changeLanguage("en")}
+            className="px-3 py-1 bg-[#16423C] text-white rounded shadow hover:bg-[#1f5e52] transition"
+          >
+            EN
+          </button>
+          <button
+            onClick={() => i18n.changeLanguage("vi")}
+            className="px-3 py-1 bg-[#16423C] text-white rounded shadow hover:bg-[#1f5e52] transition"
+          >
+            VI
+          </button>
+        </div>
+      </div>
+
       <div className="bg-gray-100 min-h-screen p-6 flex flex-col">
         {/* Progress bar */}
         <div className="flex items-center mb-8">
-          <span className="text-gray-700 font-medium mr-4">Progress</span>
+          <span className="text-gray-700 font-medium mr-4">{t("progress.label")}</span>
           <div className="w-full bg-gray-300 rounded-full h-2.5 flex items-center">
             <div
               className="bg-16423C h-2.5 rounded-full"
@@ -48,14 +69,9 @@ const Question4 = () => {
         {/* Question */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            How frequently can you care for your dog’s grooming needs?
+            {t("question4.title")}
           </h1>
-          <p className="text-gray-600">
-            Consider how much time, patience, and budget you have for
-            professional grooming when you make this selection. All breeds
-            require regular nail trimming, and if you’re really motivated, you
-            can learn some grooming techniques to do safely at home.
-          </p>
+          <p className="text-gray-600">{t("question4.description")}</p>
         </div>
 
         {/* Options */}
@@ -85,7 +101,7 @@ const Question4 = () => {
         {/* Buttons */}
         <div className="flex justify-between items-center">
           <button className="text-16423C hover:underline" onClick={handleBack}>
-            Back
+            {t("back")}
           </button>
           <button
             className={`font-semibold py-2 px-6 rounded-lg transition ${
@@ -96,10 +112,11 @@ const Question4 = () => {
             disabled={answers.coatGroomingFrequency === null}
             onClick={handleContinue}
           >
-            Continue
+            {t("continue")}
           </button>
         </div>
       </div>
+
       <Footer />
     </div>
   );

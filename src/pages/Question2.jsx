@@ -2,23 +2,25 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { useAnswers } from "../context/AnswerContext"; // Import context
+import { useAnswers } from "../context/AnswerContext";
+import { useTranslation } from "react-i18next";
 
 const Question2 = () => {
-  const { answers, setAnswers } = useAnswers(); // Sử dụng context để lấy và cập nhật câu trả lời
+  const { answers, setAnswers } = useAnswers();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const options = [
-    { label: "Very High Energy (60-120 minutes daily exercise)", value: 5 },
-    { label: "Energetic (60-90 minutes daily exercise)", value: 4 },
-    { label: "Moderate energy (30-60 mins daily exercise)", value: 3 },
-    { label: "Low energy (30-45 mins daily exercise)", value: 2 },
-    { label: "Calm (20-30 mins daily exercise)", value: 1 },
-    { label: "No preference", value: 0 },
+    { label: t("question2.option1"), value: 5 },
+    { label: t("question2.option2"), value: 4 },
+    { label: t("question2.option3"), value: 3 },
+    { label: t("question2.option4"), value: 2 },
+    { label: t("question2.option5"), value: 1 },
+    { label: t("question2.option6"), value: 0 },
   ];
 
   const handleOptionClick = (value) => {
-    setAnswers((prev) => ({ ...prev, energyLevel: value })); // Lưu giá trị vào context
+    setAnswers((prev) => ({ ...prev, energyLevel: value }));
   };
 
   const handleContinue = () => {
@@ -32,10 +34,29 @@ const Question2 = () => {
   return (
     <div>
       <Header />
+
+      {/* Language Switcher */}
+      <div className="px-6 pt-4 flex justify-end bg-gray-100">
+        <div className="flex space-x-2">
+          <button
+            onClick={() => i18n.changeLanguage("en")}
+            className="px-3 py-1 bg-[#16423C] text-white rounded shadow hover:bg-[#1f5e52] transition"
+          >
+            EN
+          </button>
+          <button
+            onClick={() => i18n.changeLanguage("vi")}
+            className="px-3 py-1 bg-[#16423C] text-white rounded shadow hover:bg-[#1f5e52] transition"
+          >
+            VI
+          </button>
+        </div>
+      </div>
+
       <div className="bg-gray-100 min-h-screen p-6 flex flex-col">
         {/* Progress bar */}
         <div className="flex items-center mb-8">
-          <span className="text-gray-700 font-medium mr-4">Progress</span>
+          <span className="text-gray-700 font-medium mr-4">{t("progress.label")}</span>
           <div className="w-full bg-gray-300 rounded-full h-2.5 flex items-center">
             <div
               className="bg-16423C h-2.5 rounded-full"
@@ -48,14 +69,9 @@ const Question2 = () => {
         {/* Question */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            How energetic would you like your dog to be?
+            {t("question2.title")}
           </h1>
-          <p className="text-gray-600">
-            High-energy dog breeds are ready to go and eager for their next
-            adventure. They'll spend their time running, jumping, and playing
-            throughout the day. Low-energy breeds are usually happy to simply
-            hang out with you and snooze.
-          </p>
+          <p className="text-gray-600">{t("question2.description")}</p>
         </div>
 
         {/* Options */}
@@ -84,11 +100,8 @@ const Question2 = () => {
 
         {/* Buttons */}
         <div className="flex justify-between items-center">
-          <button
-            className="text-16423C hover:underline"
-            onClick={handleBack}
-          >
-            Back
+          <button className="text-16423C hover:underline" onClick={handleBack}>
+            {t("back")}
           </button>
           <button
             className={`font-semibold py-2 px-6 rounded-lg transition ${
@@ -99,10 +112,11 @@ const Question2 = () => {
             disabled={answers.energyLevel === null}
             onClick={handleContinue}
           >
-            Continue
+            {t("continue")}
           </button>
         </div>
       </div>
+
       <Footer />
     </div>
   );

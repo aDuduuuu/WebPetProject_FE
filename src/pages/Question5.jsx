@@ -3,22 +3,24 @@ import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { useAnswers } from "../context/AnswerContext";
+import { useTranslation } from "react-i18next";
 
 const Question5 = () => {
-  const { answers, setAnswers } = useAnswers(); // Sử dụng context để lấy và lưu câu trả lời
+  const { answers, setAnswers } = useAnswers();
   const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
 
   const options = [
-    { label: "Very vocal", value: 5 },
-    { label: "Frequent barking", value: 4 },
-    { label: "Some barking", value: 3 },
-    { label: "Infrequent barking", value: 2 },
-    { label: "Quiet most of the time", value: 1 },
-    { label: "No preference", value: 0 },
+    { label: t("question5.option1"), value: 5 },
+    { label: t("question5.option2"), value: 4 },
+    { label: t("question5.option3"), value: 3 },
+    { label: t("question5.option4"), value: 2 },
+    { label: t("question5.option5"), value: 1 },
+    { label: t("question5.option6"), value: 0 }
   ];
 
   const handleOptionClick = (value) => {
-    setAnswers((prev) => ({ ...prev, barkingLevel: value })); // Lưu giá trị vào context
+    setAnswers((prev) => ({ ...prev, barkingLevel: value }));
   };
 
   const handleContinue = () => {
@@ -32,10 +34,29 @@ const Question5 = () => {
   return (
     <div>
       <Header />
+
+      {/* Language Switcher */}
+      <div className="px-6 pt-4 flex justify-end bg-gray-100">
+        <div className="flex space-x-2">
+          <button
+            onClick={() => i18n.changeLanguage("en")}
+            className="px-3 py-1 bg-[#16423C] text-white rounded shadow hover:bg-[#1f5e52] transition"
+          >
+            EN
+          </button>
+          <button
+            onClick={() => i18n.changeLanguage("vi")}
+            className="px-3 py-1 bg-[#16423C] text-white rounded shadow hover:bg-[#1f5e52] transition"
+          >
+            VI
+          </button>
+        </div>
+      </div>
+
       <div className="bg-gray-100 min-h-screen p-6 flex flex-col">
         {/* Progress bar */}
         <div className="flex items-center mb-8">
-          <span className="text-gray-700 font-medium mr-4">Progress</span>
+          <span className="text-gray-700 font-medium mr-4">{t("progress.label")}</span>
           <div className="w-full bg-gray-300 rounded-full h-2.5 flex items-center">
             <div
               className="bg-16423C h-2.5 rounded-full"
@@ -48,14 +69,9 @@ const Question5 = () => {
         {/* Question */}
         <div className="mb-6">
           <h1 className="text-3xl font-bold text-gray-800 mb-4">
-            How much barking or other vocalizations are you okay with?
+            {t("question5.title")}
           </h1>
-          <p className="text-gray-600">
-            While some breeds will bark at every passer-by or bird in the
-            window, others will only bark in particular situations. Some
-            “barkless” breeds can still be vocal, using other sounds to express
-            themselves.
-          </p>
+          <p className="text-gray-600">{t("question5.description")}</p>
         </div>
 
         {/* Options */}
@@ -85,7 +101,7 @@ const Question5 = () => {
         {/* Buttons */}
         <div className="flex justify-between items-center">
           <button className="text-16423C hover:underline" onClick={handleBack}>
-            Back
+            {t("back")}
           </button>
           <button
             className={`font-semibold py-2 px-6 rounded-lg transition ${
@@ -96,10 +112,11 @@ const Question5 = () => {
             disabled={answers.barkingLevel === null}
             onClick={handleContinue}
           >
-            Continue
+            {t("continue")}
           </button>
         </div>
       </div>
+
       <Footer />
     </div>
   );
