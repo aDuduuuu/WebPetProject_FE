@@ -9,13 +9,14 @@ const DogFoodPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalFoods, setTotalFoods] = useState(0);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const itemsPerPage = 8;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchDogFoods();
-  }, [currentPage, searchTerm]);
+  }, [currentPage, searchTerm, selectedCategory]);
 
   const fetchDogFoods = async () => {
     setLoading(true);
@@ -26,6 +27,7 @@ const DogFoodPage = () => {
         page: currentPage,
         limit: itemsPerPage,
         name: searchTerm,
+        category: selectedCategory,
       });
 
       if (response.EC === 0) {
@@ -53,6 +55,11 @@ const DogFoodPage = () => {
     setCurrentPage(1);
   };
 
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+    setCurrentPage(1);
+  };
+
   return (
     <>
       <Header />
@@ -61,7 +68,8 @@ const DogFoodPage = () => {
           🍖 Dog Food Guide
         </h1>
 
-        <div className="mb-8 max-w-md mx-auto">
+        {/* Search and Filter */}
+        <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
           <input
             type="text"
             placeholder="Search by food name..."
@@ -69,8 +77,26 @@ const DogFoodPage = () => {
             onChange={handleSearchChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#184440]"
           />
+          <select
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#184440]"
+          >
+            <option value="">All Categories</option>
+            <option value="Meat">Meat</option>
+            <option value="Vegetable">Vegetable</option>
+            <option value="Fruit">Fruit</option>
+            <option value="Fish">Fish</option>
+            <option value="Snack">Snack</option>
+            <option value="Grain">Grain</option>
+            <option value="Sweets">Sweets</option>
+            <option value="Spice">Spice</option>
+            <option value="Supplement">Supplement</option>
+            <option value="Protein">Protein</option>
+          </select>
         </div>
 
+        {/* Result */}
         {loading ? (
           <p className="text-center text-gray-600">Loading...</p>
         ) : error ? (
@@ -107,6 +133,7 @@ const DogFoodPage = () => {
               </div>
             )}
 
+            {/* Pagination */}
             {totalPages > 1 && (
               <div className="flex justify-center items-center gap-4 mt-10 flex-wrap">
                 <button

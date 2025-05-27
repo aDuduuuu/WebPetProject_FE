@@ -16,6 +16,7 @@
   "WEIGHT": "Cân nặng",
   "LIFE_EXPECTANCY": "Tuổi thọ",
   "YEAR": "năm",
+  "selectBreed": "Chọn giống chó",
 
   "FAMILY_LIFE": "CUỘC SỐNG TRONG GIA ĐÌNH",
   "Affectionate_with_Family": "Tình cảm với gia đình",
@@ -1087,5 +1088,33 @@
   "BREED_HIST_WorkingKelpie": "Working Kelpie là giống chó chăn gia súc của Úc, phát triển từ các giống Collie Anh để thích nghi với khí hậu khắc nghiệt. Giống chó này được đánh giá cao về trí thông minh, sức bền và khả năng làm việc độc lập, là trợ thủ đắc lực của nông dân chăn cừu.",
   "BREED_HIST_Xoloitzcuintli": "Xoloitzcuintli, hay còn gọi là chó không lông Mexico, là giống chó cổ đại có lịch sử hơn 3.000 năm. Được người Aztec tôn kính vì khả năng chữa bệnh và ý nghĩa tâm linh, giống chó này có ba kích thước và hai dạng: không lông và có lông.",
   "BREED_HIST_YakutianLaika": "Yakutian Laika là giống chó lao động cổ xưa đến từ vùng Yakutia (Siberia). Chúng được sử dụng để kéo xe trượt tuyết, săn bắn và chăn nuôi. Với bộ lông dày và khả năng chịu lạnh tốt, chúng nổi bật bởi sức bền và tính đa năng.",
-  "BREED_HIST_YorkshireTerrier": "Yorkshire Terrier, hay còn gọi là Yorkie, được phát triển tại Anh vào thế kỷ 19 để bắt chuột trong các nhà máy dệt. Tuy nhỏ bé, chúng có tính cách mạnh mẽ và ngoại hình sang trọng. Ngày nay, đây là một trong những giống chó cảnh phổ biến nhất trên thế giới."
+  "BREED_HIST_YorkshireTerrier": "Yorkshire Terrier, hay còn gọi là Yorkie, được phát triển tại Anh vào thế kỷ 19 để bắt chuột trong các nhà máy dệt. Tuy nhỏ bé, chúng có tính cách mạnh mẽ và ngoại hình sang trọng. Ngày nay, đây là một trong những giống chó cảnh phổ biến nhất trên thế giới.",
+
+
+  "compare": {
+    "title": "So sánh các giống chó",
+    "description": "Bạn không biết giống chó nào phù hợp với mình? Hãy so sánh các giống chó bên dưới để xem sự khác biệt về đặc điểm và tính cách giữa các giống.",
+    "note": "Chọn tối đa 5 giống để xem bảng so sánh cạnh nhau."
+  },
+  "detail": {
+    "height": "Chiều cao",
+    "weight": "Cân nặng",
+    "lifespan": "Tuổi thọ",
+    "affectionateWithFamily": "Thân thiện với gia đình",
+    "goodWithOtherDogs": "Hòa thuận với các chó khác",
+    "goodWithYoungChildren": "Phù hợp với trẻ nhỏ",
+    "sheddingLevel": "Mức độ rụng lông",
+    "coatGroomingFrequency": "Tần suất chăm sóc lông",
+    "droolingLevel": "Mức độ chảy dãi",
+    "opennessToStrangers": "Thân thiện với người lạ",
+    "watchdogProtectiveNature": "Bản năng bảo vệ",
+    "playfulnessLevel": "Mức độ ham chơi",
+    "adaptabilityLevel": "Khả năng thích nghi",
+    "trainabilityLevel": "Khả năng huấn luyện",
+    "barkingLevel": "Mức độ sủa",
+    "energyLevel": "Mức năng lượng",
+    "mentalStimulationNeeds": "Nhu cầu kích thích tinh thần",
+    "coatType": "Loại lông",
+    "coatLength": "Độ dài lông"
+  }
 }

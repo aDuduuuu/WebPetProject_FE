@@ -2,7 +2,7 @@
   "DOG_BREED_LIST": "DOG BREED LIST",
   "FILTER_BREEDS": "FILTER BREEDS",
   "VIEW_DETAILS": "View Details",
-  "COMPARE_BREED": "CCOMPARE BREED",
+  "COMPARE_BREED": "COMPARE BREED",
   "LOADING": "Loading...",
   "NO_RESULTS": "No dog breeds match the filters.",
   "GO_TO_PAGE": "Go to Page:",
@@ -15,7 +15,8 @@
   "HEIGHT": "Height",
   "WEIGHT": "Weight",
   "LIFE_EXPECTANCY": "Life Expectancy",
-  "YEAR": "year",
+  "YEAR": "years",
+  "selectBreed": "Select a breed",
 
   "FAMILY_LIFE": "FAMILY LIFE",
   "Affectionate_with_Family": "Affectionate with Family",
@@ -1087,5 +1088,33 @@
   "BREED_HIST_WorkingKelpie": "The Working Kelpie is an Australian herding breed descended from British collies, developed specifically for managing sheep in harsh climates. Valued for its intelligence, endurance, and independence, the Working Kelpie is essential to many livestock operations in Australia.",
   "BREED_HIST_Xoloitzcuintli": "The Xoloitzcuintli, also known as the Mexican Hairless Dog, is an ancient breed dating back over 3,000 years. Revered by the Aztecs for its healing and spiritual properties, the Xolo comes in three sizes and both hairless and coated varieties.",
   "BREED_HIST_YakutianLaika": "The Yakutian Laika is a primitive working breed from the Yakutia region of Siberia. Traditionally used for sled pulling, hunting, and herding, it is well adapted to extreme cold and known for its thick coat, endurance, and versatility.",
-  "BREED_HIST_YorkshireTerrier": "The Yorkshire Terrier, or Yorkie, was developed in 19th-century England to catch rats in textile mills. Despite its small size, it has a feisty personality and elegant appearance. Today, it is one of the most popular toy breeds worldwide."
+  "BREED_HIST_YorkshireTerrier": "The Yorkshire Terrier, or Yorkie, was developed in 19th-century England to catch rats in textile mills. Despite its small size, it has a feisty personality and elegant appearance. Today, it is one of the most popular toy breeds worldwide.",
+
+
+  "compare": {
+    "title": "Compare Breeds",
+    "description": "Can’t decide which breed of dog is right for you? Compare dog breeds below to see how different breed characteristics and attributes stack up against each other.",
+    "note": "Select up to 5 breeds to see a side-by-side comparison."
+  },
+  "detail": {
+    "height": "Height",
+    "weight": "Weight",
+    "lifespan": "Lifespan",
+    "affectionateWithFamily": "Affectionate with Family",
+    "goodWithOtherDogs": "Good with Other Dogs",
+    "goodWithYoungChildren": "Good with Young Children",
+    "sheddingLevel": "Shedding Level",
+    "coatGroomingFrequency": "Coat Grooming Frequency",
+    "droolingLevel": "Drooling Level",
+    "opennessToStrangers": "Openness to Strangers",
+    "watchdogProtectiveNature": "Watchdog Protective Nature",
+    "playfulnessLevel": "Playfulness Level",
+    "adaptabilityLevel": "Adaptability Level",
+    "trainabilityLevel": "Trainability Level",
+    "barkingLevel": "Barking Level",
+    "energyLevel": "Energy Level",
+    "mentalStimulationNeeds": "Mental Stimulation Needs",
+    "coatType": "Coat Type",
+    "coatLength": "Coat Length"
+  }
 }

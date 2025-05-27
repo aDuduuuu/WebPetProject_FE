@@ -965,8 +965,8 @@ const DogBreedDetail = () => {
       {/* Phần tên, mô tả, nhóm, và carousel */}
       <div className="dog-breed-detail relative max-w-4xl mx-auto px-4 py-8">
 
-        {/* Language Buttons - Top Right */}
-        <div className="absolute top-4 right-4 flex space-x-2">
+        {/* Language Buttons - Top Right */}  
+        <div className="absolute top-4 right-4 translate-x-16 flex space-x-2">
           <button
             onClick={() => i18n.changeLanguage('en')}
             className="px-4 py-2 border border-white text-[#97d5c8] rounded-md text-sm transition-colors duration-200 hover:bg-white hover:text-[#97d5c8]"
@@ -1596,6 +1596,14 @@ const DogBreedDetail = () => {
           </div>
         </div>
       )}
+      <div className="flex justify-center my-10">
+        <a
+          href="http://localhost:5173/breedList"
+          className="px-6 py-3 border border-[#97d5c8] text-[#97d5c8] rounded-md text-base transition-colors duration-200 hover:bg-[#97d5c8] hover:text-white"
+        >
+          ← Back to List
+        </a>
+      </div>
       <Footer />
     </div>
   );

@@ -4,9 +4,11 @@ import Footer from '../components/Footer';
 import clientApi from '../client-api/rest-client';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from 'react-i18next';
 
 const CompareBreeds = () => {
   const [dogNames, setDogNames] = useState([]);
+  const { t, i18n } = useTranslation();
   const [selectedBreeds, setSelectedBreeds] = useState({
     breed1: '',
     breed2: '',
@@ -138,16 +140,33 @@ const CompareBreeds = () => {
     <div className="home-container text-[#16423C] flex flex-col min-h-screen bg-[#F9F9F9]">
       <Header /> 
 
-      <div className="bg-[#C4DACB] text-[#16423C] py-16 px-8 rounded-b-lg shadow-lg">
+      <div className="relative bg-[#C4DACB] text-[#16423C] py-16 px-8 rounded-b-lg shadow-lg">
+        {/* Language Switch Buttons */}
+        <div className="absolute top-4 right-4 flex space-x-2">
+          <button
+            onClick={() => i18n.changeLanguage('en')}
+            className="px-4 py-2 border !border-[#16423C] text-[#16423C] rounded-md text-sm font-semibold transition-all duration-200 hover:bg-[#16423C] hover:text-white"
+          >
+            EN
+          </button>
+          <button
+            onClick={() => i18n.changeLanguage('vi')}
+            className="px-4 py-2 border !border-[#16423C] text-[#16423C] rounded-md text-sm font-semibold transition-all duration-200 hover:bg-[#16423C] hover:text-white"
+          >
+            VI
+          </button>
+        </div>
+
+        {/* Main Content */}
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl font-bold mb-4 leading-tight">
-            Compare Breeds
+            {t('compare.title')}
           </h1>
           <p className="text-xl mb-6 max-w-2xl mx-auto">
-            Can’t decide which breed of dog is right for you? Compare dog breeds below to see how different breed characteristics and attributes stack up against each other.
+            {t('compare.description')}
           </p>
           <p className="text-lg font-medium max-w-2xl mx-auto">
-            Select up to 5 breeds to see a side-by-side comparison.
+            {t('compare.note')}
           </p>
         </div>
       </div>
@@ -183,7 +202,7 @@ const CompareBreeds = () => {
                 }}
                 className="mt-4 p-2 bg-white text-[#16423C] rounded-md w-full border border-[#C4DACB]"
               >
-                <option value="">Select a breed</option>
+                <option value="">{t('selectBreed')}</option>
                 {dogNames.length > 0 ? (
                   dogNames.map((name, index) => (
                     <option key={index} value={name}>
@@ -201,21 +220,21 @@ const CompareBreeds = () => {
 
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Height:</span>
+                      <span className="font-medium text-gray-800">{t('detail.height')}:</span>
                       <span>{dogDetails[breedKey].height.min} - {dogDetails[breedKey].height.max} inches</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Weight:</span>
+                      <span className="font-medium text-gray-800">{t('detail.weight')}:</span>
                       <span>{dogDetails[breedKey].weight.min} - {dogDetails[breedKey].weight.max} lbs</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="font-medium text-gray-800">Lifespan:</span>
-                      <span>{dogDetails[breedKey].lifespan.min} - {dogDetails[breedKey].lifespan.max} years</span>
+                      <span className="font-medium text-gray-800">{t('detail.lifespan')}:</span>
+                      <span>{dogDetails[breedKey].lifespan.min} - {dogDetails[breedKey].lifespan.max} {t('YEAR')}</span>
                     </div>
                     <div className="flex flex-col space-y-2">
                       {/* Affective with Family */}
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-800">Affective with Family:</span>
+                        <span className="font-medium text-gray-800">{t('detail.affectionateWithFamily')}:</span>
                       </div>
                       <div className="flex items-center">
                         {/* Mỗi thanh màu sẽ được lặp qua mức độ từ 1 đến 5 */}
@@ -231,7 +250,7 @@ const CompareBreeds = () => {
 
                       {/* Good with Other Dogs */}
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-800">Good with Other Dogs:</span>
+                        <span className="font-medium text-gray-800">{t('detail.goodWithOtherDogs')}:</span>
                       </div>
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((level) => (
@@ -245,7 +264,7 @@ const CompareBreeds = () => {
 
                       {/* Good with Young Children */}
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-800">Good with Young Children:</span>
+                        <span className="font-medium text-gray-800">{t('detail.goodWithYoungChildren')}:</span>
                       </div>
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((level) => (
@@ -259,7 +278,7 @@ const CompareBreeds = () => {
 
                       {/* Shedding Level */}
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-800">Shedding Level:</span>
+                        <span className="font-medium text-gray-800">{t('detail.sheddingLevel')}:</span>
                       </div>
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((level) => (
@@ -273,7 +292,7 @@ const CompareBreeds = () => {
 
                       {/* Coat Grooming Frequency */}
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-800">Coat Grooming Frequency:</span>
+                        <span className="font-medium text-gray-800">{t('detail.coatGroomingFrequency')}:</span>
                       </div>
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((level) => (
@@ -287,7 +306,7 @@ const CompareBreeds = () => {
 
                       {/* Drooling Level */}
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-800">Drooling Level:</span>
+                        <span className="font-medium text-gray-800">{t('detail.droolingLevel')}:</span>
                       </div>
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((level) => (
@@ -301,7 +320,7 @@ const CompareBreeds = () => {
 
                       {/* Openness to Strangers */}
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-800">Openness to Strangers:</span>
+                        <span className="font-medium text-gray-800">{t('detail.opennessToStrangers')}:</span>
                       </div>
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((level) => (
@@ -315,7 +334,7 @@ const CompareBreeds = () => {
 
                       {/* Watchdog Protective Nature */}
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-800">Watchdog Protective Nature:</span>
+                        <span className="font-medium text-gray-800">{t('detail.watchdogProtectiveNature')}:</span>
                       </div>
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((level) => (
@@ -329,7 +348,7 @@ const CompareBreeds = () => {
 
                       {/* Playfulness Level */}
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-800">Playfulness Level:</span>
+                        <span className="font-medium text-gray-800">{t('detail.playfulnessLevel')}:</span>
                       </div>
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((level) => (
@@ -343,7 +362,7 @@ const CompareBreeds = () => {
 
                       {/* Adaptability Level */}
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-800">Adaptability Level:</span>
+                        <span className="font-medium text-gray-800">{t('detail.adaptabilityLevel')}:</span>
                       </div>
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((level) => (
@@ -357,7 +376,7 @@ const CompareBreeds = () => {
 
                       {/* Trainability Level */}
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-800">Trainability Level:</span>
+                        <span className="font-medium text-gray-800">{t('detail.trainabilityLevel')}:</span>
                       </div>
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((level) => (
@@ -371,7 +390,7 @@ const CompareBreeds = () => {
 
                       {/* Barking Level */}
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-800">Barking Level:</span>
+                        <span className="font-medium text-gray-800">{t('detail.barkingLevel')}:</span>
                       </div>
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((level) => (
@@ -385,7 +404,7 @@ const CompareBreeds = () => {
 
                       {/* Energy Level */}
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-800">Energy Level:</span>
+                        <span className="font-medium text-gray-800">{t('detail.energyLevel')}:</span>
                       </div>
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((level) => (
@@ -399,7 +418,7 @@ const CompareBreeds = () => {
 
                       {/* Mental Stimulation Needs */}
                       <div className="flex justify-between items-center">
-                        <span className="font-medium text-gray-800">Mental Stimulation Needs:</span>
+                        <span className="font-medium text-gray-800">{t('detail.mentalStimulationNeeds')}:</span>
                       </div>
                       <div className="flex items-center">
                         {[1, 2, 3, 4, 5].map((level) => (
@@ -414,21 +433,21 @@ const CompareBreeds = () => {
 
                     {/* Coat Type & Coat Length được xử lý đặc biệt vì chúng có thể chứa nhiều giá trị */}
                     <div className="flex justify-between items-start">
-                      <span className="font-medium text-gray-800">Coat Type:</span>
+                      <span className="font-medium text-gray-800">{t('detail.coatType')}:</span>
                       <div className="text-gray-700">
                         <ul className="list-disc pl-6">
                           {dogDetails[breedKey].coatType.map((type, index) => (
-                            <li key={index}>{type}</li>
+                            <li key={index}>{t(type)}</li>
                           ))}
                         </ul>
                       </div>
                     </div>
                     <div className="flex justify-between items-start">
-                      <span className="font-medium text-gray-800">Coat Length:</span>
+                      <span className="font-medium text-gray-800">{t('detail.coatLength')}:</span>
                       <div className="text-gray-700">
                         <ul className="list-disc pl-6">
                           {dogDetails[breedKey].coatLength.map((length, index) => (
-                            <li key={index}>{length}</li>
+                            <li key={index}>{t(length)}</li>
                           ))}
                         </ul>
                       </div>
