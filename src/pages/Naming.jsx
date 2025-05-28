@@ -9,6 +9,7 @@ import Header from '../components/Header'; // Đảm bảo đường dẫn chín
 import clientApi from '../client-api/rest-client'; // API client để lấy danh sách tên
 import Footer from '../components/Footer';
 import { message } from "antd";
+import { useTranslation } from 'react-i18next';
 
 const NamePage = () => {
   const [selectedOption, setSelectedOption] = useState(null); // Chỉ lưu 1 lựa chọn
@@ -22,6 +23,7 @@ const NamePage = () => {
     name: '',
     category: '',
   });
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     // Lấy role từ localStorage
@@ -74,7 +76,7 @@ const NamePage = () => {
     const { name, category } = nameInfo;
   
     if (!name || !category) {
-      message.error('Please enter a name and select a category'); // Hiển thị lỗi nếu chưa điền tên hoặc chọn category
+      message.error(t('errorEnterNameAndCategory')); // Hiển thị lỗi nếu chưa điền tên hoặc chọn category
       return;
     }
   
@@ -83,17 +85,17 @@ const NamePage = () => {
       const response = await clientApi.service('dognames').create({ name, category });
       
       if (response.EC === 0) {
-        message.success('Dog name added successfully');
+        message.success(t('successNameAdded'));
         // Cập nhật danh sách tên chó sau khi thêm thành công
         setDogNames((prev) => [response.DT, ...prev]);
         setShowAddNameForm(false); // Ẩn form sau khi thêm
         setNameInfo({ name: '', category: '' }); // Reset form
       } else {
-        message.error('Failed to add dog name');
+        message.error(t('errorAddFailed'));
       }
     } catch (error) {
       console.error('Error adding dog name:', error);
-      message.error('Error adding dog name');
+      message.error(t('errorAddException'));
     }
   };
   
@@ -127,9 +129,25 @@ const NamePage = () => {
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <Header />
+      <div className="flex justify-end px-6 mt-4">
+        <div className="flex space-x-2">
+          <button
+            onClick={() => i18n.changeLanguage("en")}
+            className="px-3 py-1 bg-[#16423C] text-white rounded shadow hover:bg-[#1f5e52] transition"
+          >
+            EN
+          </button>
+          <button
+            onClick={() => i18n.changeLanguage("vi")}
+            className="px-3 py-1 bg-[#16423C] text-white rounded shadow hover:bg-[#1f5e52] transition"
+          >
+            VI
+          </button>
+        </div>
+      </div>
       <div className="flex justify-center p-6">
         <div className="w-full max-w-5xl bg-white p-8 rounded-lg">
-          <h2 className="text-3xl font-semibold mb-6">Search by Category</h2>
+          <h2 className="text-3xl font-semibold mb-6">{t('searchByCategory')}</h2>
           <div className="grid grid-cols-4 gap-6 mb-6">
             {['Baby', 'Celebrity', 'Cute', 'Superhero', 'Trendy', 'Videogame', 'Movie', 'Silly'].map((option) => (
               <button
@@ -142,7 +160,7 @@ const NamePage = () => {
                 `}
               >
                 <div className="mb-2">{icons[option]}</div>
-                <span className="capitalize text-xl">{option}</span>
+                <span className="capitalize text-xl">{t(option)}</span>
               </button>
             ))}
           </div>
@@ -157,7 +175,7 @@ const NamePage = () => {
                 className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600"
                 onClick={toggleAddNameForm} // Toggle form khi click
               >
-                {showAddNameForm ? 'Cancel' : 'Add Name'}
+                {showAddNameForm ? t('cancel') : t('addName')}
               </button>
             </div>
           )}
@@ -174,7 +192,7 @@ const NamePage = () => {
               >
                 {['Baby', 'Celebrity', 'Cute', 'Superhero', 'Trendy', 'Videogame', 'Movie', 'Silly'].map((category) => (
                   <option key={category} value={category}>
-                    {category}
+                    {t(category)}
                   </option>
                 ))}
               </select>
@@ -183,7 +201,7 @@ const NamePage = () => {
               <input 
                 type="text" 
                 className="p-2 border rounded-md w-1/4" 
-                placeholder="Enter dog name" 
+                placeholder= {t('enterDogName')}
                 value={nameInfo.name} // Binding name
                 onChange={(e) => setNameInfo({ ...nameInfo, name: e.target.value })}
               />
@@ -205,7 +223,7 @@ const NamePage = () => {
             <div>
               {dogNames.length > 0 ? (
                 <>
-                  <h3 className="text-2xl font-semibold mb-4">Name:</h3> {/* Dòng "Name:" */}
+                  <h3 className="text-2xl font-semibold mb-4">{t('name')}</h3> {/* Dòng "Name:" */}
                   <div className="grid grid-cols-4 gap-4">
                     {dogNames.map((dogName) => (
                       <div
@@ -218,7 +236,7 @@ const NamePage = () => {
                   </div>
                 </>
               ) : (
-                <p className="text-center text-lg text-gray-600">No dog names found.</p>
+                <p className="text-center text-lg text-gray-600">{t('noNamesFound')}</p>
               )}
             </div>
           )}
@@ -230,7 +248,7 @@ const NamePage = () => {
                 className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600"
                 onClick={handleLoadMore}
               >
-                Load More
+                {t('loadMore')}
               </button>
             </div>
           )}
