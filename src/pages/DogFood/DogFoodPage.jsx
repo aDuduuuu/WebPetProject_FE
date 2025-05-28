@@ -170,7 +170,7 @@ const DogFoodPage = () => {
                         </div>
                       </div>
                       <div className="flip-card-back p-4">
-                        <h2 className="text-xl font-bold mb-2">{food.name}</h2>
+                        <h2 className="text-xl font-bold mb-2">{t(`foodNames.${food.name}`, { defaultValue: food.name })}</h2>
                         <p><strong>{t('safe')}:</strong> {food.isSafe ? `✅ ${t('yes')}` : `❌ ${t('no')}`}</p>
                         <p>
                           <strong>{t('category')}:</strong>{" "}
