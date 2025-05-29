@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import clientApi from '../client-api/rest-client';
 import { useNavigate } from 'react-router-dom';
 import '../css/ProvinceFilter.css'
+import { useTranslation } from 'react-i18next';
 
 const ProvinceFilter = ({ onFilter, type }) => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const ProvinceFilter = ({ onFilter, type }) => {
   const [items, setItems] = useState([]);
   const [userRole, setUserRole] = useState(null); // State để lưu role
   const [visibleCount, setVisibleCount] = useState(6);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const role = localStorage.getItem('role');
@@ -120,23 +122,23 @@ const ProvinceFilter = ({ onFilter, type }) => {
 
   return (
     <div className="filter-group mb-6">
-      <h4 className="text-sm font-semibold text-gray-600 mb-2">Select Province</h4>
+      <h4 className="text-sm font-semibold text-gray-600 mb-2">{t('provinceFilter.selectProvince')}</h4>
       <select
         className="w-full p-2 border border-gray-300 rounded-md text-gray-700"
         value={selectedProvince}
         onChange={handleProvinceChange}
       >
-        <option value="">All Province</option>
+        <option value="">{t('provinceFilter.allProvinces')}</option>
         {provinces.map((province) => (
           <option key={province} value={province}>
-            {province}
+            {t(`provinceFilter.provinces.${province}`)}
           </option>
         ))}
       </select>
 
       {(type === 'spa' || type === 'trainer') && (
         <>
-          <h4 className="text-sm font-semibold text-gray-600 mt-4 mb-2">Select Services</h4>
+          <h4 className="text-sm font-semibold text-gray-600 mt-4 mb-2">{t('provinceFilter.selectServices')}</h4>
           <div className="grid grid-cols-1 gap-4 justify-start">
             {items.map((service) => (
               <label key={service} className="flex items-center text-gray-700">
@@ -147,7 +149,7 @@ const ProvinceFilter = ({ onFilter, type }) => {
                   onChange={() => handleItemChange(service)}
                   className="custom-checkbox mr-2"
                 />
-                {service}
+                {t(`services.${service}`, service)}
               </label>
             ))}
           </div>
@@ -156,7 +158,7 @@ const ProvinceFilter = ({ onFilter, type }) => {
 
       {type === 'dogsellers' && (
         <>
-          <h4 className="text-sm font-semibold text-gray-600 mt-4 mb-2">Select Breeds</h4>
+          <h4 className="text-sm font-semibold text-gray-600 mt-4 mb-2">{t('provinceFilter.selectBreeds')}</h4>
           <div className="grid grid-cols-1 gap-4 justify-start">
             {items.slice(0, visibleCount).map((breed) => (
               <label key={breed.id} className="flex items-center text-gray-700">
@@ -176,7 +178,7 @@ const ProvinceFilter = ({ onFilter, type }) => {
               onClick={handleLoadMore}
               className="cursor-pointer mt-4 text-teal-500 flex items-center gap-1 hover:underline"
             >
-              <span>More</span>
+              <span>{t('provinceFilter.more')}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -202,13 +204,13 @@ const ProvinceFilter = ({ onFilter, type }) => {
           className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
           onClick={handleFilterClick}
         >
-          Filter
+          {t('provinceFilter.filter')}
         </button>
         <button
           className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400 w-full"
           onClick={handleResetClick}
         >
-          Reset
+          {t('provinceFilter.reset')}
         </button>
       </div>
 
@@ -219,7 +221,7 @@ const ProvinceFilter = ({ onFilter, type }) => {
               className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
               onClick={handleAddSpa}
             >
-              Add Spa
+              {t('provinceFilter.addSpa')}
             </button>
           )}
           {type === 'trainer' && (
@@ -227,7 +229,7 @@ const ProvinceFilter = ({ onFilter, type }) => {
               className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
               onClick={handleAddTrainer}
             >
-              Add Trainer
+              {t('provinceFilter.addTrainer')}
             </button>
           )}
           {type === 'dogsellers' && (
@@ -235,7 +237,7 @@ const ProvinceFilter = ({ onFilter, type }) => {
               className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
               onClick={handleAddSeller}
             >
-              Add Seller
+              {t('provinceFilter.addSeller')}
             </button>
           )}
         </div>

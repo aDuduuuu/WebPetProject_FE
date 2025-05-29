@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import Card from '../components/Card';
 import ProvinceFilter from '../components/ProvinceFilter';
 import clientApi from '../client-api/rest-client';
+import { useTranslation } from 'react-i18next';
 
 const Trainer = () => {
   const [trainerList, setTrainerList] = useState([]);
@@ -13,6 +14,7 @@ const Trainer = () => {
   const [filters, setFilters] = useState({ province: '', services: [] });
   const [searchKeyword, setSearchKeyword] = useState('');
   const [userRole, setUserRole] = useState(null);
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const role = localStorage.getItem('role');
@@ -125,7 +127,7 @@ const Trainer = () => {
               type="text"
               value={searchKeyword}
               onChange={handleSearchChange}
-              placeholder="Search trainer by name..."
+              placeholder={t('searchTrainerPlaceholder')}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
@@ -133,6 +135,26 @@ const Trainer = () => {
 
         {/* Danh sách trainer */}
         <div className="w-3/4 p-6">
+          <div className="mb-6 flex items-center justify-between">
+            <h1 className="text-2xl font-semibold text-gray-800">
+              {t('spaList.title2')}
+            </h1>
+
+            <div className="flex space-x-2">
+              <button
+                onClick={() => i18n.changeLanguage('en')}
+                className="px-3 py-1 border border-teal-500 text-teal-700 rounded text-sm hover:bg-teal-100"
+              >
+                EN
+              </button>
+              <button
+                onClick={() => i18n.changeLanguage('vi')}
+                className="px-3 py-1 border border-teal-500 text-teal-700 rounded text-sm hover:bg-teal-100"
+              >
+                VI
+              </button>
+            </div>
+          </div>
           {trainerList.length > 0 ? (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
@@ -149,6 +171,7 @@ const Trainer = () => {
                     type="trainers"
                     action="update"
                     role={userRole}
+                    workingHours={trainer.workingHours} 
                   />
                 ))}
               </div>

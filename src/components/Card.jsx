@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { FaTrashAlt, FaWrench } from 'react-icons/fa';
 import clientApi from '../client-api/rest-client';
 import { message,Modal } from 'antd';
+import { useTranslation } from 'react-i18next';
 
-const Card = ({ id, image, name, location, services, contactInfo, price, type, action, data, quantity ,description,productType,breeds}) => {
+const Card = ({ id, image, name, location, services, contactInfo, price, type, action, data, quantity ,description,productType,breeds, workingHours }) => {
   const navigate = useNavigate();
   const [isManager, setIsManager] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Lấy role từ localStorage
@@ -23,23 +25,23 @@ const Card = ({ id, image, name, location, services, contactInfo, price, type, a
   
     // Sử dụng Modal.confirm để yêu cầu xác nhận
     Modal.confirm({
-      title: 'Are you sure you want to delete this item?',
-      content: 'This action cannot be undone.',
-      okText: 'Yes',
-      cancelText: 'No',
+      title: t('card.deleteConfirmTitle'),
+      content: t('card.deleteConfirmContent'),
+      okText: t('card.confirmYes'),
+      cancelText: t('card.confirmNo'),
       onOk: async () => {
         try {
           const api = clientApi.service(type);  // Gọi API service với loại đối tượng cần xóa
           await api.delete(id);  // Thực hiện xóa
-          message.success('Item deleted successfully!');  // Hiển thị thông báo thành công
+          message.success(t('card.deleteSuccess'));  // Hiển thị thông báo thành công
           window.location.reload();  // Làm mới trang sau khi xóa
         } catch (error) {
           console.error('Failed to delete item:', error);
-          message.error('Error deleting item');  // Hiển thị thông báo lỗi
+          message.error(t('card.deleteError'));  // Hiển thị thông báo lỗi
         }
       },
       onCancel: () => {
-        message.info('Deletion cancelled');  // Hiển thị thông báo khi người dùng hủy
+        message.info(t('card.deleteCancelled'));  // Hiển thị thông báo khi người dùng hủy
       },
     });
   };
@@ -62,6 +64,7 @@ const Card = ({ id, image, name, location, services, contactInfo, price, type, a
         productType,
         breeds,
         description,
+        workingHours,
       },
     });
   };
@@ -70,7 +73,7 @@ const Card = ({ id, image, name, location, services, contactInfo, price, type, a
     if (type === 'products') {
       return (
         <>
-          <p className="text-sm text-gray-600">Price: {price} VNĐ</p>
+          <p className="text-sm text-gray-600">{t('card.price')}: {price} VNĐ</p>
         </>
       );
     }
@@ -80,7 +83,7 @@ const Card = ({ id, image, name, location, services, contactInfo, price, type, a
     if (type === 'spas' || type === 'trainers') {
       return (
         <p className="text-sm text-gray-600">
-          {location.province}, {location.district}
+          {t(`location.province.${location.province}`, location.province)}, {t(`location.district.${location.district}`, location.district)}
         </p>
       );
     }
@@ -103,7 +106,7 @@ const Card = ({ id, image, name, location, services, contactInfo, price, type, a
         e.target.src = 'https://via.placeholder.com/150?text=Not+Available';
       }}
     />
-    <h2 className="text-lg font-semibold">{name}</h2>
+    <h2 className="text-lg font-semibold">{t(`names.${name}`, name)}</h2>
     {renderDetails()}
   </div>
 

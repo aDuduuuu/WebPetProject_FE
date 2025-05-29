@@ -3,21 +3,21 @@ import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import clientApi from '../client-api/rest-client';
+import { useTranslation } from 'react-i18next';
+
 
 const DetailPage = ({ type }) => {
-  const { id } = useParams(); // Get ID from URL params
-  const [detail, setDetail] = useState(null); // Store spa or trainer details
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error state
+  const { id } = useParams();
+  const [detail, setDetail] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const { t, i18n } = useTranslation();
 
-  // Fetch details on component mount
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        // Determine API path based on type
         const apiService = type === 'spa' ? clientApi.service('spas') : clientApi.service('trainers');
         const response = await apiService.get(id);
-
         if (response.EC === 0) {
           setDetail(response.DT);
         } else {
@@ -25,7 +25,7 @@ const DetailPage = ({ type }) => {
         }
       } catch (err) {
         setError('Failed to fetch details');
-        console.error('Error fetching details:', err);
+        console.error(err);
       } finally {
         setLoading(false);
       }
@@ -34,77 +34,183 @@ const DetailPage = ({ type }) => {
     fetchDetails();
   }, [id, type]);
 
-  // Render loading state
-  if (loading) {
+  if (loading || !detail) {
     return (
-      <div className="detail-container flex flex-col min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-gray-100 flex flex-col">
         <Header />
-        <div className="detail-content p-6">
-          <h1 className="text-3xl font-bold text-gray-700">Loading Details...</h1>
-        </div>
+        <main className="flex-grow flex items-center justify-center">
+          <p className="text-lg font-medium text-gray-600">Loading details...</p>
+        </main>
+        <Footer />
       </div>
     );
   }
 
-  // Render error state
   if (error) {
     return (
-      <div className="detail-container flex flex-col min-h-screen bg-gray-100">
+      <div className="min-h-screen bg-gray-100 flex flex-col">
         <Header />
-        <div className="detail-content p-6">
-          <h1 className="text-3xl font-bold text-gray-700">Error</h1>
-          <p className="text-lg text-red-600">{error}</p>
-        </div>
+        <main className="flex-grow flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-2xl font-semibold text-red-600">Error</h1>
+            <p className="text-gray-600 mt-2">{error}</p>
+          </div>
+        </main>
+        <Footer />
       </div>
     );
   }
 
-  // Render details page
+  const {
+    name,
+    image,
+    location = {},
+    services = [],
+    contactInfo = {},
+    description,
+    workingHours = {},
+  } = detail;
+
+  const getServiceIcon = (service) => {
+    switch (service.toLowerCase()) {
+      case 'caring':
+        return '🫶';
+      case 'grooming':
+        return '✂️';
+      case 'hair trimming':
+        return '💇';
+      case 'massaging':
+        return '💆';
+      case 'medicines':
+        return '💊';
+      case 'running':
+        return '🏃';
+      case 'showering':
+        return '🚿';
+      default:
+        return '🔹'; // fallback icon
+    }
+  };
+  
+
   return (
-    <div className="detail-container flex flex-col min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       <Header />
-      <div className="detail-content p-6">
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <div className="flex flex-col md:flex-row md:space-x-6">
-            {/* Image Section */}
-            <div className="md:w-1/3 mb-4 md:mb-0">
+      <main className="flex-grow container mx-auto px-4 py-8">
+        <div className="bg-white shadow-xl rounded-xl overflow-hidden">
+          <div className="grid md:grid-cols-3 gap-6 p-6">
+            {/* Image */}
+            <div className="col-span-1 w-full h-96 bg-gray-100 rounded-lg overflow-hidden">
               <img
-                src={detail.image || 'https://via.placeholder.com/300?text=No+Image'}
-                alt={detail.name}
-                className="w-full h-auto rounded-lg"
+                src={image || 'https://via.placeholder.com/400?text=No+Image'}
+                alt={name}
+                className="w-full h-full object-cover object-center transition-transform duration-300 hover:scale-105"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = 'https://via.placeholder.com/400?text=No+Image';
+                }}
               />
             </div>
-            {/* Details Section */}
-            <div className="md:w-2/3">
-              <h1 className="text-3xl font-bold text-teal-600 mb-4">{detail.name}</h1>
-              <p className="text-gray-700 mb-2">
-                <span className="font-semibold">Location: </span>
-                {`${detail.location.street || ''}, ${detail.location.ward || ''}, ${detail.location.district || ''}, ${detail.location.province || ''}`}
-              </p>
-              <p className="text-gray-700 mb-2">
-                <span className="font-semibold">Services: </span>
-                {detail.services && detail.services.length > 0 ? detail.services.join(', ') : 'No services available'}
-              </p>
-              <p className="text-gray-700 mb-2">
-                <span className="font-semibold">Contact: </span>
-                {`Phone: ${detail.contactInfo?.phone || 'N/A'}, Email: ${detail.contactInfo?.email || 'N/A'}`}
-              </p>
+
+            {/* Info */}
+            <div className="col-span-2 space-y-6">
+              <div className="flex items-center justify-between">
+                <h1 className="text-4xl font-bold text-teal-700">{t(`names.${name}`, name)}</h1>
+                <div className="flex space-x-2">
+                  <button
+                    onClick={() => i18n.changeLanguage('en')}
+                    className="px-3 py-1 border border-teal-500 text-teal-700 rounded text-sm hover:bg-teal-100"
+                  >
+                    EN
+                  </button>
+                  <button
+                    onClick={() => i18n.changeLanguage('vi')}
+                    className="px-3 py-1 border border-teal-500 text-teal-700 rounded text-sm hover:bg-teal-100"
+                  >
+                    VI
+                  </button>
+                </div>
+              </div>
+
+              {/* Location */}
+              <div>
+                <h2 className="text-lg font-semibold text-gray-800">📍 {t('infoSection.location')}</h2>
+                <p className="text-gray-600 mt-1">
+                  {[location.street, location.ward, location.district, location.province]
+                    .filter(Boolean)
+                    .join(', ') || t('infoSection.noLocation')}
+                </p>
+              </div>
+
+              {/* Services */}
+              <div>
+                <h2 className="text-lg font-semibold text-gray-800 mb-2">🛎 {t('infoSection.services')}</h2>
+                {services.length ? (
+                  <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-gray-700">
+                    {services.map((s, i) => (
+                      <li
+                        key={i}
+                        className="flex items-center gap-2 p-2 rounded-md bg-teal-50 border border-teal-200 shadow-sm"
+                      >
+                        <span>{getServiceIcon(s)}</span>
+                        <span className="font-medium">{t(`services.${s}`, s)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-gray-600">{t('infoSection.noServices')}</p>
+                )}
+              </div>
+
+              {/* Contact */}
+              <div>
+                <h2 className="text-lg font-semibold text-gray-800">📞 {t('infoSection.contact')}</h2>
+                <p className="text-gray-600 mt-1">
+                  <span>{t('infoSection.phone')}: {contactInfo.phone || t('infoSection.noValue')}</span><br />
+                  <span>{t('infoSection.email')}: {contactInfo.email || t('infoSection.noValue')}</span>
+                </p>
+              </div>
             </div>
           </div>
-          {/* Additional Information Section */}
-          <div className="mt-6">
-            <h2 className="text-2xl font-bold text-gray-700 mb-4">Additional Information</h2>
-            <p className="text-gray-700">
-              {`${detail.description}`}
+
+          {/* Description */}
+          <div className="border-t p-6 bg-gray-50">
+            {/* Working Hours */}
+            <div className="mb-6">
+              <h2 className="text-lg font-semibold text-gray-800 mb-2">🕒 {t('infoSection.workingHours')}</h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                {['monday','tuesday','wednesday','thursday','friday','saturday','sunday'].map((day) => {
+                  const hours = workingHours[day];
+                  const isClosed = !hours || hours.trim().toLowerCase() === 'closed';
+                  const displayText = isClosed ? t('infoSection.noSchedule') : hours;
+
+                  return (
+                    <div
+                      key={day}
+                      className={`rounded-xl p-3 border shadow-sm text-sm ${
+                        isClosed
+                          ? 'bg-gray-100 text-gray-400 border-gray-200'
+                          : 'bg-teal-50 text-gray-800 border-teal-300'
+                      }`}
+                    >
+                      <div className="font-medium capitalize">{t(`days.${day}`)}</div>
+                      <div>{displayText}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            <h2 className="text-xl font-semibold text-gray-800 mb-2">📝 {t('infoSection.description')}</h2>
+            <p className="text-gray-700 whitespace-pre-line">
+              {t(`descriptions.${name}`, description || t('infoSection.noDescription'))}
             </p>
           </div>
         </div>
-      </div>
+      </main>
       <Footer />
     </div>
   );
 };
 
 export default DetailPage;
-
-

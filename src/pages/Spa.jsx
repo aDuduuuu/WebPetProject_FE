@@ -4,15 +4,17 @@ import Footer from '../components/Footer';
 import Card from '../components/Card';
 import ProvinceFilter from '../components/ProvinceFilter';
 import clientApi from '../client-api/rest-client';
+import { useTranslation } from 'react-i18next';
 
 const Spa = () => {
   const [spaList, setSpaList] = useState([]);
   const [page, setPage] = useState(1);
-  const spaPerPage = 16;
+  const spaPerPage = 8;
   const [totalSpas, setTotalSpas] = useState(0);
   const [filters, setFilters] = useState({ province: '', services: [] });
   const [searchKeyword, setSearchKeyword] = useState('');
   const [userRole, setUserRole] = useState(null);
+  const { t, i18n } = useTranslation();
 
   // Lấy role người dùng
   useEffect(() => {
@@ -84,7 +86,7 @@ const Spa = () => {
           onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
           disabled={page === 1}
         >
-          « Prev
+          « {t('spaList.prev')}
         </button>
 
         {pageNumbers.map((num) => (
@@ -106,7 +108,7 @@ const Spa = () => {
           onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
           disabled={page === totalPages}
         >
-          Next »
+          {t('spaList.next')} »
         </button>
       </div>
     );
@@ -122,12 +124,12 @@ const Spa = () => {
 
           {/* Ô tìm kiếm tên spa */}
           <div className="mt-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">Search by name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">{t('spaList.searchLabel')}</label>
             <input
               type="text"
               value={searchKeyword}
               onChange={handleSearchChange}
-              placeholder="Enter spa name..."
+              placeholder={t('spaList.searchPlaceholder')}
               className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
@@ -135,6 +137,26 @@ const Spa = () => {
 
         {/* Danh sách spa */}
         <div className="w-3/4 p-6">
+          <div className="mb-6 flex items-center justify-between">
+            <h1 className="text-2xl font-semibold text-gray-800">
+              {t('spaList.title')}
+            </h1>
+
+            <div className="flex space-x-2">
+              <button
+                onClick={() => i18n.changeLanguage('en')}
+                className="px-3 py-1 border border-teal-500 text-teal-700 rounded text-sm hover:bg-teal-100"
+              >
+                EN
+              </button>
+              <button
+                onClick={() => i18n.changeLanguage('vi')}
+                className="px-3 py-1 border border-teal-500 text-teal-700 rounded text-sm hover:bg-teal-100"
+              >
+                VI
+              </button>
+            </div>
+          </div>
           {spaList.length > 0 ? (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
@@ -151,6 +173,7 @@ const Spa = () => {
                     action="update"
                     description={spa.description}
                     role={userRole}
+                    workingHours={spa.workingHours} 
                   />
                 ))}
               </div>
@@ -159,7 +182,7 @@ const Spa = () => {
               {renderPagination()}
             </>
           ) : (
-            <p className="text-lg text-gray-600 mt-4">No Spas found.</p>
+            <p className="text-lg text-gray-600 mt-4">{t('spaList.noResults')}</p>
           )}
         </div>
       </div>

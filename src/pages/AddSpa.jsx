@@ -4,10 +4,14 @@ import clientApi from '../client-api/rest-client'; // Import clientApi
 import { message, Progress } from 'antd';  // Thêm các thành phần của antd để xử lý thông báo và thanh tiến trình
 import { uploadToCloudinary } from '../utils/uploadToCloudinary';  // Import hàm uploadToCloudinary
 import AdminLayout from '../components/admin/AdminLayout';
+import { TimePicker, Checkbox } from 'antd';
+import dayjs from 'dayjs';
 
 const AddSpa = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [workingTimes, setWorkingTimes] = useState({});
+
 
   // State cho thông tin spa
   const [spaInfo, setSpaInfo] = useState({
@@ -17,6 +21,15 @@ const AddSpa = () => {
     services: [''], // Ban đầu có một dịch vụ trống
     contactInfo: { phone: '', email: '' },
     description: '',  // Thêm trường description
+    workingHours: {
+      monday: '',
+      tuesday: '',
+      wednesday: '',
+      thursday: '',
+      friday: '',
+      saturday: '',
+      sunday: '',
+    },
   });
 
   const [isUpdate, setIsUpdate] = useState(false); // Kiểm tra xem có phải cập nhật hay không
@@ -45,25 +58,57 @@ const AddSpa = () => {
 
   // Tải thông tin khi đang chỉnh sửa spa
   useEffect(() => {
-    if (location.state?.action === 'update' && location.state?.type === 'spas') {
-      setSpaInfo({
-        name: location.state.name || '',
-        image: location.state.image || 'https://via.placeholder.com/150?text=Not+Available',
-        location: location.state.location || { province: '', district: '', ward: '', street: '' },
-        services: location.state.services || [''],
-        contactInfo: location.state.contactInfo || { phone: '', email: '' },
-        description: location.state.description || '',
-        id: location.state.id, // Lưu id khi chỉnh sửa
+    const spaData = location.state;
+  
+    if (spaData?.action === 'update' && spaData?.type === 'spas') {
+      const rawWorkingHours = spaData.workingHours || {
+        monday: '', tuesday: '', wednesday: '', thursday: '',
+        friday: '', saturday: '', sunday: ''
+      };
+  
+      const parsedTimes = {};
+      const updatedWorkingHours = {};
+  
+      Object.entries(rawWorkingHours).forEach(([day, value]) => {
+        if (value === 'Closed') {
+          parsedTimes[day] = { start: '', end: '', closed: true };
+          updatedWorkingHours[day] = 'Closed';
+        } else if (value.includes(' - ')) {
+          const [start, end] = value.split(' - ').map(t => t.trim());
+          parsedTimes[day] = { start, end, closed: false };
+          updatedWorkingHours[day] = `${start} - ${end}`;
+        } else if (value.trim()) {
+          parsedTimes[day] = { start: value.trim(), end: '', closed: false };
+          updatedWorkingHours[day] = value.trim();
+        } else {
+          parsedTimes[day] = { start: '', end: '', closed: false };
+          updatedWorkingHours[day] = '';
+        }
       });
+  
+      setSpaInfo({
+        name: spaData.name || '',
+        image: spaData.image || 'https://via.placeholder.com/150?text=Not+Available',
+        location: spaData.location || { province: '', district: '', ward: '', street: '' },
+        services: spaData.services && spaData.services.length > 0 ? spaData.services : [''],
+        contactInfo: spaData.contactInfo || { phone: '', email: '' },
+        description: spaData.description || '',
+        workingHours: updatedWorkingHours,
+        id: spaData.id,
+      });
+  
+      setWorkingTimes(parsedTimes);
       setIsUpdate(true);
     }
-  }, [location.state]);
+  }, [location.state]);  
 
   // Hàm xử lý thay đổi dữ liệu
   const handleChange = (e, index) => {
-    const { name, value } = e.target;
-
-    if (name.startsWith('location')) {
+    const name = e.target?.name || e.name;
+    const value = e.target?.value ?? e.value;
+  
+    // Xử lý địa chỉ
+    if (name.startsWith('location.')) {
       const locationField = name.split('.')[1];
       setSpaInfo((prevState) => ({
         ...prevState,
@@ -72,14 +117,17 @@ const AddSpa = () => {
           [locationField]: value,
         },
       }));
-    } else if (name.startsWith('contactInfo')) {
+    }
+  
+    // Xử lý thông tin liên hệ
+    else if (name.startsWith('contactInfo.')) {
       const contactField = name.split('.')[1];
-
-      if (contactField === 'phone' && !/^\d+$/.test(value)) {
+  
+      if (contactField === 'phone' && value && !/^\d+$/.test(value)) {
         message.error('Phone number must be a valid number!');
         return;
       }
-
+  
       setSpaInfo((prevState) => ({
         ...prevState,
         contactInfo: {
@@ -87,32 +135,54 @@ const AddSpa = () => {
           [contactField]: value,
         },
       }));
-    } else if (name.startsWith('services')) {
-      const serviceIndex = parseInt(name.split('.')[1], 10);  // Lấy chỉ số dịch vụ
+    }
+  
+    // Xử lý thời gian làm việc
+    else if (name.startsWith('workingHours.')) {
+      const day = name.split('.')[1];
+      setSpaInfo((prevState) => ({
+        ...prevState,
+        workingHours: {
+          ...prevState.workingHours,
+          [day]: value,
+        },
+      }));
+    }
+  
+    // Xử lý dịch vụ
+    else if (name.startsWith('services.')) {
+      const serviceIndex = parseInt(name.split('.')[1], 10);
       const updatedServices = [...spaInfo.services];
-      updatedServices[serviceIndex] = value;  // Cập nhật dịch vụ ở chỉ số tương ứng
-
+      updatedServices[serviceIndex] = value;
+  
+      // Kiểm tra trống
       if (updatedServices[serviceIndex].trim() === '') {
         message.error('Service cannot be empty!');
         return;
       }
-
+  
       setSpaInfo((prevState) => ({
         ...prevState,
         services: updatedServices,
       }));
-    } else if (name === 'description') {
+    }
+  
+    // Xử lý mô tả
+    else if (name === 'description') {
       setSpaInfo((prevState) => ({
         ...prevState,
         description: value,
       }));
-    } else {
+    }
+  
+    // Xử lý các trường khác nếu có
+    else {
       setSpaInfo((prevState) => ({
         ...prevState,
         [name]: value,
       }));
     }
-  };
+  };  
 
   // Hàm thêm dịch vụ mới
   const handleAddService = () => {
@@ -388,6 +458,112 @@ const AddSpa = () => {
               rows="4"
               placeholder="Enter a description for the spa"
             />
+          </div>
+
+          {/* Working Hours */}
+          <div>
+            <label className="block text-lg font-medium text-teal-500 mb-4">
+              Working Hours
+            </label>
+            {Object.entries(spaInfo.workingHours).map(([day, value]) => {
+              const isClosed = value === 'Closed';
+              const [start, end] = !isClosed && value.includes(' - ')
+                ? value.split(' - ')
+                : [null, null];
+
+              return (
+                <div
+                  key={day}
+                  className="flex flex-col md:flex-row md:items-center gap-4 mb-4"
+                >
+                  <label className="w-28 capitalize text-gray-700">{day}:</label>
+
+                  <div className="flex gap-2 items-center flex-wrap">
+                    <TimePicker
+                      format="HH:mm"
+                      value={workingTimes[day]?.start ? dayjs(workingTimes[day].start, 'HH:mm') : null}
+                      onChange={(time, timeString) => {
+                        const newStart = timeString || '';
+                        const currentEnd = workingTimes[day]?.end || spaInfo.workingHours[day]?.split(' - ')[1] || '';
+                        
+                        const newVal = currentEnd
+                          ? `${newStart} - ${currentEnd}`
+                          : newStart;
+
+                        setWorkingTimes(prev => ({
+                          ...prev,
+                          [day]: {
+                            ...prev[day],
+                            start: newStart,
+                            end: currentEnd,
+                          },
+                        }));
+
+                        handleChange({
+                          name: `workingHours.${day}`,
+                          value: newVal,
+                        });
+                      }}
+                      disabled={isClosed}
+                      placeholder="Start"
+                    />
+
+                    <TimePicker
+                      format="HH:mm"
+                      value={workingTimes[day]?.end ? dayjs(workingTimes[day].end, 'HH:mm') : null}
+                      onChange={(time, timeString) => {
+                        const newEnd = timeString || '';
+                        const currentStart = workingTimes[day]?.start || spaInfo.workingHours[day]?.split(' - ')[0] || '';
+                        
+                        const newVal = currentStart
+                          ? `${currentStart} - ${newEnd}`
+                          : newEnd;
+
+                        setWorkingTimes(prev => ({
+                          ...prev,
+                          [day]: {
+                            ...prev[day],
+                            start: currentStart,
+                            end: newEnd,
+                          },
+                        }));
+
+                        handleChange({
+                          name: `workingHours.${day}`,
+                          value: newVal,
+                        });
+                      }}
+                      disabled={isClosed}
+                      placeholder="End"
+                    />
+
+                    <Checkbox
+                      checked={workingTimes[day]?.closed || false}
+                      onChange={(e) => {
+                        const isChecked = e.target.checked;
+
+                        setWorkingTimes(prev => ({
+                          ...prev,
+                          [day]: {
+                            start: '',
+                            end: '',
+                            closed: isChecked,
+                          },
+                        }));
+
+                        handleChange({
+                          name: `workingHours.${day}`,
+                          value: isChecked ? 'Closed' : '',
+                        });
+                      }}
+                    >
+                      Closed
+                    </Checkbox>
+
+                  </div>
+                </div>
+              );
+            })}
           </div>
   
           {/* Buttons */}
