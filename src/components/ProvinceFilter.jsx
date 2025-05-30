@@ -28,6 +28,7 @@ const ProvinceFilter = ({ onFilter, type }) => {
   const [userRole, setUserRole] = useState(null); // State để lưu role
   const [visibleCount, setVisibleCount] = useState(6);
   const { t } = useTranslation();
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const role = localStorage.getItem('role');
@@ -158,43 +159,40 @@ const ProvinceFilter = ({ onFilter, type }) => {
 
       {type === 'dogsellers' && (
         <>
-          <h4 className="text-sm font-semibold text-gray-600 mt-4 mb-2">{t('provinceFilter.selectBreeds')}</h4>
-          <div className="grid grid-cols-1 gap-4 justify-start">
-            {items.slice(0, visibleCount).map((breed) => (
-              <label key={breed.id} className="flex items-center text-gray-700">
-                <input
-                  type="checkbox"
-                  value={breed.id}
-                  checked={selectedItems.includes(breed.id)}
-                  onChange={() => handleItemChange(breed.id)}
-                  className="custom-checkbox mr-2"
-                />
-                {breed.name}
-              </label>
-            ))}
-          </div>
-          {visibleCount < items.length && (
-            <div
-              onClick={handleLoadMore}
-              className="cursor-pointer mt-4 text-teal-500 flex items-center gap-1 hover:underline"
-            >
-              <span>{t('provinceFilter.more')}</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-4 h-4"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M19.5 8.25l-7.5 7.5-7.5-7.5"
-                />
-              </svg>
+          <h4 className="text-sm font-semibold text-gray-600 mt-4 mb-2">
+            {t('provinceFilter.selectBreeds')}
+          </h4>
+
+          {/* Search box */}
+          <input
+            type="text"
+            placeholder={t('provinceFilter.searchBreed')}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="mb-2 px-3 py-2 border border-gray-300 rounded w-full text-sm"
+          />
+
+          {/* Scrollable list */}
+          <div className="max-h-64 overflow-y-auto border border-gray-200 rounded p-2">
+            <div className="grid grid-cols-1 gap-2">
+              {items
+                .filter((breed) =>
+                  breed.name.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+                .map((breed) => (
+                  <label key={breed.id} className="flex items-center text-gray-700">
+                    <input
+                      type="checkbox"
+                      value={breed.id}
+                      checked={selectedItems.includes(breed.id)}
+                      onChange={() => handleItemChange(breed.id)}
+                      className="custom-checkbox mr-2"
+                    />
+                    {breed.name}
+                  </label>
+                ))}
             </div>
-          )}
+          </div>
         </>
       )}
 

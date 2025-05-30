@@ -1492,13 +1492,15 @@
     "noResults": "Không tìm thấy Spa nào.",
     "prev": "Trước",
     "next": "Sau",
-    "title2": "Danh sách nhà huấn luyện"
+    "title2": "Danh sách nhà huấn luyện",
+    "title3": "Danh sách nhà bán chó"
   },
   "provinceFilter": {
     "selectProvince": "Chọn tỉnh",
     "allProvinces": "Tất cả các tỉnh",
     "selectServices": "Chọn dịch vụ",
     "selectBreeds": "Chọn giống chó",
+    "searchBreed": "Tìm giống chó...",
     "more": "Xem thêm",
     "filter": "Lọc",
     "reset": "Đặt lại",
@@ -1631,7 +1633,9 @@
     "workingHours": "Giờ làm việc",
     "noSchedule": "Không có lịch",
     "description": "Mô tả",
-    "noDescription": "Không có mô tả."
+    "noDescription": "Không có mô tả.",
+    "breeds": "Giống chó",
+    "noBreeds": "Không có giống chó nào"
   },
   "days": {
     "monday": "Thứ Hai",
@@ -1684,5 +1688,8 @@
     "Sophia Adams": "Sophia Adams chuyên clicker, nhanh nhẹn và điều chỉnh hành vi. Cô giúp chó học nhanh qua củng cố tích cực và cải thiện hành vi.",
     "Amelia Carter": "Amelia Carter cung cấp huấn luyện về vâng lời và sức khỏe. Phương pháp của cô giúp chó xây dựng sự gắn bó và lối sống lành mạnh."
   },
-  "searchTrainerPlaceholder": "Tìm huấn luyện viên theo tên..."
+  "searchTrainerPlaceholder": "Tìm huấn luyện viên theo tên...",
+  "searchTrainerTitle": "Tìm huấn luyện viên",
+  "searchDogSellerTitle": "Tìm người bán chó",
+  "searchDogSellerPlaceholder": "Nhập tên người bán chó..."
 }

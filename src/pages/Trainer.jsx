@@ -123,6 +123,9 @@ const Trainer = () => {
 
           {/* Ô tìm kiếm - cập nhật giao diện giống admin */}
           <div className="mt-6">
+            <h4 className="text-sm font-semibold text-gray-600 mb-2">
+              {t('searchTrainerTitle')}
+            </h4>
             <input
               type="text"
               value={searchKeyword}

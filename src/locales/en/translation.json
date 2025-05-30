@@ -1492,13 +1492,15 @@
     "noResults": "No Spas found.",
     "prev": "Prev",
     "next": "Next",
-    "title2": "Trainers List"
+    "title2": "Trainers List",
+    "title3": "Dog Seller List"
   },
   "provinceFilter": {
     "selectProvince": "Select Province",
     "allProvinces": "All Provinces",
     "selectServices": "Select Services",
     "selectBreeds": "Select Breeds",
+    "searchBreed": "Search breed...",
     "more": "More",
     "filter": "Filter",
     "reset": "Reset",
@@ -1631,7 +1633,9 @@
     "workingHours": "Working Hours",
     "noSchedule": "No schedule",
     "description": "Description",
-    "noDescription": "No description provided."
+    "noDescription": "No description provided.",
+    "breeds": "Breeds",
+    "noBreeds": "No breeds available"
   },
   "days": {
     "monday": "Monday",
@@ -1684,5 +1688,9 @@
     "Sophia Adams": "Sophia Adams specializes in clicker training, agility, and behavior modification. She uses positive reinforcement and the clicker method to make training more enjoyable for your dog, improving both behavior and agility. Her holistic approach ensures your dog learns quickly while having fun.",
     "Amelia Carter": "Amelia Carter offers obedience and health training for dogs, focusing on building strong bonds and improving physical fitness. Her training methods teach dogs to obey commands while also maintaining a healthy lifestyle, ensuring their mental and physical well-being."
   },
-  "searchTrainerPlaceholder": "Search trainer by name..."
+  "searchTrainerPlaceholder": "Search trainer by name...",
+  "searchTrainerTitle": "Search Trainer",
+  "searchDogSellerTitle": "Search Dog Seller",
+  "searchDogSellerPlaceholder": "Enter dog seller name...",
+  "noDetails": "No details available for this dog seller."
 }
