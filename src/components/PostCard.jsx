@@ -2,15 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaTrashAlt, FaWrench } from 'react-icons/fa';
 import clientApi from '../client-api/rest-client';
-import { message,Modal } from 'antd';
+import { message, Modal } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 const PostCard = ({ id, image, title, sdescription, author, content, category, postID }) => {
   const navigate = useNavigate();
   const [isManager, setIsManager] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const role = localStorage.getItem('role');
-    setIsManager(role === 'manager'); // Kiểm tra role có phải manager hay không
+    setIsManager(role === 'manager');
   }, []);
 
   const handleCardClick = () => {
@@ -19,33 +21,31 @@ const PostCard = ({ id, image, title, sdescription, author, content, category, p
 
   const handleDelete = async (e) => {
     e.stopPropagation();
-  
-    // Sử dụng Modal.confirm để yêu cầu xác nhận
+
     Modal.confirm({
-      title: 'Are you sure you want to delete this item?',
-      content: 'This action cannot be undone.',
-      okText: 'Yes',
-      cancelText: 'No',
+      title: t('confirm_delete_title'),
+      content: t('confirm_delete_description'),
+      okText: t('yes'),
+      cancelText: t('no'),
       onOk: async () => {
         try {
-          const api = clientApi.service('posts');  // Gọi API service với loại đối tượng cần xóa
-          await api.delete(id);  // Thực hiện xóa
-          message.success('Item deleted successfully!');  // Hiển thị thông báo thành công
-          window.location.reload();  // Làm mới trang sau khi xóa
+          const api = clientApi.service('posts');
+          await api.delete(id);
+          message.success(t('delete_success'));
+          window.location.reload();
         } catch (error) {
           console.error('Failed to delete item:', error);
-          message.error('Error deleting item');  // Hiển thị thông báo lỗi
+          message.error(t('delete_error'));
         }
       },
       onCancel: () => {
-        message.info('Deletion cancelled');  // Hiển thị thông báo khi người dùng hủy
+        message.info(t('delete_cancelled'));
       },
     });
   };
 
   const handleUpdate = (e) => {
     e.stopPropagation();
-
     navigate('/posts/add', {
       state: {
         type: 'update',

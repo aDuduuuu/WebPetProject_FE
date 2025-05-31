@@ -6,6 +6,8 @@ import { message, Progress } from 'antd';  // Thêm các thành phần của ant
 import { uploadToCloudinary } from '../utils/uploadToCloudinary';  // Import hàm uploadToCloudinary
 import Footer from '../components/Footer';
 import AdminLayout from '../components/admin/AdminLayout';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const AddPost = () => {
   const navigate = useNavigate();
@@ -256,14 +258,14 @@ const AddPost = () => {
               <label htmlFor="content" className="block text-lg font-medium text-teal-500 mb-2">
                 Content
               </label>
-              <textarea
-                id="content"
-                name="content"
+              <ReactQuill
+                theme="snow"
                 value={postInfo.content}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-                rows="6"
-                required
+                onChange={(value) =>
+                  setPostInfo((prev) => ({ ...prev, content: value }))
+                }
+                className="bg-white rounded shadow"
+                placeholder="Write your post content here..."
               />
             </div>
 
