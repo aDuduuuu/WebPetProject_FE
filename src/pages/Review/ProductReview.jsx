@@ -17,9 +17,20 @@ const ProductReview = (props) => {
             for (let i = 0; i < listReview.length; i++) {
                 totalRate += +listReview[i].rating;
             }
-            setTotalReview(totalRate / listReview.length);
+            const avg = totalRate / listReview.length;
+            setTotalReview(avg);
+
+            if (props.onRatingCalculated) {
+                props.onRatingCalculated(avg, listReview.length); // Gửi về parent: avg + total reviews
+            }
+        } else {
+            setTotalReview(0);
+            if (props.onRatingCalculated) {
+                props.onRatingCalculated(0, 0); // Trường hợp không có đánh giá
+            }
         }
     }, [listReview]);
+
     let fetchListOrder = async () => {
         let reviews = clientApi.service('reviews');
         try {
@@ -36,13 +47,13 @@ const ProductReview = (props) => {
 
     return (
         <div className="product-review">
-            <h2>Đánh giá sản phẩm</h2>
+            <h2>Product ratings</h2>
             <div className="rating-summary">
                 <Row>
                     <Col span={12}>
                         <div className="d-flex align-items-end overall-rating">
                             <Rate disabled value={+totalReview}></Rate>
-                            <h3 className="ms-5">{totalReview} trên 5 sao</h3>
+                            <h3 className="ms-5">{totalReview} out of 5</h3>
 
                         </div>
                     </Col>

@@ -87,11 +87,10 @@ const Product = () => {
         {pageNumbers.map((num) => (
           <button
             key={num}
-            className={`px-3 py-1 border rounded ${
-              page === num
-                ? 'bg-teal-500 text-white'
-                : 'bg-white text-teal-600 border-teal-500 hover:bg-teal-100'
-            }`}
+            className={`px-3 py-1 border rounded ${page === num
+              ? 'bg-teal-500 text-white'
+              : 'bg-white text-teal-600 border-teal-500 hover:bg-teal-100'
+              }`}
             onClick={() => setPage(num)}
           >
             {num}
@@ -115,9 +114,8 @@ const Product = () => {
       <div className="flex">
         {/* Bộ lọc + tìm kiếm */}
         <div className="w-1/4 bg-white p-6 shadow-lg">
-          <ProductFilter onFilter={handleFilterChange} />
 
-          <div className="mt-6">
+          <div className="mb-4">
             <input
               type="text"
               value={searchKeyword}
@@ -126,6 +124,9 @@ const Product = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
+          <ProductFilter onFilter={handleFilterChange} />
+
+
         </div>
 
         {/* Danh sách sản phẩm */}
