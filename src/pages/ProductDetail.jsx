@@ -6,6 +6,8 @@ import Footer from "../components/Footer";
 import { message, Rate } from "antd";
 import { FaHeart } from "react-icons/fa"; // Thêm import cho biểu tượng trái tim
 import ProductReview from "./Review/ProductReview";
+import ReactMarkdown from "react-markdown";
+
 
 const ProductDetail = () => {
   const { id } = useParams(); // Lấy ID từ URL
@@ -306,9 +308,14 @@ const ProductDetail = () => {
               Description
             </h2>
             <hr className="my-4 border-t border-gray-500" />
-            <p className="text-gray-600 mb-4">
-              {product.description || "No description available."}
-            </p>
+            <div className="text-gray-600 mb-4 prose max-w-full">
+              {product.description ? (
+                <ReactMarkdown>{product.description}</ReactMarkdown>
+              ) : (
+                "No description available."
+              )}
+            </div>
+
 
           </div>
 

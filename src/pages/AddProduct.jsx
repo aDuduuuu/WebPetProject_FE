@@ -5,6 +5,11 @@ import { message, Progress } from 'antd';  // Thêm các thành phần của ant
 import { uploadToCloudinary } from '../utils/uploadToCloudinary';  // Import hàm uploadToCloudinary
 import "../css/NumberType.css"
 import AdminLayout from '../components/admin/AdminLayout';
+import MdEditor from 'react-markdown-editor-lite';
+import 'react-markdown-editor-lite/lib/index.css';
+import ReactMarkdown from "react-markdown";
+
+
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -106,14 +111,15 @@ const AddProduct = () => {
     try {
       const productService = clientApi.service('products');
       if (isUpdate) {
-        // Update existing product
-        await productService.patch(productInfo.id, productInfo);
+        // Remove productCode before updating
+        const { productCode, ...updatedInfo } = productInfo;
+        await productService.patch(productInfo.id, updatedInfo);
         message.success('Product updated successfully!');
       } else {
-        // Create new product
         await productService.create(productInfo);
         message.success('Product added successfully!');
       }
+
       navigate('/products'); // Redirect to the product list
     } catch (err) {
       console.error('Error saving product:', err);
@@ -212,7 +218,7 @@ const AddProduct = () => {
                 required
               >
                 <option value="">Select Product Type</option>
-                {productTypes.map((productType,index) => (
+                {productTypes.map((productType, index) => (
                   <option key={index} value={productType}>
                     {productType}
                   </option>
@@ -255,7 +261,7 @@ const AddProduct = () => {
             </div>
 
             {/* Description */}
-            <div>
+            {/* <div>
               <label htmlFor="description" className="block text-lg font-medium text-teal-500 mb-2">
                 Description
               </label>
@@ -266,6 +272,21 @@ const AddProduct = () => {
                 onChange={handleChange}
                 className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
               />
+            </div> */}
+
+            <div>
+              <label className="block text-lg font-medium text-teal-500 mb-2">
+                Description (Markdown supported)
+              </label>
+              <MdEditor
+                value={productInfo.description}
+                style={{ height: '400px' }}
+                renderHTML={(text) => <ReactMarkdown>{text}</ReactMarkdown>}
+                onChange={({ text }) =>
+                  setProductInfo((prev) => ({ ...prev, description: text }))
+                }
+              />
+
             </div>
 
             {/* Buttons */}
