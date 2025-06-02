@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const ProductFilter = ({ onFilter }) => {
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [sortBy, setSortBy] = useState('');
@@ -14,19 +18,16 @@ const ProductFilter = ({ onFilter }) => {
     setIsManager(role === 'manager');
   }, []);
 
-  const navigate = useNavigate();
-
   const handleToggleMenu = (menu) => {
     setOpenMenu((prev) => ({ ...prev, [menu]: !prev[menu] }));
   };
 
   const handleProductTypeClick = (type) => {
-    setSelectedProductType(type);
-    onFilter({ Type: type, minPrice, maxPrice, sortBy });
+    setSelectedProductType(type); // ❗️Chỉ cập nhật state
   };
 
   const handleFilterClick = () => {
-    onFilter({ Type: selectedProductType, minPrice, maxPrice, sortBy });
+    onFilter({ productType: selectedProductType, minPrice, maxPrice, sortBy });
   };
 
   const handleResetClick = () => {
@@ -35,65 +36,40 @@ const ProductFilter = ({ onFilter }) => {
     setSortBy('');
     setSelectedProductType('');
     setOpenMenu({ dog: false, you: false });
-    onFilter({ Type: '', minPrice: '', maxPrice: '', sortBy: '' });
+    onFilter({ productType: '', minPrice: '', maxPrice: '', sortBy: '' });
   };
 
   const handleAddProductClick = () => {
     navigate('/products/add');
   };
 
-  // Hàm kiểm tra giá trị hợp lệ (chỉ số dương)
-  const validatePrice = (value) => {
-    // Chỉ cho phép số dương và không cho phép chữ cái hay ký tự đặc biệt
-    return /^[0-9]*$/.test(value);
-  };
+  const validatePrice = (value) => /^[0-9]*$/.test(value);
 
   return (
     <div className="filter-group mb-6">
       {/* Product Type */}
-      <h4 className="text-sm font-semibold text-gray-600 mb-4">Product Type</h4>
+      <h4 className="text-sm font-semibold text-gray-600 mb-4">{t('productFilter.productType')}</h4>
       <div className="flex flex-col space-y-2 mb-4">
         <div>
           <button
             onClick={() => handleToggleMenu('dog')}
             className="w-full text-left p-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
           >
-            For Your Dog
+            {t('productFilter.forDog')}
           </button>
           {openMenu.dog && (
             <div className="ml-4 mt-2 space-y-2">
-              <button
-                onClick={() => handleProductTypeClick('Food')}
-                className={`w-full text-left p-2 rounded-md ${
-                  selectedProductType === 'Food' ? 'bg-teal-500 text-white' : 'text-gray-700'
-                }`}
-              >
-                Food
-              </button>
-              <button
-                onClick={() => handleProductTypeClick('Accessory')}
-                className={`w-full text-left p-2 rounded-md ${
-                  selectedProductType === 'Accessory' ? 'bg-teal-500 text-white' : 'text-gray-700'
-                }`}
-              >
-                Accessory
-              </button>
-              <button
-                onClick={() => handleProductTypeClick('Clothes')}
-                className={`w-full text-left p-2 rounded-md ${
-                  selectedProductType === 'Clothes' ? 'bg-teal-500 text-white' : 'text-gray-700'
-                }`}
-              >
-                Clothes
-              </button>
-              <button
-                onClick={() => handleProductTypeClick('Toy')}
-                className={`w-full text-left p-2 rounded-md ${
-                  selectedProductType === 'Toy' ? 'bg-teal-500 text-white' : 'text-gray-700'
-                }`}
-              >
-                Toy
-              </button>
+              {['Food', 'Accessory', 'Clothes', 'Toy'].map((type) => (
+                <button
+                  key={type}
+                  onClick={() => handleProductTypeClick(type)}
+                  className={`w-full text-left p-2 rounded-md ${
+                    selectedProductType === type ? 'bg-teal-500 text-white' : 'text-gray-700'
+                  }`}
+                >
+                  {t(`productTypes.${type}`)}
+                </button>
+              ))}
             </div>
           )}
         </div>
@@ -103,37 +79,32 @@ const ProductFilter = ({ onFilter }) => {
             onClick={() => handleToggleMenu('you')}
             className="w-full text-left p-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-100"
           >
-            For You
+            {t('productFilter.forYou')}
           </button>
           {openMenu.you && (
             <div className="ml-4 mt-2 space-y-2">
-              <button
-                onClick={() => handleProductTypeClick('Human Clothes')}
-                className={`w-full text-left p-2 rounded-md ${
-                  selectedProductType === 'Human Clothes' ? 'bg-teal-500 text-white' : 'text-gray-700'
-                }`}
-              >
-                Human Clothes
-              </button>
-              <button
-                onClick={() => handleProductTypeClick('Human Accessory')}
-                className={`w-full text-left p-2 rounded-md ${
-                  selectedProductType === 'Human Accessory' ? 'bg-teal-500 text-white' : 'text-gray-700'
-                }`}
-              >
-                Human Accessory
-              </button>
+              {['Human Clothes', 'Human Accessory'].map((type) => (
+                <button
+                  key={type}
+                  onClick={() => handleProductTypeClick(type)}
+                  className={`w-full text-left p-2 rounded-md ${
+                    selectedProductType === type ? 'bg-teal-500 text-white' : 'text-gray-700'
+                  }`}
+                >
+                  {t(`productTypes.${type}`)}
+                </button>
+              ))}
             </div>
           )}
         </div>
       </div>
 
       {/* Price Range */}
-      <h4 className="text-sm font-semibold text-gray-600 mb-4">Price Range</h4>
+      <h4 className="text-sm font-semibold text-gray-600 mb-4">{t('productFilter.priceRange')}</h4>
       <div className="flex space-x-2 mb-4">
         <input
           type="number"
-          placeholder="Min Price"
+          placeholder={t('productFilter.minPrice')}
           value={minPrice}
           onChange={(e) => {
             if (validatePrice(e.target.value)) {
@@ -144,7 +115,7 @@ const ProductFilter = ({ onFilter }) => {
         />
         <input
           type="number"
-          placeholder="Max Price"
+          placeholder={t('productFilter.maxPrice')}
           value={maxPrice}
           onChange={(e) => {
             if (validatePrice(e.target.value)) {
@@ -156,18 +127,18 @@ const ProductFilter = ({ onFilter }) => {
       </div>
 
       {/* Sort Options */}
-      <h4 className="text-sm font-semibold text-gray-600 mb-4">Sort Options</h4>
+      <h4 className="text-sm font-semibold text-gray-600 mb-4">{t('productFilter.sortOptions')}</h4>
       <div className="flex flex-col space-y-2 mb-4">
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
           className="p-2 border border-gray-300 rounded-md"
         >
-          <option value="">None</option>
-          <option value="aprice">Price: Low to High</option>
-          <option value="dprice">Price: High to Low</option>
-          <option value="time">Time: Newest</option>
-          <option value="otime">Time: Oldest</option>
+          <option value="">{t('productFilter.sort.none')}</option>
+          <option value="aprice">{t('productFilter.sort.lowToHigh')}</option>
+          <option value="dprice">{t('productFilter.sort.highToLow')}</option>
+          <option value="time">{t('productFilter.sort.newest')}</option>
+          <option value="otime">{t('productFilter.sort.oldest')}</option>
         </select>
       </div>
 
@@ -177,16 +148,16 @@ const ProductFilter = ({ onFilter }) => {
           className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
           onClick={handleFilterClick}
         >
-          Filter
+          {t('actions.filter')}
         </button>
         <button
           className="px-4 py-2 bg-gray-300 text-black rounded hover:bg-gray-400 w-full"
           onClick={handleResetClick}
         >
-          Reset
+          {t('actions.reset')}
         </button>
       </div>
-    
+
       {/* Add Product Button */}
       {isManager && (
         <div className="flex mb-4">
@@ -194,7 +165,7 @@ const ProductFilter = ({ onFilter }) => {
             className="px-4 py-2 bg-teal-500 text-white rounded hover:bg-teal-600 w-full"
             onClick={handleAddProductClick}
           >
-            Add Product
+            {t('actions.addProduct')}
           </button>
         </div>
       )}

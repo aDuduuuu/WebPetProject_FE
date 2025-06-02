@@ -4,6 +4,7 @@ import Footer from '../components/Footer';
 import ProductFilter from '../components/ProductFilter';
 import Card from '../components/Card';
 import clientApi from '../client-api/rest-client';
+import { useTranslation } from 'react-i18next';
 
 const Product = () => {
   const [productList, setProductList] = useState([]);
@@ -12,6 +13,7 @@ const Product = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [filters, setFilters] = useState({ productType: '', minPrice: '', maxPrice: '', sortBy: '' });
   const [searchKeyword, setSearchKeyword] = useState('');
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -120,7 +122,7 @@ const Product = () => {
               type="text"
               value={searchKeyword}
               onChange={handleSearchChange}
-              placeholder="Search product by name..."
+              placeholder={t("search.placeholder")}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
           </div>
@@ -131,6 +133,26 @@ const Product = () => {
 
         {/* Danh sách sản phẩm */}
         <div className="w-3/4 p-6">
+          <div className="mb-6 flex items-center justify-between">
+            <h1 className="text-2xl font-semibold text-gray-800">
+              {t('product_list')}
+            </h1>
+
+            <div className="flex space-x-2">
+              <button
+                onClick={() => i18n.changeLanguage('en')}
+                className="px-3 py-1 border border-teal-500 text-teal-700 rounded text-sm hover:bg-teal-100"
+              >
+                EN
+              </button>
+              <button
+                onClick={() => i18n.changeLanguage('vi')}
+                className="px-3 py-1 border border-teal-500 text-teal-700 rounded text-sm hover:bg-teal-100"
+              >
+                VI
+              </button>
+            </div>
+          </div>
           {productList.length > 0 ? (
             <>
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">

@@ -72,9 +72,9 @@ const Card = ({ id, image, name, location, services, contactInfo, price, type, a
   const renderDetails = () => {
     if (type === 'products') {
       return (
-        <>
-          <p className="text-sm text-gray-600">{t('card.price')}: {price} VNĐ</p>
-        </>
+        <p className="text-sm text-gray-600">
+          {t('card.price')}: {new Intl.NumberFormat('vi-VN').format(price)} VNĐ
+        </p>
       );
     }
     if (type === 'dogsellers') {

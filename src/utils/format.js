@@ -1,6 +1,9 @@
 export const formatCurrency = (amount) => {
-    return `${amount?.toFixed(2) || 0} VNĐ`;
-};
+    if (typeof amount !== "number") amount = Number(amount) || 0;
+  
+    return `${amount.toLocaleString("vi-VN")} VNĐ`;
+  };
+  
 export const formatDay = (date) => {
     return new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(date));
 };

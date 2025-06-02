@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import "../css/Header.css";
 import clientApi from "../client-api/rest-client";
+import { useTranslation } from 'react-i18next';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -20,6 +21,7 @@ const Header = () => {
   const breedMenuRef = useRef(null);
   const serviceMenuRef = useRef(null);
   const [isManager, setIsManager] = useState(false);
+  const { t } = useTranslation();
   const [userInfo, setUserInfo] = useState({
     email: '',
     fullName: '',
@@ -169,84 +171,48 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full bg-[#16423C] p-4 flex justify-between items-center text-white relative">
+    <header className="w-full bg-[#16423C] p-4 flex justify-between items-center text-white relative z-30">
       <div className="text-2xl font-bold flex items-center cursor-pointer" onClick={handleLogoClick}>
         <img src={logo} alt="WoofHaven Logo" className="w-10 h-10 mr-2" />
         WoofHaven
       </div>
   
       <nav className="flex gap-6 text-lg relative">
-        <button onClick={toggleBreedMenu} className="hover:text-teal-400 relative">
-          Breeds
-        </button>
-        <button onClick={toggleServiceMenu} className="hover:text-teal-400 relative">
-          Services
-        </button>
-        <button onClick={handleStore} className="hover:text-teal-400 relative">
-          Store
-        </button>
-        <button onClick={handlePost} className="hover:text-teal-400 relative">
-          Post
-        </button>
-        <button onClick={() => navigate("/cart")} className="hover:text-teal-400 relative">
-          Cart
-        </button>
+        <button onClick={toggleBreedMenu} className="hover:text-teal-400 relative">{t('header.breeds')}</button>
+        <button onClick={toggleServiceMenu} className="hover:text-teal-400 relative">{t('header.services')}</button>
+        <button onClick={handleStore} className="hover:text-teal-400 relative">{t('header.store')}</button>
+        <button onClick={handlePost} className="hover:text-teal-400 relative">{t('header.post')}</button>
+        <button onClick={() => navigate("/cart")} className="hover:text-teal-400 relative">{t('header.cart')}</button>
         {isManager && (
-          <button onClick={() => navigate("/manageorder")} className="hover:text-teal-400 relative">
-            Order
-          </button>
+          <button onClick={() => navigate("/manageorder")} className="hover:text-teal-400 relative">{t('header.order')}</button>
         )}
+  
         {isBreedMenuOpen && (
           <div
             ref={breedMenuRef}
             className="absolute top-14 left-0 w-[700px] h-[260px] bg-white text-gray-700 p-6 rounded-lg shadow-lg z-10 flex justify-around"
           >
             <div className="flex flex-col items-start">
-              <button onClick={handleViewAllBreeds} className="text-teal-600 font-bold mb-2">
-                Explore dog breeds
-              </button>
-              <button onClick={handleViewAllBreeds} className="mt-2 px-4 py-2 bg-teal-500 text-white rounded-lg">
-                See all
-              </button>
+              <button onClick={handleViewAllBreeds} className="text-teal-600 font-bold mb-2">{t('header.exploreBreeds')}</button>
+              <button onClick={handleViewAllBreeds} className="mt-2 px-4 py-2 bg-teal-500 text-white rounded-lg">{t('header.seeAll')}</button>
             </div>
             <div className="flex flex-col items-start mx-6">
-              <button
-                onClick={() => navigate("/bestDog")}
-                className="flex items-center text-teal-600 font-bold mb-2"
-              >
-                <FaHeart className="mr-2" /> Find your match
+              <button onClick={() => navigate("/bestDog")} className="flex items-center text-teal-600 font-bold mb-2">
+                <FaHeart className="mr-2" /> {t('header.findMatch')}
               </button>
-              <span className="text-sm text-gray-500">
-                Answer a few simple questions and find the right dog for you
-              </span>
-              <button
-                onClick={() => navigate("/compareDogs")}
-                className="flex items-center mt-2 text-teal-600 font-bold"
-              >
-                <FaBalanceScale className="mr-2" /> Compare breeds
+              <span className="text-sm text-gray-500">{t('header.matchHint')}</span>
+              <button onClick={() => navigate("/compareDogs")} className="flex items-center mt-2 text-teal-600 font-bold">
+                <FaBalanceScale className="mr-2" /> {t('header.compareBreeds')}
               </button>
-              <span className="text-sm text-gray-500">
-                Compare up to 5 different breeds side by side
-              </span>
-              <button
-                onClick={() => navigate("/dog-name-finder")}
-                className="flex items-center mt-2 text-teal-600 font-bold"
-              >
-                <FaPaw className="mr-2" /> Dog name finder
+              <span className="text-sm text-gray-500">{t('header.compareHint')}</span>
+              <button onClick={() => navigate("/dog-name-finder")} className="flex items-center mt-2 text-teal-600 font-bold">
+                <FaPaw className="mr-2" /> {t('header.nameFinder')}
               </button>
-              <span className="text-sm text-gray-500">
-                Find the perfect name for your dog
-              </span>
-              <button
-                onClick={() => navigate("/dogfoods")}
-                className="flex items-center mt-2 text-teal-600 font-bold"
-              >
-                <FaPaw className="mr-2" /> Dog food guide
+              <span className="text-sm text-gray-500">{t('header.nameHint')}</span>
+              <button onClick={() => navigate("/dogfoods")} className="flex items-center mt-2 text-teal-600 font-bold">
+                <FaPaw className="mr-2" /> {t('header.foodGuide')}
               </button>
-              <span className="text-sm text-gray-500">
-                Discover which foods are safe or toxic for your dog
-              </span>
-
+              <span className="text-sm text-gray-500">{t('header.foodHint')}</span>
             </div>
           </div>
         )}
@@ -256,99 +222,71 @@ const Header = () => {
             ref={serviceMenuRef}
             className="absolute top-14 left-0 w-[300px] bg-white text-gray-700 p-4 rounded-lg shadow-lg z-10"
           >
-            <p className="text-teal-600 font-bold mb-2">Looking for:</p>
-            <button
-              onClick={handleSpa}
-              className="flex items-center w-full text-left px-4 py-2 font-bold mb-2 hover:bg-gray-200"
-            >
+            <p className="text-teal-600 font-bold mb-2">{t('header.lookingFor')}</p>
+            <button onClick={handleSpa} className="flex items-center w-full text-left px-4 py-2 font-bold mb-2 hover:bg-gray-200">
               <IoSparklesOutline className="text-teal-500 mr-2" />
-              <span className="text-gray-600">Spa</span>
+              <span className="text-gray-600">{t('header.spa')}</span>
             </button>
-            <button
-              onClick={handleTrainer}
-              className="flex items-center w-full text-left px-4 py-2 font-bold mb-2 hover:bg-gray-200"
-            >
+            <button onClick={handleTrainer} className="flex items-center w-full text-left px-4 py-2 font-bold mb-2 hover:bg-gray-200">
               <GiWhistle className="text-teal-500 mr-2" />
-              <span className="text-gray-600">Trainer</span>
+              <span className="text-gray-600">{t('header.trainer')}</span>
             </button>
-            <button
-              onClick={handleDogseller}
-              className="flex items-center w-full text-left px-4 py-2 font-bold mb-2 hover:bg-gray-200"
-            >
+            <button onClick={handleDogseller} className="flex items-center w-full text-left px-4 py-2 font-bold mb-2 hover:bg-gray-200">
               <LuDog className="text-teal-500 mr-2" />
-              <span className="text-gray-600">Dog seller</span>
+              <span className="text-gray-600">{t('header.seller')}</span>
             </button>
           </div>
         )}
-  
       </nav>
   
       <div className="flex items-center gap-4 relative">
-  {isLoggedIn && (
-    <span className="text-white text-lg font italic">Hello, {userInfo.fullName}!</span>
-  )}
-  
-  <FaUserCircle className="text-3xl cursor-pointer" onClick={toggleMenu} />
-
-  {isMenuOpen && (
-    <div
-      ref={menuRef}
-      className="user-menu absolute right-0 mt-12 w-40 bg-white rounded-md shadow-lg z-20 transform translate-y-0"
-    >
-      <ul className="py-2">
-        {isLoggedIn ? (
-          <>
-            <li
-              className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-              onClick={handleAccount}
-            >
-              <FaUser className="inline-block mr-2 text-gray-600" /> Account
-            </li>
-            <li
-              className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-              onClick={() => navigate("/orderList")}
-            >
-              <FaClipboardList className="inline-block mr-2 text-gray-600" /> Your order
-            </li>
-            <li
-              className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-              onClick={handleFavor}
-            >
-              <FaHeart className="inline-block mr-2 text-red-500" /> Favorite
-            </li>
-            {/* Add the new Statistics button here */}
-            {isManager && (
-              <li
-                className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-                onClick={() => navigate("/statistics")}
-              >
-                <FaChartLine className="inline-block mr-2 text-gray-600" /> Statistics
-              </li>
-            )}
-            <li
-              className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-              onClick={handleLogout}
-            >
-              <FaSignOutAlt className="inline-block mr-2 text-gray-600" /> Logout
-            </li>
-          </>
-        ) : (
-          <li
-            className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer"
-            onClick={handleLogin}
-          >
-            <FaUser className="inline-block mr-2 text-gray-600" /> Login
-          </li>
+        {isLoggedIn && (
+          <span className="text-white text-lg italic">
+            {t('header.greeting', { name: userInfo.fullName })}
+          </span>
         )}
-      </ul>
-    </div>
-  )}
-
-  <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
-</div>
-
+  
+        <FaUserCircle className="text-3xl cursor-pointer" onClick={toggleMenu} />
+  
+        {isMenuOpen && (
+          <div
+            ref={menuRef}
+            className="user-menu absolute right-0 mt-12 w-40 bg-white rounded-md shadow-lg z-20 transform translate-y-0"
+          >
+            <ul className="py-2">
+              {isLoggedIn ? (
+                <>
+                  <li className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer" onClick={handleAccount}>
+                    <FaUser className="inline-block mr-2 text-gray-600" /> {t('header.account')}
+                  </li>
+                  <li className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer" onClick={() => navigate("/orderList")}>
+                    <FaClipboardList className="inline-block mr-2 text-gray-600" /> {t('header.yourOrder')}
+                  </li>
+                  <li className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer" onClick={handleFavor}>
+                    <FaHeart className="inline-block mr-2 text-red-500" /> {t('header.favorite')}
+                  </li>
+                  {isManager && (
+                    <li className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer" onClick={() => navigate("/statistics")}>
+                      <FaChartLine className="inline-block mr-2 text-gray-600" /> {t('header.statistics')}
+                    </li>
+                  )}
+                  <li className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer" onClick={handleLogout}>
+                    <FaSignOutAlt className="inline-block mr-2 text-gray-600" /> {t('header.logout')}
+                  </li>
+                </>
+              ) : (
+                <li className="px-4 py-2 text-gray-800 hover:bg-gray-200 cursor-pointer" onClick={handleLogin}>
+                  <FaUser className="inline-block mr-2 text-gray-600" /> {t('header.login')}
+                </li>
+              )}
+            </ul>
+          </div>
+        )}
+  
+        <ToastContainer position="top-right" autoClose={5000} hideProgressBar />
+      </div>
     </header>
-  );
+  );  
   
 };
 

@@ -1,13 +1,16 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Popover, Steps } from 'antd';
+
 const OrderStatus = (props) => {
-    const currentStep = props?.value; // Đặt bước hiện tại
+    const { t } = useTranslation();
+    const currentStep = props?.value;
 
     const customDot = (dot, { status, index }) => (
         <Popover
             content={
                 <span>
-                    Step {index + 1} status: {status}
+                    {t('Step')} {index + 1} {t('status')}: {status}
                 </span>
             }
         >
@@ -15,29 +18,27 @@ const OrderStatus = (props) => {
         </Popover>
     );
 
-    const description = 'You can hover on the dot.';
     return (
         <div className="process-order">
             <Steps
-                current={currentStep} // Bước hiện tại
+                current={currentStep}
                 progressDot={customDot}
                 items={[
                     {
-                        title: "Ordered",
-                        description: "Your order is confirmed.",
-
+                        title: t('Ordered'),
+                        description: t('Your order is confirmed.'),
                     },
                     {
-                        title: "Waiting shipping",
-                        description: "Preparing for shipment.",
+                        title: t('Waiting shipping'),
+                        description: t('Preparing for shipment.'),
                     },
                     {
-                        title: "Shipping",
-                        description: "Your package is on the way.",
+                        title: t('Shipping'),
+                        description: t('Your package is on the way.'),
                     },
                     {
-                        title: "Delivered",
-                        description: "Order successfully delivered.",
+                        title: t('Delivered'),
+                        description: t('Order successfully delivered.'),
                     },
                 ]}
             />

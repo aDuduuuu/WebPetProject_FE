@@ -7,10 +7,13 @@ import '../css/Home.css';
 import clientApi from '../client-api/rest-client';
 import { Link } from 'react-router-dom';
 import { FaPaw, FaSearch, FaBalanceScale, FaDog } from 'react-icons/fa'; // Icons for buttons
+import { useTranslation } from 'react-i18next';
+import i18n from 'i18next';
 
 const Home = () => {
   const [postList, setPostList] = useState([]);
   const [randomDogBreed, setRandomDogBreed] = useState(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     // Khởi tạo AOS
@@ -65,13 +68,30 @@ const Home = () => {
 
       {/* Hero Section */}
       <div className="hero-section h-screen bg-cover bg-center flex flex-col justify-center items-center relative p-20 lg:p-30">
+        {/* Language Switcher on top-right corner */}
+        <div className="absolute top-4 right-4 z-20">
+          <div className="flex space-x-2">
+            <button
+              onClick={() => i18n.changeLanguage('en')}
+              className="px-3 py-1 border border-white text-white bg-black bg-opacity-30 rounded text-sm hover:bg-opacity-50 transition"
+            >
+              EN
+            </button>
+            <button
+              onClick={() => i18n.changeLanguage('vi')}
+              className="px-3 py-1 border border-white text-white bg-black bg-opacity-30 rounded text-sm hover:bg-opacity-50 transition"
+            >
+              VI
+            </button>
+          </div>
+        </div>
         <div className="hero-overlay absolute top-0 left-0 right-0 bottom-0 bg-black opacity-50"></div>
         <div className="max-w-lg text-center space-y-4 z-10">
           <h1 className="text-4xl lg:text-5xl font-bold mb-4" data-aos="fade-up">
-            A Safe Haven for Your Furry Friend
+            {t('hero.title')}
           </h1>
           <p className="text-lg mb-6" data-aos="fade-up" data-aos-delay="200">
-            Provide your pet with the best care and attention they deserve at WoofHaven.
+            {t('hero.subtitle')}
           </p>
           <button 
             className="mt-4 px-6 py-3 bg-teal-500 rounded-lg text-lg font-semibold hover:bg-teal-700 transition duration-300" 
@@ -79,7 +99,7 @@ const Home = () => {
             data-aos-delay="400"
             onClick={() => window.location.href = '/products'} // Điều hướng đến trang /products
           >
-            Purchase
+            {t('hero.button')}
           </button>
         </div>
       </div>
@@ -87,7 +107,7 @@ const Home = () => {
       {/* Additional Content Section */}
       <div className="additional-content bg-gray-100 text-gray-800 p-8 lg:p-20 flex flex-col items-center space-y-8">
         <h2 className="text-3xl font-bold mb-4" data-aos="fade-up">
-          Latest Stories
+          {t('latestStories.title')}
         </h2>
 
         {/* Display Latest Posts */}
@@ -97,7 +117,7 @@ const Home = () => {
               <div className="card-home" data-aos="fade-up" data-aos-delay={`${index * 100}`}>
                 <img src={post.image} alt={post.title} />
                 <div className="content p-4">
-                  <h3 className="text-xl font-semibold text-gray-800">{post.title}</h3>
+                  <h3 className="text-xl font-semibold text-gray-800">{t(post.title)}</h3>
                   <p className="text-sm text-gray-600 mt-2">{post.category}</p>
                 </div>
               </div>
@@ -109,7 +129,7 @@ const Home = () => {
       <div className="about-section bg-gray-100 text-gray-800 p-8 lg:p-20 flex flex-col items-center space-y-8">
         {/* Title */}
         <h2 className="text-3xl font-bold mb-4 text-center" data-aos="fade-up">
-          Welcome to WoofHaven
+          {t('about.title')}
         </h2>
         
         {/* Description */}
@@ -118,9 +138,7 @@ const Home = () => {
           data-aos="fade-up" 
           data-aos-delay="200"
         >
-          At WoofHaven, we are dedicated to providing your furry friends with the best care and attention they deserve.
-          Whether you're looking for expert grooming, training, or simply the perfect breed for your family, we've got you covered.
-          Join our community and give your pet the life they deserve!
+          {t('about.description')}
         </p>
 
         {/* Image Gallery */}
@@ -146,16 +164,16 @@ const Home = () => {
       {randomDogBreed && (
         <div className="random-dog-section bg-[#C4DACB] text-[#16423C] p-8 lg:p-20 flex flex-col items-center space-y-8" data-aos="fade-up" data-aos-duration="1500">
           <h2 className="text-3xl font-bold mb-4 text-center" data-aos="fade-up" data-aos-delay="200">
-            Meet Our Featured Dog Breed: <span className="text-teal-600">{randomDogBreed.name}</span>
+            {t('featured.title')}: <span className="text-teal-600">{randomDogBreed.name}</span>
           </h2>
           <Link to={`/dogbreeds/${randomDogBreed._id}`} className="dog-link w-full text-center" data-aos="zoom-in" data-aos-delay="400">
             <div className="dog-details flex flex-col items-center cursor-pointer hover:opacity-80">
               <img src={randomDogBreed.image} alt={randomDogBreed.name} className="w-72 h-72 object-cover rounded-lg shadow-xl mb-4" />
               <p className="text-lg text-[#16423C] text-center" data-aos="fade-up" data-aos-delay="600">
-                Breed Name: <span className="font-semibold">{randomDogBreed.name}</span>
+                {t('featured.breedName')}: <span className="font-semibold">{randomDogBreed.name}</span>
               </p>
               <p className="text-sm text-[#16423C] mt-2 text-center" data-aos="fade-up" data-aos-delay="800">
-                Discover more about this friendly and loving breed!
+                {t('featured.description')}
               </p>
             </div>
           </Link>
@@ -164,19 +182,19 @@ const Home = () => {
           <div className="breed-buttons grid grid-cols-2 gap-6 mt-8">
             <Link to="/breedList" className="breed-button p-6 bg-teal-500 text-white rounded-lg text-center flex flex-col items-center hover:bg-teal-700 transition duration-300" data-aos="fade-up" data-aos-delay="100">
               <FaPaw className="text-3xl mb-2" />
-              <span>EXPLORE BREED</span>
+              <span>{t('breedButtons.explore')}</span>
             </Link>
             <Link to="/bestDog" className="breed-button p-6 bg-teal-500 text-white rounded-lg text-center flex flex-col items-center hover:bg-teal-700 transition duration-300" data-aos="fade-up" data-aos-delay="200">
               <FaSearch className="text-3xl mb-2" />
-              <span>FIND YOUR MATCH</span>
+              <span>{t('breedButtons.findMatch')}</span>
             </Link>
             <Link to="/compareDogs" className="breed-button p-6 bg-teal-500 text-white rounded-lg text-center flex flex-col items-center hover:bg-teal-700 transition duration-300" data-aos="fade-up" data-aos-delay="300">
               <FaBalanceScale className="text-3xl mb-2" />
-              <span>COMPARE BREED</span>
+              <span>{t('breedButtons.compare')}</span>
             </Link>
             <Link to="/dog-name-finder" className="breed-button p-6 bg-teal-500 text-white rounded-lg text-center flex flex-col items-center hover:bg-teal-700 transition duration-300" data-aos="fade-up" data-aos-delay="400">
               <FaDog className="text-3xl mb-2" />
-              <span>DOG NAME FINDER</span>
+              <span>{t('breedButtons.nameFinder')}</span>
             </Link>
           </div>
         </div>
