@@ -19,9 +19,8 @@ import { useTranslation } from "react-i18next";
 
 const optionPayment = [
     { value: 1, name: 'Pay when receiving goods ', },
-    { value: 2, name: 'Zalo pay', },
-    { value: 3, name: 'MoMo', },
-    { value: 4, name: 'Credit card', }
+    { value: 2, name: 'ZaloPay', },
+    { value: 3, name: 'MoMo', }
 ];
 const Checkout = () => {
     let { checkout } = useAppContext();
@@ -160,12 +159,22 @@ const Checkout = () => {
 
                 // Nếu phương thức thanh toán là MoMo, lấy URL thanh toán và chuyển hướng
                 if (payment.value === 3 && response.DT.payUrl) {
-                    const paymentUrl = response.DT.payUrl;  // Kiểm tra trường payUrl có tồn tại
+                    // MoMo
+                    const paymentUrl = response.DT.payUrl;
                     if (paymentUrl) {
-                        window.location.href = paymentUrl;  // Redirect tới MoMo
+                        window.location.href = paymentUrl;
                     } else {
-                        console.error("Pay URL is undefined or not returned.");
+                        console.error("MoMo payUrl undefined");
                         message.error("Error retrieving payment URL from MoMo.");
+                    }
+                } else if (payment.value === 2 && response.DT.payUrl) {
+                    // ZaloPay
+                    const paymentUrl = response.DT.payUrl;
+                    if (paymentUrl) {
+                        window.location.href = paymentUrl;
+                    } else {
+                        console.error("ZaloPay payUrl undefined");
+                        message.error("Error retrieving payment URL from ZaloPay.");
                     }
                 } else {
                     setOrderId(response.DT._id);
@@ -193,72 +202,72 @@ const Checkout = () => {
                             {updateInfo ?
                                 <div className="update">
                                     <Form
-                                    form={form}
-                                    initialValues={{}}
-                                    onFinish={handleUpdateInfo}
+                                        form={form}
+                                        initialValues={{}}
+                                        onFinish={handleUpdateInfo}
                                     >
-                                    <Row gutter={[16, 8]}>
-                                        <Col span={12}>
-                                        <Form.Item
-                                            rules={[{ required: true, message: t("Please input your full name!") }]}
-                                            name="fullName"
-                                        >
-                                            <Input size="large" placeholder={t("Full name")} />
-                                        </Form.Item>
-                                        </Col>
-                                        <Col span={12}>
-                                        <Form.Item
-                                            rules={[
-                                            { required: true, message: t("Please input your phone number!") },
-                                            {
-                                                pattern: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
-                                                message: t("Phone number is not valid")
-                                            }
-                                            ]}
-                                            name="phoneNumber"
-                                        >
-                                            <Input size="large" placeholder={t("Phone number")} />
-                                        </Form.Item>
-                                        </Col>
-                                        <Col span={24}>
-                                        <Form.Item
-                                            rules={[{ required: true, message: t("Please input your address!") }]}
-                                            name="address"
-                                        >
-                                            <Input size="large" placeholder={t("Address")} />
-                                        </Form.Item>
-                                        </Col>
-                                        <Col span={7}>
-                                        <Form.Item
-                                            rules={[{ required: true, message: t("Please input your ward!") }]}
-                                            name="ward"
-                                        >
-                                            <Input size="large" placeholder={t("Ward")} />
-                                        </Form.Item>
-                                        </Col>
-                                        <Col span={1}>
-                                        <FontAwesomeIcon icon={faMinus} size="2xl" className="pt-2" color="#C4DACB" />
-                                        </Col>
-                                        <Col span={7}>
-                                        <Form.Item
-                                            rules={[{ required: true, message: t("Please input your district!") }]}
-                                            name="district"
-                                        >
-                                            <Input size="large" placeholder={t("District")} />
-                                        </Form.Item>
-                                        </Col>
-                                        <Col span={1}>
-                                        <FontAwesomeIcon icon={faMinus} size="2xl" className="pt-2" color="#C4DACB" />
-                                        </Col>
-                                        <Col span={8}>
-                                        <Form.Item
-                                            rules={[{ required: true, message: t("Please input your city!") }]}
-                                            name="city"
-                                        >
-                                            <Input size="large" placeholder={t("City")} />
-                                        </Form.Item>
-                                        </Col>
-                                    </Row>
+                                        <Row gutter={[16, 8]}>
+                                            <Col span={12}>
+                                                <Form.Item
+                                                    rules={[{ required: true, message: t("Please input your full name!") }]}
+                                                    name="fullName"
+                                                >
+                                                    <Input size="large" placeholder={t("Full name")} />
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span={12}>
+                                                <Form.Item
+                                                    rules={[
+                                                        { required: true, message: t("Please input your phone number!") },
+                                                        {
+                                                            pattern: /(84|0[3|5|7|8|9])+([0-9]{8})\b/,
+                                                            message: t("Phone number is not valid")
+                                                        }
+                                                    ]}
+                                                    name="phoneNumber"
+                                                >
+                                                    <Input size="large" placeholder={t("Phone number")} />
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span={24}>
+                                                <Form.Item
+                                                    rules={[{ required: true, message: t("Please input your address!") }]}
+                                                    name="address"
+                                                >
+                                                    <Input size="large" placeholder={t("Address")} />
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span={7}>
+                                                <Form.Item
+                                                    rules={[{ required: true, message: t("Please input your ward!") }]}
+                                                    name="ward"
+                                                >
+                                                    <Input size="large" placeholder={t("Ward")} />
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span={1}>
+                                                <FontAwesomeIcon icon={faMinus} size="2xl" className="pt-2" color="#C4DACB" />
+                                            </Col>
+                                            <Col span={7}>
+                                                <Form.Item
+                                                    rules={[{ required: true, message: t("Please input your district!") }]}
+                                                    name="district"
+                                                >
+                                                    <Input size="large" placeholder={t("District")} />
+                                                </Form.Item>
+                                            </Col>
+                                            <Col span={1}>
+                                                <FontAwesomeIcon icon={faMinus} size="2xl" className="pt-2" color="#C4DACB" />
+                                            </Col>
+                                            <Col span={8}>
+                                                <Form.Item
+                                                    rules={[{ required: true, message: t("Please input your city!") }]}
+                                                    name="city"
+                                                >
+                                                    <Input size="large" placeholder={t("City")} />
+                                                </Form.Item>
+                                            </Col>
+                                        </Row>
                                     </Form>
                                 </div>
                                 :
@@ -371,25 +380,13 @@ const Checkout = () => {
                                 </div>
                                 <Radio value={3} ></Radio>
                             </div>
-                            <div className="payment-option">
-                                <div className="d-flex align-items-center">
-                                    <span className="icon">
-                                        <FontAwesomeIcon icon={faCcVisa} />
-                                    </span>
-                                    <div className="pay-details">
-                                        <div className="pay-title">{t('Credit card')}</div>
-                                        <div className="description">{t('Flexible payments with Visa, Mastercard, and more.')}</div>
-                                    </div>
-                                </div>
-                                <Radio value={4} ></Radio>
-                            </div>
                         </Radio.Group>
                     </div>
                     <div className="agree">
                         <Checkbox onChange={() => setAgree(!agree)}>
                             {t('I agree to all terms')}
                         </Checkbox>
-                        
+
                         {/* Dòng chữ nhỏ */}
                         <div
                             className="mt-2 text-muted"
@@ -402,19 +399,19 @@ const Checkout = () => {
                         {/* Phần điều khoản hiển thị khi showTerms = true */}
                         {showTerms && (
                             <div className="mt-2 p-2 border rounded bg-light" style={{ fontSize: "0.9rem" }}>
-                            <p>{t('By using this service, you agree to our Terms and Conditions, including the return policy and privacy policy of our e-commerce platform.')}</p>
-                            <ul>
-                                <li>{t('All orders are subject to availability and confirmation of the order price.')}</li>
-                                <li>{t('Shipping times may vary depending on availability and are subject to any delays resulting from postal delays or force majeure.')}</li>
-                                <li>{t('We reserve the right to refuse or cancel any orders at our discretion.')}</li>
-                            </ul>
+                                <p>{t('By using this service, you agree to our Terms and Conditions, including the return policy and privacy policy of our e-commerce platform.')}</p>
+                                <ul>
+                                    <li>{t('All orders are subject to availability and confirmation of the order price.')}</li>
+                                    <li>{t('Shipping times may vary depending on availability and are subject to any delays resulting from postal delays or force majeure.')}</li>
+                                    <li>{t('We reserve the right to refuse or cancel any orders at our discretion.')}</li>
+                                </ul>
                             </div>
                         )}
 
                         <div className="d-flex justify-content-center mt-5">
                             <button className="btn-checkout" onClick={() => handleCheckout()}>
-                            {t('Checkout')}
-                            <FontAwesomeIcon className="ms-3" icon={faCartShopping} color="#C4DACB" size="sm" />
+                                {t('Checkout')}
+                                <FontAwesomeIcon className="ms-3" icon={faCartShopping} color="#C4DACB" size="sm" />
                             </button>
                         </div>
                     </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import TawkToWidget from '../components/TawkToWidget';
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // Đảm bảo import AOS stylesheet
 import '../css/Home.css';
@@ -93,9 +94,9 @@ const Home = () => {
           <p className="text-lg mb-6" data-aos="fade-up" data-aos-delay="200">
             {t('hero.subtitle')}
           </p>
-          <button 
-            className="mt-4 px-6 py-3 bg-teal-500 rounded-lg text-lg font-semibold hover:bg-teal-700 transition duration-300" 
-            data-aos="fade-up" 
+          <button
+            className="mt-4 px-6 py-3 bg-teal-500 rounded-lg text-lg font-semibold hover:bg-teal-700 transition duration-300"
+            data-aos="fade-up"
             data-aos-delay="400"
             onClick={() => window.location.href = '/products'} // Điều hướng đến trang /products
           >
@@ -131,11 +132,11 @@ const Home = () => {
         <h2 className="text-3xl font-bold mb-4 text-center" data-aos="fade-up">
           {t('about.title')}
         </h2>
-        
+
         {/* Description */}
-        <p 
-          className="text-lg text-center max-w-3xl" 
-          data-aos="fade-up" 
+        <p
+          className="text-lg text-center max-w-3xl"
+          data-aos="fade-up"
           data-aos-delay="200"
         >
           {t('about.description')}
@@ -143,18 +144,18 @@ const Home = () => {
 
         {/* Image Gallery */}
         <div className="image-gallery flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
-          <img 
-            src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2021/01/18151213/Alaskan-Klee-Kai-head-portrait-outdoors-11.jpg" 
-            alt="Alaskan Klee Kai 1" 
+          <img
+            src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2021/01/18151213/Alaskan-Klee-Kai-head-portrait-outdoors-11.jpg"
+            alt="Alaskan Klee Kai 1"
             className="w-full md:w-1/2 rounded-lg shadow-lg"
-            data-aos="zoom-in" 
+            data-aos="zoom-in"
             data-aos-delay="400"
           />
-          <img 
-            src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2021/01/18151226/Alaskan-Klee-Kai-head-portrait-outdoors1.jpg" 
-            alt="Alaskan Klee Kai 2" 
+          <img
+            src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2021/01/18151226/Alaskan-Klee-Kai-head-portrait-outdoors1.jpg"
+            alt="Alaskan Klee Kai 2"
             className="w-full md:w-1/2 rounded-lg shadow-lg"
-            data-aos="zoom-in" 
+            data-aos="zoom-in"
             data-aos-delay="600"
           />
         </div>
@@ -199,7 +200,7 @@ const Home = () => {
           </div>
         </div>
       )}
-
+      <TawkToWidget />
       {/* Footer */}
       <Footer />
     </div>
