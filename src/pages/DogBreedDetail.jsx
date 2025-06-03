@@ -11,6 +11,8 @@ import weightIcon from '../pictures/icons8-weight-50.png';
 import clientApi from '../client-api/rest-client';
 import Footer from '../components/Footer';
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 const DogBreedDetail = () => {
   const { breedId } = useParams();
@@ -59,16 +61,45 @@ const DogBreedDetail = () => {
   const images = [dogBreed.image, dogBreed.image1, dogBreed.image2, dogBreed.image3, dogBreed.image4].filter(Boolean);
 
 
-  // Cấu hình cho slider chính và thumbnail
+  const CustomPrevArrow = ({ onClick }) => (
+    <motion.button
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      onClick={onClick}
+      className="absolute top-1/2 left-2 -translate-y-1/2 z-20 bg-white/70 hover:bg-white text-teal-800 p-2 rounded-full shadow transition duration-300"
+    >
+      <FaChevronLeft size={20} />
+    </motion.button>
+  );
+  
+  const CustomNextArrow = ({ onClick }) => (
+    <motion.button
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
+      onClick={onClick}
+      className="absolute top-1/2 right-2 -translate-y-1/2 z-20 bg-white/70 hover:bg-white text-teal-800 p-2 rounded-full shadow transition duration-300"
+    >
+      <FaChevronRight size={20} />
+    </motion.button>
+  );
+  
+  // Cập nhật settingsMain để sử dụng custom arrows
   const settingsMain = {
-    dots: false,
+    dots: true,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true,
-    centerMode: true,
-    centerPadding: '50px',
+    prevArrow: <CustomPrevArrow />,
+    nextArrow: <CustomNextArrow />,
+    appendDots: dots => (
+      <div style={{ bottom: "-25px" }}>
+        <ul className="flex justify-center space-x-2">{dots}</ul>
+      </div>
+    ),
+    customPaging: i => (
+      <div className="w-3 h-3 bg-teal-500 rounded-full cursor-pointer"></div>
+    )
   };
 
   const toggleColorsVisibility = () => {
@@ -962,52 +993,78 @@ const DogBreedDetail = () => {
       {/* Thêm Header component */}
       <Header />
 
-      {/* Phần tên, mô tả, nhóm, và carousel */}
-      <div className="dog-breed-detail relative max-w-4xl mx-auto px-4 py-8">
-
-        {/* Language Buttons - Top Right */}  
-        <div className="absolute top-4 right-4 translate-x-16 flex space-x-2">
+      <motion.div
+        className="dog-breed-detail relative max-w-4xl mx-auto px-4 py-8"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+      >
+        {/* Language Buttons */}
+        <div className="absolute top-4 right-4 translate-x-16 flex space-x-2 z-10">
           <button
             onClick={() => i18n.changeLanguage('en')}
-            className="px-4 py-2 border border-white text-[#97d5c8] rounded-md text-sm transition-colors duration-200 hover:bg-white hover:text-[#97d5c8]"
+            className="px-4 py-2 border border-white text-[#97d5c8] rounded-md text-sm transition duration-200 hover:bg-white hover:text-[#97d5c8]"
           >
             EN
           </button>
           <button
             onClick={() => i18n.changeLanguage('vi')}
-            className="px-4 py-2 border border-white text-[#97d5c8] rounded-md text-sm transition-colors duration-200 hover:bg-white hover:text-[#97d5c8]"
+            className="px-4 py-2 border border-white text-[#97d5c8] rounded-md text-sm transition duration-200 hover:bg-white hover:text-[#97d5c8]"
           >
             VI
           </button>
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl font-bold text-center mb-6">{breedTranslations[dogBreed.name] || dogBreed.name}</h1>
+        <motion.h1
+          className="text-4xl font-extrabold text-center mb-4 text-gray-800"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        >
+          {breedTranslations[dogBreed.name] || dogBreed.name}
+        </motion.h1>
 
         {/* Group Info */}
-        <div className="flex items-center justify-center mb-6">
+        <motion.div
+          className="flex items-center justify-center mb-6"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+        >
           <span className="px-4 py-2 bg-white text-teal-800 rounded-full text-sm font-semibold shadow">
-          {groupTranslations[dogBreed.group] || dogBreed.group}
+            {groupTranslations[dogBreed.group] || dogBreed.group}
           </span>
-        </div>
+        </motion.div>
 
         {/* Main Carousel */}
-        <div className="w-full md:w-3/4 lg:w-2/3 mx-auto mb-8">
-          <Slider {...settingsMain} className="main-slider">
+        <motion.div
+          className="w-full md:w-3/4 lg:w-2/3 mx-auto mb-8 relative"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4, duration: 0.7 }}
+        >
+          <Slider {...settingsMain} className="main-slider rounded-xl overflow-hidden shadow-lg">
             {images.map((img, index) => (
-              <div key={index} className="p-2">
-                <div className="overflow-hidden rounded-xl shadow-md bg-white">
-                  <img
-                    src={img}
-                    alt={`${dogBreed.name} - ${index}`}
-                    className="w-full h-[400px] object-cover transition-transform duration-300 hover:scale-105"
-                  />
-                </div>
+              <div key={index} className="relative">
+                <motion.img
+                  src={img}
+                  alt={`${dogBreed.name} - ${index}`}
+                  className="w-full h-[400px] object-cover"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.4 }}
+                />
+                <motion.div
+                  className="absolute inset-0 bg-black bg-opacity-10"
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 0.1 }}
+                  transition={{ duration: 0.4 }}
+                />
               </div>
             ))}
           </Slider>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       {/* Phần thông tin chi tiết phía dưới */}
       <div className="dog-breed-info">

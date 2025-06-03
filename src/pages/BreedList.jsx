@@ -25,7 +25,7 @@ const FilterSection = () => {
   const [dogBreeds, setDogBreeds] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalBreeds, setTotalBreeds] = useState(0);
-  const itemsPerPage = 8;
+  const itemsPerPage = 16;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
