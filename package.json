@@ -27,6 +27,7 @@
     "cryptojs": "^2.5.3",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
+    "framer-motion": "^12.15.0",
     "i18next": "^25.2.0",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
