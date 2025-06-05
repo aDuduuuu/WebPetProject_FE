@@ -70,6 +70,27 @@ const Home = () => {
 
     fetchPosts();
     fetchRandomDogBreed();
+
+    // Inject Botpress Chatbot Scripts
+    const script1 = document.createElement('script');
+    script1.src = "https://cdn.botpress.cloud/webchat/v2.4/inject.js";
+    script1.async = true;
+    document.body.appendChild(script1);
+
+    const script2 = document.createElement('script');
+    script2.src = "https://files.bpcontent.cloud/2025/06/05/08/20250605082434-RMTZSK24.js";
+    script2.async = true;
+    document.body.appendChild(script2);
+
+
+
+    return () => {
+      document.body.removeChild(script1);
+      document.body.removeChild(script2);
+    };
+
+
+
   }, []);
 
   return (
@@ -78,10 +99,10 @@ const Home = () => {
 
       {/* Hero Section */}
       <div className="hero-section h-screen relative flex flex-col justify-center items-center p-20 lg:p-30">
-        <video 
-          autoPlay 
-          loop 
-          muted 
+        <video
+          autoPlay
+          loop
+          muted
           className="absolute top-0 left-0 w-full h-full object-cover z-0"
         >
           <source src={dogVideo} type="video/mp4" />
@@ -106,7 +127,7 @@ const Home = () => {
         </div>
         {/* Overlay */}
         <div className="hero-overlay absolute top-0 left-0 right-0 bottom-0 bg-black opacity-40 z-10"></div>
-        
+
         <div className="max-w-lg text-center space-y-4 z-20 relative">
           <h1 className="text-4xl lg:text-5xl font-bold mb-4" data-aos="fade-up">
             {t('hero.title')}
@@ -124,7 +145,7 @@ const Home = () => {
           </button> */}
         </div>
       </div>
-
+      <TawkToWidget />
       <div
         className="dog-breed-feature-section flex flex-col lg:flex-row items-center gap-12 px-6 py-10 bg-gray-900 rounded-lg"
         data-aos="fade-up"
@@ -139,9 +160,9 @@ const Home = () => {
           <p className="description text-lg leading-relaxed">
             {t('featuredDogBreed.descriptionExtended') || (
               <>
-                Chúng tôi cam kết mang đến cho bạn những thông tin chính xác và chi tiết nhất về các giống chó nổi bật hiện nay.  
-                Từ dịch vụ chăm sóc sức khỏe, spa chuyên nghiệp, huấn luyện viên giàu kinh nghiệm,  
-                đến danh sách các địa chỉ mua bán chó uy tín và đáng tin cậy.  
+                Chúng tôi cam kết mang đến cho bạn những thông tin chính xác và chi tiết nhất về các giống chó nổi bật hiện nay.
+                Từ dịch vụ chăm sóc sức khỏe, spa chuyên nghiệp, huấn luyện viên giàu kinh nghiệm,
+                đến danh sách các địa chỉ mua bán chó uy tín và đáng tin cậy.
                 Mục tiêu của chúng tôi là giúp bạn tìm được người bạn bốn chân hoàn hảo cho gia đình và lối sống của bạn.
                 Hãy để chúng tôi đồng hành cùng bạn trên hành trình chăm sóc và nuôi dưỡng những chú chó thân yêu!
               </>
@@ -367,7 +388,7 @@ const Home = () => {
           </div>
         </div>
       )}
-      <TawkToWidget />
+
       {/* Footer */}
       <Footer />
     </div>

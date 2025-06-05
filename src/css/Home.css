@@ -18,7 +18,8 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: -1; /* Đặt video dưới các thành phần khác */
+  z-index: -1;
+  /* Đặt video dưới các thành phần khác */
 }
 
 .hero-overlay {
@@ -27,7 +28,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* Lớp phủ màu đen với độ mờ */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* Lớp phủ màu đen với độ mờ */
   z-index: 1;
 }
 
@@ -48,18 +50,22 @@
 
 .hero-section button {
   padding: 0.8rem 2rem;
-  background-color: #00796b; /* Màu nền của nút */
+  background-color: #00796b;
+  /* Màu nền của nút */
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.2s ease; /* Thời gian hiệu ứng ngắn hơn */
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  /* Thời gian hiệu ứng ngắn hơn */
 }
 
 .hero-section button:hover {
-  background-color: #004d40; /* Màu nền khi hover */
-  transform: scale(1.05); /* Phóng to nút khi hover */
+  background-color: #004d40;
+  /* Màu nền khi hover */
+  transform: scale(1.05);
+  /* Phóng to nút khi hover */
 }
 
 /* Card */
@@ -69,12 +75,15 @@
   border-radius: 12px;
   padding: 20px;
   text-align: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Thời gian hiệu ứng ngắn hơn */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* Thời gian hiệu ứng ngắn hơn */
 }
 
 .card:hover {
-  transform: translateY(-8px); /* Tạo hiệu ứng hover */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Thêm hiệu ứng shadow mạnh khi hover */
+  transform: translateY(-8px);
+  /* Tạo hiệu ứng hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  /* Thêm hiệu ứng shadow mạnh khi hover */
 }
 
 /* Post Cards */
@@ -85,16 +94,21 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Thời gian hiệu ứng ngắn hơn */
-  height: 400px; /* Đảm bảo mỗi bài viết có chiều cao giống nhau */
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  /* Thời gian hiệu ứng ngắn hơn */
+  height: 400px;
+  /* Đảm bảo mỗi bài viết có chiều cao giống nhau */
   position: relative;
-  transform: scale(1); /* Khởi tạo với kích thước bình thường */
+  transform: scale(1);
+  /* Khởi tạo với kích thước bình thường */
 }
 
 .post-card-home img {
   width: 100%;
-  height: 200px; /* Đảm bảo ảnh có chiều cao cố định */
-  object-fit: cover; /* Giữ tỷ lệ ảnh mà không bị kéo dãn */
+  height: 200px;
+  /* Đảm bảo ảnh có chiều cao cố định */
+  object-fit: cover;
+  /* Giữ tỷ lệ ảnh mà không bị kéo dãn */
 }
 
 .post-card-home .content {
@@ -102,7 +116,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  flex-grow: 1; /* Đảm bảo nội dung chiếm toàn bộ phần còn lại của card */
+  flex-grow: 1;
+  /* Đảm bảo nội dung chiếm toàn bộ phần còn lại của card */
 }
 
 .post-card-home h3 {
@@ -118,37 +133,46 @@
 }
 
 .post-card-home:hover {
-  transform: translateY(-5px) scale(1.03); /* Tạo hiệu ứng phóng to nhẹ và nâng thẻ lên khi hover */
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Thêm hiệu ứng shadow mạnh khi hover */
+  transform: translateY(-5px) scale(1.03);
+  /* Tạo hiệu ứng phóng to nhẹ và nâng thẻ lên khi hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  /* Thêm hiệu ứng shadow mạnh khi hover */
 }
 
 /* Breed Buttons */
 .breed-button {
   padding: 0.75rem 1.5rem;
-  background-color: #00796b; /* Màu nền mặc định của nút */
+  background-color: #00796b;
+  /* Màu nền mặc định của nút */
   color: white;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.2s ease, transform 0.2s ease; /* Thời gian hiệu ứng ngắn hơn */
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  /* Thời gian hiệu ứng ngắn hơn */
 }
 
 .breed-button:hover {
-  background-color: #004d40; /* Màu khi hover */
-  transform: scale(1.05); /* Phóng to nút khi hover */
+  background-color: #004d40;
+  /* Màu khi hover */
+  transform: scale(1.05);
+  /* Phóng to nút khi hover */
 }
 
 /* Button hover effect */
 button.hover\:text-teal-400:hover {
-  color: #26a69a; /* Thêm hiệu ứng hover riêng biệt cho các button mà không bị ảnh hưởng bởi các phần khác */
+  color: #26a69a;
+  /* Thêm hiệu ứng hover riêng biệt cho các button mà không bị ảnh hưởng bởi các phần khác */
 }
 
 /* Section for Featured Dog Breed */
 .random-dog-section {
-  background-color: #C4DACB; /* Màu nền cho section giống chó */
-  color: #16423C; /* Màu chữ */
+  background-color: #C4DACB;
+  /* Màu nền cho section giống chó */
+  color: #16423C;
+  /* Màu chữ */
   padding: 4rem 2rem;
   display: flex;
   flex-direction: column;
@@ -166,7 +190,8 @@ button.hover\:text-teal-400:hover {
 .random-dog-section .dog-link {
   display: block;
   text-align: center;
-  transition: opacity 0.2s ease; /* Thời gian hiệu ứng ngắn hơn */
+  transition: opacity 0.2s ease;
+  /* Thời gian hiệu ứng ngắn hơn */
 }
 
 .random-dog-section .dog-link:hover {
@@ -208,7 +233,8 @@ button.hover\:text-teal-400:hover {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  transition: background-color 0.2s ease, transform 0.2s ease; /* Thời gian hiệu ứng ngắn hơn */
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  /* Thời gian hiệu ứng ngắn hơn */
 }
 
 .breed-buttons .breed-button:hover {
@@ -219,8 +245,10 @@ button.hover\:text-teal-400:hover {
 /* Container để hiển thị các thẻ theo dạng grid */
 .posts-list {
   display: grid;
-  grid-template-columns: repeat(5, 1fr); /* Tạo 5 cột đều trong một hàng */
-  gap: 16px; /* Khoảng cách giữa các thẻ */
+  grid-template-columns: repeat(5, 1fr);
+  /* Tạo 5 cột đều trong một hàng */
+  gap: 16px;
+  /* Khoảng cách giữa các thẻ */
 }
 
 /* Mỗi thẻ */
@@ -228,12 +256,15 @@ button.hover\:text-teal-400:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 400px; /* Chiều cao cố định cho thẻ */
+  height: 400px;
+  /* Chiều cao cố định cho thẻ */
   background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Bóng nhẹ cho thẻ */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Bóng nhẹ cho thẻ */
   border-radius: 8px;
   overflow: hidden;
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Mượt mà hơn */
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  /* Mượt mà hơn */
 }
 
 /* Đảm bảo ảnh luôn có cùng kích thước */
@@ -241,28 +272,34 @@ button.hover\:text-teal-400:hover {
   width: 100%;
   height: 200px;
   object-fit: cover;
-  transition: transform 0.3s ease-in-out; /* Mượt mà khi phóng to ảnh */
+  transition: transform 0.3s ease-in-out;
+  /* Mượt mà khi phóng to ảnh */
 }
 
 /* Nội dung của thẻ */
 .card-home .content {
   padding: 16px;
   flex-grow: 1;
-  transition: transform 0.3s ease-in-out; /* Mượt mà khi nâng nội dung */
+  transition: transform 0.3s ease-in-out;
+  /* Mượt mà khi nâng nội dung */
 }
 
 /* Hiệu ứng hover */
 .card-home:hover {
-  transform: scale(1.05); /* Phóng to nhẹ */
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15); /* Nâng thẻ lên với bóng đổ rõ hơn */
+  transform: scale(1.05);
+  /* Phóng to nhẹ */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+  /* Nâng thẻ lên với bóng đổ rõ hơn */
 }
 
 .card-home:hover img {
-  transform: scale(1.05); /* Phóng to ảnh nhẹ */
+  transform: scale(1.05);
+  /* Phóng to ảnh nhẹ */
 }
 
 .card-home:hover .content {
-  transform: translateY(-6px); /* Nâng nội dung lên nhẹ khi hover */
+  transform: translateY(-6px);
+  /* Nâng nội dung lên nhẹ khi hover */
 }
 
 .dog-breed-feature-section {
@@ -272,12 +309,14 @@ button.hover\:text-teal-400:hover {
 }
 
 .dog-breed-feature-section .title {
-  font-size: 1.875rem; /* text-3xl */
+  font-size: 1.875rem;
+  /* text-3xl */
   font-weight: 700;
 }
 
 .dog-breed-feature-section .description {
-  font-size: 1.125rem; /* text-lg */
+  font-size: 1.125rem;
+  /* text-lg */
   line-height: 1.6;
 }
 
@@ -328,7 +367,8 @@ button.hover\:text-teal-400:hover {
 
 .white-spacer-section {
   background-color: #ffffff;
-  height: 400px; /* Chiều cao tùy chỉnh */
+  height: 400px;
+  /* Chiều cao tùy chỉnh */
   width: 100%;
 }
 
@@ -339,10 +379,24 @@ button.hover\:text-teal-400:hover {
   max-width: 250px;
 }
 
+.bpFab {
+  left: auto !important;
+  right: 20px !important;
+  top: 490px;
+}
+
+.bpWebchat {
+  left: auto !important;
+  right: 20px auto !important;
+}
+
 @keyframes float-up-down {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
