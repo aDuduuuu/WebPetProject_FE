@@ -9,12 +9,34 @@ const TawkToWidget = () => {
     script.setAttribute("crossorigin", "*");
     document.body.appendChild(script);
 
+    script.onload = () => {
+      // Thêm khoảng thời gian chờ 1 giây (1000ms) trước khi áp dụng customStyle
+      setTimeout(() => {
+        if (window.Tawk_API) {
+          window.Tawk_API.customStyle = {
+            visibility: {
+              desktop: {
+                xOffset: 0,
+                yOffset: 60,
+                position: 'br'
+              },
+              mobile: {
+                xOffset: 0,
+                yOffset: 60,
+                position: 'br'
+              }
+            }
+          };
+        }
+      }, 5000); // Thay đổi thời gian chờ nếu cần
+    };
+
     return () => {
       document.body.removeChild(script);
     };
   }, []);
 
-  return null; // Không render gì cả
+  return null;
 };
 
 export default TawkToWidget;
