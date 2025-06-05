@@ -2146,6 +2146,26 @@
   "Rate": "Đánh giá",
   "Comment here...": "Viết đánh giá ở đây...",
   "Submit": "Gửi đánh giá",
-  "Please rate and comment for product": "Vui lòng đánh giá và nhận xét cho sản phẩm"
-
+  "Please rate and comment for product": "Vui lòng đánh giá và nhận xét cho sản phẩm",
+  "featuredDogBreed": {
+    "title": "Khám phá các giống chó nổi bật",
+    "description": "Chúng tôi sẽ cung cấp thông tin chi tiết về các dịch vụ spa, huấn luyện viên và địa chỉ mua bán chó uy tín để bạn tìm được người bạn bốn chân hoàn hảo!",
+    "descriptionExtended": "Cung cấp thông tin chính xác về các giống chó phổ biến, dịch vụ chăm sóc, huấn luyện viên và địa chỉ mua bán uy tín, giúp bạn chọn được người bạn bốn chân phù hợp.",
+    "buttons": {
+      "spa": "Dịch vụ Spa",
+      "trainer": "Huấn luyện viên",
+      "seller": "Người bán chó"
+    }  
+  },
+  "dogFoodGuide2": {
+    "title": "Hướng Dẫn Thức Ăn Cho Chó",
+    "description": "Tìm hiểu những loại thực phẩm an toàn hoặc nguy hiểm cho chó của bạn. Từ món ăn hàng ngày đến dịp lễ, chúng tôi giúp bạn đưa ra lựa chọn đúng đắn để chăm sóc thú cưng khỏe mạnh.",
+    "button": "Khám Phá Ngay"
+  },
+  "storePreview": {
+    "title": "Khám Phá Cửa Hàng Sản Phẩm",
+    "description": "Khám phá những sản phẩm được chọn lọc như thức ăn, quần áo, đồ chơi và phụ kiện cho thú cưng và cả bạn. Tìm món đồ phù hợp ngay hôm nay!",
+    "button": "Đến Cửa Hàng"
+  }
+  
 }

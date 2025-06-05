@@ -1,7 +1,6 @@
 /* Hero Section */
 .hero-section {
   position: relative;
-  background-image: url('../pictures/Home.jpg'); /* Đặt ảnh nền cho hero */
   background-size: cover;
   background-position: center;
   min-height: 100vh;
@@ -12,18 +11,28 @@
   text-align: center;
 }
 
+.hero-section video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1; /* Đặt video dưới các thành phần khác */
+}
+
 .hero-overlay {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5); /* Lớp phủ mờ */
+  background-color: rgba(0, 0, 0, 0.5); /* Lớp phủ màu đen với độ mờ */
+  z-index: 1;
 }
 
 .hero-section .max-w-lg {
-  z-index: 10;
-  color: white;
+  z-index: 2;
 }
 
 .hero-section h1 {
@@ -254,4 +263,91 @@ button.hover\:text-teal-400:hover {
 
 .card-home:hover .content {
   transform: translateY(-6px); /* Nâng nội dung lên nhẹ khi hover */
+}
+
+.dog-breed-feature-section {
+  background-color: #16423C;
+  border-radius: 0rem;
+  overflow: hidden;
+}
+
+.dog-breed-feature-section .title {
+  font-size: 1.875rem; /* text-3xl */
+  font-weight: 700;
+}
+
+.dog-breed-feature-section .description {
+  font-size: 1.125rem; /* text-lg */
+  line-height: 1.6;
+}
+
+.dog-breed-feature-section .videos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.dog-breed-feature-section .video-large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+.dog-breed-feature-section video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  border-radius: 0.75rem;
+}
+
+@media (max-width: 1023px) {
+  .dog-breed-feature-section .videos {
+    grid-template-columns: 1fr;
+  }
+}
+
+.spacer-section {
+  background-color: #16423C;
+  height: 400px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.spacer-section .video-left {
+  height: 100%;
+  max-width: 50%;
+  object-fit: cover;
+}
+
+.spacer-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.white-spacer-section {
+  background-color: #ffffff;
+  height: 400px; /* Chiều cao tùy chỉnh */
+  width: 100%;
+}
+
+.vertical-image {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  max-width: 250px;
+}
+
+@keyframes float-up-down {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float-animate {
+  animation: float-up-down 3s ease-in-out infinite;
 }

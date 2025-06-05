@@ -10,6 +10,15 @@ import { Link } from 'react-router-dom';
 import { FaPaw, FaSearch, FaBalanceScale, FaDog } from 'react-icons/fa'; // Icons for buttons
 import { useTranslation } from 'react-i18next';
 import i18n from 'i18next';
+import dogVideo from '../pictures/Dog.mp4';
+import dogVideo1 from '../pictures/Dog1.mp4';
+import dogVideo2 from '../pictures/Dog2.mp4';
+import dogVideo3 from '../pictures/Dog3.mp4';
+import dogVideo4 from '../pictures/Dog4.mp4';
+import dogImage5 from '../pictures/Dog5.jpg';
+import dogImage6 from '../pictures/Dog6.jpg';
+import dogImage7 from '../pictures/Dog7.jpg';
+import dogImage8 from '../pictures/Dog8.jpg';
 
 const Home = () => {
   const [postList, setPostList] = useState([]);
@@ -68,7 +77,16 @@ const Home = () => {
       <Header />
 
       {/* Hero Section */}
-      <div className="hero-section h-screen bg-cover bg-center flex flex-col justify-center items-center relative p-20 lg:p-30">
+      <div className="hero-section h-screen relative flex flex-col justify-center items-center p-20 lg:p-30">
+        <video 
+          autoPlay 
+          loop 
+          muted 
+          className="absolute top-0 left-0 w-full h-full object-cover z-0"
+        >
+          <source src={dogVideo} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
         {/* Language Switcher on top-right corner */}
         <div className="absolute top-4 right-4 z-20">
           <div className="flex space-x-2">
@@ -86,22 +104,108 @@ const Home = () => {
             </button>
           </div>
         </div>
-        <div className="hero-overlay absolute top-0 left-0 right-0 bottom-0 bg-black opacity-50"></div>
-        <div className="max-w-lg text-center space-y-4 z-10">
+        {/* Overlay */}
+        <div className="hero-overlay absolute top-0 left-0 right-0 bottom-0 bg-black opacity-40 z-10"></div>
+        
+        <div className="max-w-lg text-center space-y-4 z-20 relative">
           <h1 className="text-4xl lg:text-5xl font-bold mb-4" data-aos="fade-up">
             {t('hero.title')}
           </h1>
           <p className="text-lg mb-6" data-aos="fade-up" data-aos-delay="200">
             {t('hero.subtitle')}
           </p>
-          <button
+          {/* <button
             className="mt-4 px-6 py-3 bg-teal-500 rounded-lg text-lg font-semibold hover:bg-teal-700 transition duration-300"
             data-aos="fade-up"
             data-aos-delay="400"
-            onClick={() => window.location.href = '/products'} // Điều hướng đến trang /products
+            onClick={() => window.location.href = '/products'} // Navigate to /products
           >
             {t('hero.button')}
-          </button>
+          </button> */}
+        </div>
+      </div>
+
+      <div
+        className="dog-breed-feature-section flex flex-col lg:flex-row items-center gap-12 px-6 py-10 bg-gray-900 rounded-lg"
+        data-aos="fade-up"
+        data-aos-duration="1500"
+      >
+        {/* Content bên trái */}
+        <div
+          className="content w-full lg:w-1/2 text-white text-justify space-y-6"
+          data-aos="fade-right"
+          data-aos-duration="1000"
+        >
+          <p className="description text-lg leading-relaxed">
+            {t('featuredDogBreed.descriptionExtended') || (
+              <>
+                Chúng tôi cam kết mang đến cho bạn những thông tin chính xác và chi tiết nhất về các giống chó nổi bật hiện nay.  
+                Từ dịch vụ chăm sóc sức khỏe, spa chuyên nghiệp, huấn luyện viên giàu kinh nghiệm,  
+                đến danh sách các địa chỉ mua bán chó uy tín và đáng tin cậy.  
+                Mục tiêu của chúng tôi là giúp bạn tìm được người bạn bốn chân hoàn hảo cho gia đình và lối sống của bạn.
+                Hãy để chúng tôi đồng hành cùng bạn trên hành trình chăm sóc và nuôi dưỡng những chú chó thân yêu!
+              </>
+            )}
+          </p>
+
+          {/* 3 Buttons */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
+            <a
+              href="http://localhost:5173/spas"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-teal-500 text-white py-3 px-4 rounded-lg text-center font-medium hover:bg-teal-600 transition"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              🧼 {t('featuredDogBreed.buttons.spa') || 'Spa Services'}
+            </a>
+            <a
+              href="http://localhost:5173/trainers"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-teal-500 text-white py-3 px-4 rounded-lg text-center font-medium hover:bg-teal-600 transition"
+              data-aos="fade-up"
+              data-aos-delay="300"
+            >
+              🐾 {t('featuredDogBreed.buttons.trainer') || 'Dog Trainers'}
+            </a>
+            <a
+              href="http://localhost:5173/dogsellers"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-teal-500 text-white py-3 px-4 rounded-lg text-center font-medium hover:bg-teal-600 transition"
+              data-aos="fade-up"
+              data-aos-delay="400"
+            >
+              🏪 {t('featuredDogBreed.buttons.seller') || 'Dog Sellers'}
+            </a>
+          </div>
+        </div>
+
+        {/* Videos bên phải */}
+        <div
+          className="videos w-full lg:w-1/2 grid grid-cols-1 gap-4 md:grid-cols-3"
+          data-aos="fade-left"
+          data-aos-duration="1000"
+        >
+          <div className="video-small rounded-lg overflow-hidden shadow-lg col-span-1">
+            <video autoPlay loop muted playsInline className="w-full h-full object-cover rounded-lg">
+              <source src={dogVideo1} type="video/mp4" />
+            </video>
+          </div>
+
+          <div className="video-large rounded-lg overflow-hidden shadow-xl col-span-2 row-span-2">
+            <video autoPlay loop muted playsInline className="w-full h-full object-cover rounded-lg">
+              <source src={dogVideo2} type="video/mp4" />
+            </video>
+          </div>
+
+          <div className="video-small rounded-lg overflow-hidden shadow-lg col-span-1">
+            <video autoPlay loop muted playsInline className="w-full h-full object-cover rounded-lg">
+              <source src={dogVideo3} type="video/mp4" />
+            </video>
+          </div>
         </div>
       </div>
 
@@ -127,37 +231,100 @@ const Home = () => {
         </div>
       </div>
 
-      <div className="about-section bg-gray-100 text-gray-800 p-8 lg:p-20 flex flex-col items-center space-y-8">
-        {/* Title */}
-        <h2 className="text-3xl font-bold mb-4 text-center" data-aos="fade-up">
-          {t('about.title')}
-        </h2>
-
-        {/* Description */}
-        <p
-          className="text-lg text-center max-w-3xl"
-          data-aos="fade-up"
-          data-aos-delay="200"
+      {/* Spacer Section Below Latest Stories */}
+      <div className="spacer-section flex items-center justify-start">
+        {/* Video bên trái */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="video-left h-full object-cover"
+          data-aos="fade-right"
+          data-aos-duration="1200"
         >
-          {t('about.description')}
-        </p>
+          <source src={dogVideo4} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
 
-        {/* Image Gallery */}
-        <div className="image-gallery flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
-          <img
-            src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2021/01/18151213/Alaskan-Klee-Kai-head-portrait-outdoors-11.jpg"
-            alt="Alaskan Klee Kai 1"
-            className="w-full md:w-1/2 rounded-lg shadow-lg"
-            data-aos="zoom-in"
-            data-aos-delay="400"
-          />
-          <img
-            src="https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2021/01/18151226/Alaskan-Klee-Kai-head-portrait-outdoors1.jpg"
-            alt="Alaskan Klee Kai 2"
-            className="w-full md:w-1/2 rounded-lg shadow-lg"
+        {/* Nội dung bên phải */}
+        <div
+          className="spacer-content text-white px-10 py-6 w-full lg:w-1/2 space-y-4"
+          data-aos="fade-left"
+          data-aos-duration="1200"
+        >
+          <h2 className="text-3xl font-bold" data-aos="fade-up" data-aos-delay="200">
+            {t('dogFoodGuide2.title')}
+          </h2>
+          <p className="text-lg" data-aos="fade-up" data-aos-delay="400">
+            {t('dogFoodGuide2.description')}
+          </p>
+          <a
+            href="http://localhost:5173/dogfoods"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mt-4 bg-teal-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-teal-600 transition"
             data-aos="zoom-in"
             data-aos-delay="600"
+          >
+            {t('dogFoodGuide2.button')}
+          </a>
+        </div>
+      </div>
+
+      {/* Image Section with 4 Vertical Images aligned to the left */}
+      <div className="flex flex-col lg:flex-row items-center lg:items-center px-4 py-16 bg-white gap-6 ml-20">
+        {/* LEFT: 2x2 Floating Images */}
+        <div className="grid grid-cols-2 gap-4 w-full max-w-[380px]">
+          <img
+            src={dogImage5}
+            alt="Dog 5"
+            className="vertical-image object-cover rounded-lg shadow-md float-animate"
+            data-aos="fade-up"
+            data-aos-delay="0"
           />
+          <img
+            src={dogImage6}
+            alt="Dog 6"
+            className="vertical-image object-cover rounded-lg shadow-md float-animate"
+            data-aos="fade-up"
+            data-aos-delay="100"
+            style={{ animationDelay: '0.5s' }}
+          />
+          <img
+            src={dogImage7}
+            alt="Dog 7"
+            className="vertical-image object-cover rounded-lg shadow-md float-animate"
+            data-aos="fade-up"
+            data-aos-delay="200"
+            style={{ animationDelay: '1s' }}
+          />
+          <img
+            src={dogImage8}
+            alt="Dog 8"
+            className="vertical-image object-cover rounded-lg shadow-md float-animate"
+            data-aos="fade-up"
+            data-aos-delay="300"
+            style={{ animationDelay: '1.5s' }}
+          />
+        </div>
+
+        {/* RIGHT: Text content */}
+        <div className="flex flex-col justify-center items-start space-y-4 px-2 w-full">
+          <h2 className="text-4xl lg:text-5xl font-bold text-gray-800" data-aos="fade-up">
+            {t('storePreview.title')}
+          </h2>
+          <p className="text-lg lg:text-xl text-gray-600 leading-relaxed" data-aos="fade-up" data-aos-delay="150">
+            {t('storePreview.description')}
+          </p>
+          <a
+            href="http://localhost:5173/products"
+            className="bg-teal-500 text-white px-5 py-2 text-lg rounded-md font-medium hover:bg-teal-600 transition"
+            data-aos="zoom-in"
+            data-aos-delay="300"
+          >
+            {t('storePreview.button')}
+          </a>
         </div>
       </div>
 

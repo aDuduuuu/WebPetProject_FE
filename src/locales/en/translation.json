@@ -2144,5 +2144,26 @@
   "Rate": "Rate",
   "Comment here...": "Comment here...",
   "Submit": "Submit",
-  "Please rate and comment for product": "Please rate and comment for the product"
+  "Please rate and comment for product": "Please rate and comment for the product",
+  "featuredDogBreed": {
+    "title": "Discover Featured Dog Breeds",
+    "description": "We provide detailed information about trusted spa services, trainers, and reputable dog sellers to help you find the perfect four-legged friend!",
+    "descriptionExtended": "Get accurate info on top dog breeds, expert care, training services, and trusted sellers to help you find the ideal companion for your lifestyle.",
+    "buttons": {
+      "spa": "Spa Services",
+      "trainer": "Dog Trainers",
+      "seller": "Dog Sellers"
+    }
+  },
+  "dogFoodGuide2": {
+    "title": "Dog Food Guide",
+    "description": "Discover which foods are safe or dangerous for your dog. From everyday snacks to holiday treats, we help you make informed decisions to keep your pet healthy and happy.",
+    "button": "Explore Food Guide"
+  },
+  "storePreview": {
+    "title": "Explore Our Product Store",
+    "description": "Browse a curated selection of food, clothes, toys and accessories for your dog and yourself. Find the perfect item now!",
+    "button": "Go to Store"
+  }
+  
 }
