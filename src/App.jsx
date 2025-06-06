@@ -49,6 +49,7 @@ import AddDogFoodPage from './pages/admin/AddDogFoodPage';
 import UpdateDogFoodPage from './pages/admin/UpdateDogFoodPage';
 import DogFoodDetailPage from './pages/admin/DogFoodDetailPage';
 import DogFoodCustomerPage from "./pages/DogFood/DogFoodPage.jsx";
+import BotpressPage from "./pages/BotpressPage";
 
 
 const App = () => (
@@ -103,6 +104,7 @@ const App = () => (
           <Route path="/dashboard/dog-foods/update/:foodId" element={<UpdateDogFoodPage />} />
           <Route path="/dashboard/dog-foods/detail/:foodId" element={<DogFoodDetailPage />} />
           <Route path="/dogfoods" element={<DogFoodCustomerPage />} />
+          <Route path="/botpress" element={<BotpressPage />} />
         </Routes>
       </Router>
     </AppProvider>

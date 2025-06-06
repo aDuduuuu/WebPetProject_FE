@@ -1877,7 +1877,11 @@
     "favorite": "Yêu thích",
     "logout": "Đăng xuất",
     "login": "Đăng nhập",
-    "statistics": "Thống kê"
+    "statistics": "Thống kê",
+    "chatWithAI": "Trò chuyện với AI",
+    "chatHint": "Nhận câu trả lời tức thì từ AI.",
+    "aiChat": "Trò chuyện với AI",
+    "aiChatHint": "Hỏi AI của chúng tôi về bất cứ điều gì liên quan đến chó"
   },
   "footer": {
     "quickLinks": "Liên kết nhanh",
@@ -2166,6 +2170,11 @@
     "title": "Khám Phá Cửa Hàng Sản Phẩm",
     "description": "Khám phá những sản phẩm được chọn lọc như thức ăn, quần áo, đồ chơi và phụ kiện cho thú cưng và cả bạn. Tìm món đồ phù hợp ngay hôm nay!",
     "button": "Đến Cửa Hàng"
+  },
+  "intro": {
+    "title": "Chào mừng bạn đến với Chatbot dành riêng cho chó!",
+    "description1": "Chatbot này được thiết kế để hỗ trợ bạn trong việc tìm kiếm thông tin và chăm sóc thú cưng. Bạn có thể hỏi bất kỳ câu hỏi nào liên quan đến chó — từ giống loài, dinh dưỡng, huấn luyện, đến các vấn đề sức khỏe.",
+    "description2": "Đặc biệt, chatbot sẽ sử dụng công nghệ AI để chuẩn đoán sức khỏe cho chó của bạn dựa trên các triệu chứng và thông tin bạn cung cấp. Hãy thoải mái trò chuyện và tận hưởng những thông tin hữu ích giúp chó của bạn khỏe mạnh và hạnh phúc!"
   }
   
 }

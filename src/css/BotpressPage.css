@@ -1,0 +1,154 @@
+/* Botpress Page Container */
+.botpress-page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* Language Switcher Styling */
+.language-switcher {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  padding: 10px 20px 0 0; /* padding trên và phải */
+  /* width 100% để kéo full chiều ngang dưới header */
+  width: 100%;
+  box-sizing: border-box;
+  background-color: transparent; /* hoặc màu nền nếu muốn */
+  /* đặt z-index thấp vì không fixed */
+}
+
+.lang-btn {
+  padding: 6px 12px;
+  border: 1.5px solid #00897b;
+  color: #00695c;
+  background-color: white;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+.lang-btn:hover {
+  background-color: #b2dfdb;
+}
+
+/* Main Content Container */
+.content-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  max-width: 2000px;
+  margin: 0 auto;
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+/* Left Panel (Intro + Video) */
+.left-panel {
+  flex: 1;
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Intro Section */
+.intro-section {
+  width: 100%;
+}
+
+.intro-section h2 {
+  margin-bottom: 12px;
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #00796b;
+}
+
+.intro-section p {
+  font-size: 1.1rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Video Section */
+.video-section {
+  width: 100%;
+  height: 320px;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(26, 115, 232, 0.3);
+  background: #000;
+  overflow: hidden;
+}
+
+.video-player {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Right Panel (Chatbot) */
+.right-panel {
+  flex: 2;
+  min-width: 800px;
+  min-height: 480px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  padding: 20px;
+}
+
+/* Chatbot Integration */
+#webchat {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+}
+
+#webchat .bpWebchat {
+  position: unset !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  border: none !important;
+}
+
+#webchat .bpFab {
+  display: none !important;
+}
+
+#webchat .bpWebchatContainer {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+  .content-container {
+    flex-direction: column;
+    padding: 10px;
+    max-width: 100%;
+  }
+
+  .left-panel {
+    width: 100%;
+    gap: 10px;
+  }
+
+  .right-panel {
+    max-width: 100%;
+    min-height: 400px;
+    margin-top: 30px;
+  }
+}
+
+/* Remove Close Button for Botpress */
+#webchat .bpHeader .bpHeaderClose {
+  display: none !important;
+}

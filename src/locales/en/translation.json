@@ -1877,7 +1877,11 @@
     "favorite": "Favorite",
     "logout": "Logout",
     "login": "Login",
-    "statistics": "Statistics"
+    "statistics": "Statistics",
+    "chatWithAI": "Chat with AI",
+    "chatHint": "Get instant answers from AI.",
+    "aiChat": "Chat with AI",
+    "aiChatHint": "Ask our AI dog expert anything"
   },
   "footer": {
     "quickLinks": "Quick Links",
@@ -2164,6 +2168,11 @@
     "title": "Explore Our Product Store",
     "description": "Browse a curated selection of food, clothes, toys and accessories for your dog and yourself. Find the perfect item now!",
     "button": "Go to Store"
+  },
+  "intro": {
+    "title": "Welcome to Our Dog Chatbot!",
+    "description1": "This chatbot is designed to assist you in finding information and caring for your pet dog. You can ask any questions related to dogs — from breeds, nutrition, training, to health issues.",
+    "description2": "Especially, the chatbot uses AI technology to diagnose your dog's health based on the symptoms and information you provide. Feel free to chat and enjoy useful info to keep your dog healthy and happy!"
   }
   
 }
