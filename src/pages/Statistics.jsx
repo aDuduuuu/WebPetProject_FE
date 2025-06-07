@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import clientApi from '../client-api/rest-client';
-import RevenueDatePicker from '../components/revenueFilter';
+import RevenueDatePicker from '../components/RevenueFilter';
 import { message } from 'antd';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';

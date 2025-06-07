@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 import arrowRightIcon from '../pictures/icons8-arrow-right-50.png';
 import arrowDownIcon from '../pictures/icons8-arrow-down-50.png';
 import clientApi from '../client-api/rest-client';
-import '../css/breedList.css';
+import '../css/BreedList.css';
 import { useTranslation } from 'react-i18next';
 
 const FilterSection = () => {
